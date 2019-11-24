@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# coding = utf-8
+# coding=utf-8
 # python3 默认utf-8编码， python2.x需要指定编码
 
 from imutils.video import VideoStream
