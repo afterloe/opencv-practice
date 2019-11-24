@@ -1,7 +1,7 @@
-# go语言学习笔记
+# python3 语言学习
 
 > create by [afterloe](lm6289511@gmail.com)  
-> version is 1.3  
+> version is 1.0  
 > MIT License    
 
 ## 目录
@@ -99,5 +99,3 @@ Auto HTTPS Caddy 使用 Let’s Encrypt 让你的站点全自动变成全站HTTP
 
 **[Syncthing](https://github.com/syncthing/syncthing)**  
 一个持续不断的文件同步项目，能够在两台或者多台电脑上同步文件，使用了其独有的对等自由块交换协议，速度极快  
-
-
