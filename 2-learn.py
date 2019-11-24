@@ -11,3 +11,4 @@ translated = imutils.translate(img, 25, -75)
 cv2.imshow("translate", translated)
 
 cv2.waitKey(0)
+cv2.destroyAllWindows()
