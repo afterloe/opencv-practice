@@ -15,3 +15,12 @@ print()
 str = "Runoob"
 print(str[0:-1])
 print(str[2:5])
+
+
+def printStr(str):
+    print(str)
+    return str
+
+
+b = printStr("afterloe")
+print(b)
