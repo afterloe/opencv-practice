@@ -7,7 +7,7 @@ import argparse
 import numpy as np
 
 
-def initArg():
+def initArg():  # 命令行参数初始化
     ap = argparse.ArgumentParser()
     ap.description = "image to process by afterloe version is 1.0.0"
     ap.add_argument("-h", "-help", help="启动参数")
@@ -43,11 +43,7 @@ def connectedComponents(image):  # 连通组件定义绘制过程
     else:
         print("Number of objects detected: %d" % (num_objects - 1))
     output = np.zeros(image.rows, image.cols, cv2.CV_8UC3)
-    rng = np.random.RandomState(0xFFFFFFFF)
-    i = 0
-    while i < num_objects:
-        i += 1
-        mask = output.setTo
+
 
 argMap = initArg()
 FILE = "G:/pic/1yuan.jpg"
