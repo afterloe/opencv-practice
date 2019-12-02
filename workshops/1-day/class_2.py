@@ -15,7 +15,7 @@ import cv2 as cv
     COLOR_BGR2HSV = 40 BGR到HSV
     COLOR_HSV2BGR = 54 HSV到BGR
 """
-src = cv.imread("G:/pic/5yuan.jpg")
+src = cv.imread("../../pic/5yuan.jpg")
 cv.namedWindow("input", cv.WINDOW_AUTOSIZE)
 cv.imshow("input", src)
 gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)  # 颜色转换
@@ -23,4 +23,4 @@ cv.imshow("gray", gray)
 cv.waitKey(0)
 cv.destroyAllWindows()
 
-cv.imwrite("G:/pic/gray.png", gray)  # 保存图片 src 为目录， mat为 图像
+cv.imwrite("../../pic/gray.png", gray)  # 保存图片 src 为目录， mat为 图像
