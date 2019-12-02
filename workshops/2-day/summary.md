@@ -1,11 +1,7 @@
 # 像素归一化算法总结
 > create by [afterloe](605728727@qq.com)  
 > version 1.0  
-> MIT License
-
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+> MIT License . 
 
 <a href="#minmax">MIN_MAX的算法</a>  
 <a href="#inf">INF的算法</a>  
