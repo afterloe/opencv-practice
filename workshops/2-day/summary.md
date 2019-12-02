@@ -14,11 +14,9 @@
 
 ## <a id="minmax">MIN_MAX的算法</a>
 假设输入图像像素点位 `[2.0, 8.0, 10.0]`  
-转换过程： 根据 delta进行
-$$
-delta = max \div min
-output = (point - min) \div delta
-$$
+转换过程：   
+根据 delta进行  
+![MIN_MAX](./formula/minmax.png)
 
 delta = 10.0 - 2.0 = 8.0
 
@@ -30,11 +28,9 @@ input | process | output
 
 ## <a id="inf">INF的算法</a> 
 输入图像像素点位同上即`[2.0, 8.0, 10.0]`   
-转换过程： 根据最大值进行
-$$
-delta = max
-output = point \div delta
-$$
+转换过程：   
+根据最大值进行  
+![MIN_MAX](./formula/inf.png)
 
 delta = 10.0
 
@@ -46,12 +42,9 @@ input | process | output
 
 ## <a id="l2">L2的算法</a> 
 输入图像像素点位同上即`[2.0, 8.0, 10.0]`   
-转换过程： 根据平方向量
-$$
-delta = \sqrt[2]{2.0^2 + 8.0^2 + 10.0^2} \quad
-output = \frac{point}{delta}
-output = \frac{point}{\sqrt[2]{2.0^2 + 8.0^2 + 10.0^2} \quad}
-$$
+转换过程：   
+根据平方向量  
+![MIN_MAX](./formula/l2.png)
 
 delta = $ \sqrt[2]{168} \quad $  (约等于12.9614)
 
@@ -63,7 +56,9 @@ input | process | output
 
 ## <a id="l1">L1的算法</a>   
 输入图像像素点位同上即`[2.0, 8.0, 10.0]`   
-转换过程： 根据像素点之和取模
+转换过程：   
+根据像素点之和取模  
+![MIN_MAX](./formula/l1.png)
 
 $$
 delta = p_1 + p_2 ... + p_n
