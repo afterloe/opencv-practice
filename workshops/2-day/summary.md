@@ -42,7 +42,7 @@ input | process | output
 根据平方向量  
 ![MIN_MAX](./formula/l2.png)
 
-delta = $ \sqrt[2]{168} \quad $  (约等于12.9614)
+delta = 根号168  (约等于12.9614)
 
 input | process | output
 -|-|-
@@ -55,12 +55,6 @@ input | process | output
 转换过程：   
 根据像素点之和取模  
 ![MIN_MAX](./formula/l1.png)
-
-$$
-delta = p_1 + p_2 ... + p_n
-output = p_1 / delta
-output = \frac{p_n}{p_1 + p_2 ... + p_n} 
-$$
 
 delta = 2 + 8 + 10 = 20.0
 
