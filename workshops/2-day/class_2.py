@@ -4,6 +4,10 @@
 import cv2 as cv
 import numpy as np
 
+"""
+不支持音频编码与解码保存，不是一个音视频处理的库！主要是分析与解析视频内容。保存文件最大支持单个文件为2G，
+超过2G后使用新的文件进行存储
+"""
 capture = cv.VideoCapture("../../out/resources/Megamind.avi")
 # capture = cv.VideoCapture(0)
 height = capture.get(cv.CAP_PROP_FRAME_HEIGHT)  # 获取视频高度
