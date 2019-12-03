@@ -50,6 +50,15 @@ class DrawChainEllipse(DrawChain):
         return canvas
 
 
+class DrawChainAll(DrawChain):
+    def handle_request(self, command, canvas):
+        if 0 != command['shape']:
+            return self.successor.handle_request(command, canvas)
+        canvas = chain_rectangle.handle_request(command, canvas)
+        canvas = chain_circle.handle_request(command, canvas)
+        return chain_ellipse.handle_request(command, canvas)
+
+
 def initArg():
     ap = argparse.ArgumentParser()
     ap.description = "opencv draw by afterloe version 1.0.0"
@@ -74,7 +83,7 @@ def generatorPointer():
 
 
 def drawChain(canvas, command):
-    canvas = chain_rectangle.handle_request(command, canvas)
+    canvas = chain_all.handle_request(command, canvas)
     cv.imshow("image", canvas)
 
 
@@ -85,10 +94,12 @@ print(arg_map)
 mat = np.zeros(shape=(512, 512, 3), dtype=np.uint8)
 
 # 初始化职责链
+chain_all = DrawChainAll()
 chain_rectangle = DrawChainRectangle()
 chain_circle = DrawChainCircle()
 chain_ellipse = DrawChainEllipse()
-chain_rectangle.set_successor(chain_circle).set_successor(chain_ellipse)
+
+chain_all.set_successor(chain_rectangle).set_successor(chain_circle).set_successor(chain_ellipse)
 
 if arg_map['loop']:
     for _ in range(100000):
