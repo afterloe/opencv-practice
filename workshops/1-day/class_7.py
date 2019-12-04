@@ -22,7 +22,7 @@ cv.imshow("and", dst_and)
 cv.imshow("xor", dst_xor)
 cv.imshow("or", dst_or)
 
-src = cv.imread("G:/pic/1.jpg")
+src = cv.imread("../../pic/1.jpg")
 dst_not = cv.bitwise_not(src)  # 反色, 取反操作 二值图分析中经常使用
 cv.imshow("not", dst_not)
 
