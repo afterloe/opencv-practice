@@ -27,6 +27,17 @@ def ruleROIExtract(img):
     cv.imshow("copy roi", canvas)
 
 
+"""
+    技术路线:
+    - ROI mask 提取
+    - 像素 and操作
+    - 提取非规则ROI区域
+    - 创建背景图片
+    - 背景图片与roi区域合成 or 操作
+    - add 操作 背景图片 与 ROI区域
+"""
+
+
 # 不规则图像ROI提取
 # 并替换ROI的背景色（即抠图 - 换背景 - 贴图）
 def irregularityROIExtract(img):
