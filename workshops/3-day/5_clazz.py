@@ -18,7 +18,20 @@ import cv2 as cv
 
 
 def main():
-    pass
+    src = cv.imread("G:/Project/raspberry-auto/pic/gaussian_noise.png")
+    cv.namedWindow("input", cv.WINDOW_AUTOSIZE)
+    cv.imshow("input", src)
+    ksize = (3, 3)
+    result1 = cv.blur(src, ksize)
+    result2 = cv.GaussianBlur(src, ksize, 0)
+    result3 = cv.medianBlur(src, 3)
+    result4 = cv.fastNlMeansDenoisingColored(src, None, 15, 15, 10, 30)  # 磨皮效果
+    cv.imshow("blur", result1)
+    cv.imshow("gaussian blur", result2)
+    cv.imshow("median blur", result3)
+    cv.imshow("fast nl means", result4)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
 
 
 if "__main__" == __name__:
