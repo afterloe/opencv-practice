@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding=utf-8 -*-
 
+import cv2 as cv
+
 """
     图像插值：用于几何变换（图像放大、缩小等操作）、透视变换、插值计算新像素。
     常用的算法为以下四种：
@@ -11,7 +13,6 @@
 
     清晰度逐渐提升，
 """
-import cv2 as cv
 
 src = cv.imread("../../pic/rmb/1.png", cv.IMREAD_COLOR)
 h, w = src.shape[:2]  # 从0 开始，取两位; shape[h, w, ch]
