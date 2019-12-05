@@ -6,7 +6,7 @@ import cv2 as cv
 """
     图像均值与高斯模糊
     
-        - kszie 越大，图像越模糊
+        - kszie 越大，图像越模糊 (奇数)
         - sigmaX 越大， 图像越模糊
         当size为0，0时， 从sigmaX开始计算
 """
