@@ -1,11 +1,7 @@
 # 像素归一化算法总结
 > create by [afterloe](605728727@qq.com)  
 > version 1.0  
-> MIT License
-
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+> MIT License . 
 
 <a href="#hsv">HSV 色系取值范围</a>
 <a href="#minmax">MIN_MAX的算法</a>  
@@ -47,7 +43,7 @@ input | process | output
 根据平方向量  
 ![MIN_MAX](./formula/l2.png)
 
-delta = $ \sqrt[2]{168} \quad $  (约等于12.9614)
+delta = 根号168  (约等于12.9614)
 
 input | process | output
 -|-|-
@@ -61,12 +57,6 @@ input | process | output
 根据像素点之和取模  
 ![MIN_MAX](./formula/l1.png)
 
-$$
-delta = p_1 + p_2 ... + p_n
-output = p_1 / delta
-output = \frac{p_n}{p_1 + p_2 ... + p_n} 
-$$
-
 delta = 2 + 8 + 10 = 20.0
 
 input | process | output
@@ -74,6 +64,7 @@ input | process | output
 2.0 | 2.0 / 20.0 | 0.1
 8.0 | 8.0 / 20.0 | 0.4
 10.0 | 10.0 / 20.0 | 0.5
+
 
 ## <a id="hsv">HSV颜色空间转换</a>
 Opencv中常用的颜色转换为两种，BGR -> Gray, BGR -> HSV；其中Gray与HSV不可以相互转换，HSV颜色空间的取值范围
@@ -93,4 +84,5 @@ smin | 0 | 0 | 0 | 43 | 43 | 43 | 43 | 43 | 43 | 43
 smax | 255 | 43 | 30 | 255 | 255 | 255 | 255 | 255 | 255 | 255
 vmin | 0 | 46 | 221 | 46 | 46 | 46 | 46 | 46 | 46 | 46
 vmax | 46 | 220 | 255 | 255 | 255 | 255 | 255 | 255 | 255 | 255
+
 
