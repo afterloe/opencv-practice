@@ -91,7 +91,7 @@ def drawChain(canvas, command):
 arg_map = initArg()
 print(arg_map)
 # 创建画布
-mat = np.zeros(shape=(512, 512, 3), dtype=np.uint8)
+mat = np.zeros(shape=(WIDTH, HEIGHT, 3), dtype=np.uint8)
 
 # 初始化职责链
 chain_all = DrawChainAll()

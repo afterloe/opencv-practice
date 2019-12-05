@@ -1,20 +1,36 @@
-# python3 & opencv 4
+# python3 & opencv4
 
 > create by [afterloe](lm6289511@gmail.com)  
-> version is 1.0  
+> version is 1.1  
 > MIT License    
 
 ## 目录
 <a href="#note">笔记</a>  
 <a href="#backup">备忘录</a>  
 
-## opencv4 & python3 的内容
-python3 开发规范，参考自[PEP8标准](https://www.cnblogs.com/rrh4869/p/11177785.html)
-opencv4 使用版本为4.1.1，[开发文档](https://docs.opencv.org/4.1.1/)
+## python3 & opencv4 的参考内容
+python3 开发规范，参考自[PEP8标准](https://www.cnblogs.com/rrh4869/p/11177785.html)  
+opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.1/)
 
 ### <a id="note">笔记</a>
-
+[第一节 - OpenCV基础操作](./workshops/1-day/summary.md)
+   - 图像读取
+   - 颜色空间转换
+   - 图像的克隆、拷贝及创建
+   - 图像逻辑操作及LUT查找表
+   - 抠图、均值、极值及标准方差  
+   
+[第二节 - 图像处理相关操作](./workshops/2-day/summary.md)    
+   - 图像归一化操作
+   - 视频及摄像头内容读取与分片存储
+   - 图像翻转、缩放（插值计算）、绘图
+   - ROI区域提取（规则、非规则）、图像直方图
+   - 直方图均衡化（图像增强）、相似度对比（直方图比较）
+   - [直方图反向投影（图像ROI目标检索）](./workshops/2-day/class_10.py)
+   
+[第三节 - 图像处理相关操作（进阶）](./workshops/3-day/summary.md)
 
 ## <a name="backup">备忘录</a>
 
 ### 不错的开源框架
+#### 优秀的图像处理库 - imutils
