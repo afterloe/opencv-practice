@@ -8,7 +8,7 @@ import cv2 as cv
         该算法为ps磨皮算法的底层算法，也是美图软件使用的算法，边缘保留滤波算法可以在模糊过程中保存图像
     完整轮廓，常用算法有以下几种：
         - 高斯双边
-        - Meanshift均值迁移
+        - MeanShiftFiltering 均值迁移 
         - 局部方差模糊
         - opencv专门API
         
