@@ -1,7 +1,7 @@
 # python3 & opencv4
 
 > create by [afterloe](lm6289511@gmail.com)  
-> version is 1.1  
+> version is 1.2  
 > MIT License    
 
 ## 目录
@@ -29,9 +29,12 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
    - [直方图反向投影（图像ROI目标检索）](./workshops/2-day/class_10.py)
    
 [第三节 - 图像处理相关操作（进阶）](./workshops/3-day/summary.md)
-    - 图像的卷积操作
-    - 图像噪声去除 均值、高速、非局部、双边滤波
-    - 边缘保留滤波 高斯双边、mean shift 均值迁移、快速滤波、自定义滤波
+   - 图像的卷积操作  
+   - 图像噪声去除 均值、高速、非局部、双边滤波  
+   - 边缘保留滤波 高斯双边、mean shift 均值迁移、快速滤波、自定义滤波  
+
+[第四节 - 图像处理相关操作（飞升）](./workshops/4-day/summary.md)
+
 
 ## <a name="backup">备忘录</a>
 
