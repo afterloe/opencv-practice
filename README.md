@@ -39,7 +39,7 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
 ## <a name="backup">备忘录</a>
 
 ### 关于git提交的type
-根据 Header的内容及描述，type共分为以下7类：
+根据 Header的内容及描述，type共分为以下8类：
 ```
 feat：新功能（feature）
 fix：修补bug
@@ -48,6 +48,7 @@ style： 格式（不影响代码运行的变动）
 refactor：重构（即不是新增功能，也不是修改bug的代码变动）
 test：增加测试
 chore：构建过程或辅助工具的变动
+resources: 资源修改
 ```
 
 ### 不错的开源框架

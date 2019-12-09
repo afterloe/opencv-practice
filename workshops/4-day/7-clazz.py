@@ -18,7 +18,7 @@ def pyramid_up(image, level=3):
     pyramid = []
     for i in range(level):
         dst = cv.pyrDown(temp)
-        pyramid.append(temp)
+        pyramid.append(dst)
         temp = dst.copy()
     return pyramid
 
@@ -29,7 +29,7 @@ def pyramid_down(image, level=3):
     pyramid = []
     for i in range(level):
         dst = cv.pyrUp(temp)
-        pyramid.append(temp)
+        pyramid.append(dst)
         temp = dst.copy()
     return pyramid
 
