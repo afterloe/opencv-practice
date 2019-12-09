@@ -10,7 +10,7 @@ import cv2 as cv
     图像空间域卷积，实现思想为一阶导数算子。
     
     cv.Sobel(src, ddepth, dx, dy, ksize, scale, delta, borderType)
-        ddepth - 图像深度, CV_32F；若为 -1 则会出现不可预期的结果
+        ddepth - 表示输入与输出图像类型关系, CV_32F；若为 -1 则会出现不可预期的结果
         dx - X方向 一阶导数
         dy - Y方向 一阶导数
         ksize - 卷积大小 3*3

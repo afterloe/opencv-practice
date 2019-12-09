@@ -53,7 +53,7 @@ def irregularityROIExtract(img):
     result[:, :, 0] = 255  # 将新创建的图片转换为 蓝色
     mask = cv.bitwise_not(mask)  # 再取反
     dst = cv.bitwise_or(scale, result, mask=mask)  # 与新创建颜色进行重合，将ROI其他颜色进行修改,已先添加的为准
-    dst = cv.add(dst, scale)  # 加 操作
+    dst = cv.add(dst, scale)  # 加 操作 - 一定要注意的是 进行 逻辑操作 图像的dtype要一致！
     cv.imshow("dst", dst)
 
 
