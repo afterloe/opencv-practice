@@ -17,6 +17,8 @@ import cv2 as cv
 
 
 def main():
+    # 1、 高斯模糊降噪
+    # 2、 权重叠加
     src = cv.imread("../../pic/IMG_20191204_151110.jpg")
     cv.imshow("src", src)
     gauss = cv.GaussianBlur(src, (0, 0), 5)
