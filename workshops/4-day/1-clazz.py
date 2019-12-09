@@ -4,7 +4,7 @@
 import cv2 as cv
 
 """
-    Sobel算子:
+    图像梯度 - Sobel算子（一阶导数算子）:
         卷积的作用除了实现图像模糊、降噪外，还可实现梯度信息寻找。这类梯度信息是图像的原始特征数据，进行一步处理后可生
     成一些比较高级的特征，可用于图像特征的匹配、图像分类等应用，Sobel算子是一种很典型的图像梯度提取算子，其本质是基于
     图像空间域卷积，实现思想为一阶导数算子。
@@ -22,7 +22,6 @@ import cv2 as cv
 def main():
     src = cv.imread("../../pic/IMG_20191204_151110.jpg")
     cv.imshow("src", src)
-    h, w = src.shape[:2]
     x_grad = cv.Sobel(src, cv.CV_32F, 1, 0)  # X方向求导
     y_grad = cv.Sobel(src, cv.CV_32F, 0, 1)  # Y方向求导
 
