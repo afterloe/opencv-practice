@@ -10,7 +10,7 @@ src1 = cv.imread("G:/pic/1yuan.jpg")
 src2 = cv.imread("G:/pic/5yuan.jpg")
 
 add_result = np.zeros(src1.shape, src1.dtype)
-cv.add(src1, src2, add_result)
+cv.add(src1, src2, add_result)  # 注意 - 进行图像像素的 逻辑操作时， 图像的dtype一定要一致
 cv.imshow("add_result", add_result)
 
 # cv.subtract()  # 减
