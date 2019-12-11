@@ -28,13 +28,20 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
    - 直方图均衡化（图像增强）、相似度对比（直方图比较）
    - [直方图反向投影（图像ROI目标检索）](./workshops/2-day/class_10.py)
    
-[第三节 - 图像处理相关操作（进阶）](./workshops/3-day/summary.md)
+[第三节 - 图像卷积相关操作](./workshops/3-day/summary.md)
    - 图像的卷积操作  
    - 图像噪声去除 均值、高速、非局部、双边滤波  
    - 边缘保留滤波 高斯双边、mean shift 均值迁移、快速滤波、自定义滤波  
 
-[第四节 - 图像处理相关操作（飞升）](./workshops/4-day/summary.md)
-
+[第四节 - 图像卷积相关操作（进阶）](./workshops/4-day/summary.md)
+   - 图像梯度算子（一阶求导）Sobel、Robert、Prewitt，寻找图像中的轮廓
+   - 图像梯度算子（二阶求导）拉普拉斯，精准寻找图像中的轮廓
+   - 八领域、四领域的图像锐化，增强图像中的细节
+   - Unsharpen Mask （USM）锐化增强算法与图像权重增强
+   - Canny边缘检测算法
+   - 图像金字塔与拉普拉斯金字塔
+   - 图像模板匹配（最简单的模式识别）
+   - 二值图像的初步操作（基于均值的二值化）
 
 ## <a name="backup">备忘录</a>
 

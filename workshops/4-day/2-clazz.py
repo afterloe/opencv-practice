@@ -23,14 +23,14 @@ import numpy as np
 """
 
 
-def prewittCalculation(src):
+def prewitt_calculation(src):
     prewitt_y = np.asarray([[-1, 0, 1], [-1, 0, 1], [-1, 0, 1]], dtype=np.float32)
     dst = cv.filter2D(src, cv.CV_16S, prewitt_y)
     dst = cv.convertScaleAbs(dst)
     cv.imshow("prewitt_y", dst)
 
 
-def robertCalculation(src):
+def robert_calculation(src):
     robert_x = cv.filter2D(src, cv.CV_16S, np.asarray([[1, 0], [0, -1]], dtype=np.float32))
     robert_x = cv.convertScaleAbs(robert_x)
     cv.imshow("robert_x", robert_x)
@@ -39,8 +39,8 @@ def robertCalculation(src):
 def main():
     src = cv.imread("../../pic/IMG_20191204_151110.jpg")
     cv.imshow("src", src)
-    prewittCalculation(src)
-    robertCalculation(src)
+    prewitt_calculation(src)
+    robert_calculation(src)
     cv.waitKey(0)
     cv.destroyAllWindows()
 
