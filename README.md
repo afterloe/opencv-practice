@@ -43,6 +43,9 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
    - 图像模板匹配（最简单的模式识别）
    - 二值图像的初步操作（基于均值的二值化）
 
+[第五节 - 二值图像分析](./workshops/5-day/summary.md)
+
+
 ## <a name="backup">备忘录</a>
 
 ### 关于git提交的type
