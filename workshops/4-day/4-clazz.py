@@ -23,7 +23,7 @@ import numpy as np
 def main():
     src = cv.imread("../../pic/IMG_20191204_151110.jpg")
     cv.imshow("src", src)
-    sharp_kernel = np.asarray([[0, -1, 0], [-1, 5, -1], [0, -1, 0]], dtype=np.float32)  # 8领域锐化
+    sharp_kernel = np.asarray([[0, -1, 0], [-1, 5, -1], [0, -1, 0]], dtype=np.float32)  # 4领域锐化
     # sharp_kernel = np.asarray([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]], dtype=np.float32)  # 8领域锐化, 效果强烈`
     dst = cv.filter2D(src, cv.CV_32F, kernel=sharp_kernel)
     dst = cv.convertScaleAbs(dst)
