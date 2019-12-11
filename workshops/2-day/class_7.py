@@ -44,7 +44,7 @@ def image_hist(img):
     plt.show()
 
 
-src = cv.imread("../../pic/5yuan.jpg")
+src = cv.imread("../../pic/IMG_20191204_151145.jpg")
 cv.namedWindow("input", cv.WINDOW_AUTOSIZE)
 gray_pic = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
 # cv.imshow("input", gray_pic)
