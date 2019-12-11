@@ -9,7 +9,7 @@ cv.imshow("src", src)
 hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)  # HSV 算法模型中常用的颜色色域
 cv.imshow("hsv", hsv)
 
-yuv = cv.cvtColor(src, cv.COLOR_BGR2YUV)  # android 中相机拍摄出的颜色色欲
+yuv = cv.cvtColor(src, cv.COLOR_BGR2YUV)  # android 中相机拍摄出的颜色色域
 cv.imshow("yuv", yuv)
 
 ycrcb = cv.cvtColor(src, cv.COLOR_BGR2YCrCb)  # 人体肌肤色域
