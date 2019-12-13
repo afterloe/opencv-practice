@@ -20,6 +20,8 @@ import cv2 as cv
 
 def main():
     src = cv.imread("../../pic/document.jpg")
+    cv.namedWindow("src", cv.WINDOW_AUTOSIZE)
+    cv.namedWindow("binary", cv.WINDOW_AUTOSIZE)
     cv.imshow("src", src)
     gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
     binary = cv.adaptiveThreshold(gray, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 10)
