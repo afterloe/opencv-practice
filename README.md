@@ -53,6 +53,9 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
    - Canny算法结合连通组件实现目标外接矩形与最小矩形绘制
    - 基于矩形面积、弧长实现目标过滤
 
+[第六节 - 二值图像分析（进阶）](./workshops/6-day/summary.md)
+   - 图像轮廓逼近
+
 ## <a name="backup">备忘录</a>
 
 ### 关于git提交的type
