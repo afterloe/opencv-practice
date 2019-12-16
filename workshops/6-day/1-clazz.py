@@ -21,11 +21,11 @@ def judge(contour):
     result = cv.approxPolyDP(contour, 4, True)
     vertexes = result.shape[0]
     print(vertexes)
-    if 3 is vertexes:
+    if 3 == vertexes:
         print("三角形")
-    if 4 is vertexes:
+    if 4 == vertexes:
         print("矩形")
-    if 6 is vertexes:
+    if 6 == vertexes:
         print("六边形")
     if 10 < vertexes:
         print("圆形")
