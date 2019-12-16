@@ -39,8 +39,8 @@ def main():
         cv.rectangle(src, (x, y), (x + w, y + h), (0, 0, 255), 1, cv.LINE_8)
         rect = cv.minAreaRect(contours[index])
         cx, cy = rect[0]  # 中心点坐标
-        box = cv.boxPoints(rect)
-        box = np.int0(box)
+        box = cv.boxPoints(rect)  # opencv 中的api， 快速绘制带有角度的矩形
+        box = np.int32(box)  # 将结果转换为int32 类型
         cv.drawContours(src_copy, [box], 0, (0, 0, 255), 2, cv.LINE_8)
         cv.circle(src_copy, (np.int32(cx), np.int32(cy)), 2, (255, 0, 0), 2, cv.LINE_8)
     cv.imshow("dst - boundingRect", src)
