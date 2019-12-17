@@ -16,6 +16,7 @@ from matplotlib import pyplot as plt
 
 # 灰度图像的直方图
 def image_gray_hist(gray):
+    cv.namedWindow("input-gray", cv.WINDOW_KEEPRATIO)
     cv.imshow("input-gray", gray)
     # cv2.calcHist(images, channels, mask, histSize, ranges[, hist[, accumulate ]]) #返回hist
     # 第一个参数必须用方括号括起来。
@@ -45,7 +46,6 @@ def image_hist(img):
 
 
 src = cv.imread("../../pic/IMG_20191204_151145.jpg")
-cv.namedWindow("input", cv.WINDOW_AUTOSIZE)
 gray_pic = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
 # cv.imshow("input", gray_pic)
 # image_hist(src)
