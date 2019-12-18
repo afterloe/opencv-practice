@@ -9,7 +9,7 @@ import numpy as np
         对二值图像的各个轮廓进行计算获得对应的几何矩，根据几何矩计算轮廓点的中心位置。
         cv.moments(contours, binaryImage)
             - contours: 轮廓点集
-            - binaryImage: bool, default False；  
+            - binaryImage: bool, default False；二值图返回  
 """
 
 
