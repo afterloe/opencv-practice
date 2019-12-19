@@ -54,7 +54,7 @@ def main():
         mm = cv.moments(contours_src[index])
         hum = cv.HuMoments(mm)
         dist = cv.matchShapes(hum, hum_target, cv.CONTOURS_MATCH_I1, 0)
-        if 0.5 > dist:
+        if 0.5 > dist:  # 越接近0 表示越相近
             cv.drawContours(src, contours_src, index, (255, 0, 0), 2, cv.LINE_8)
         print("dist %f " % dist)
 
