@@ -11,7 +11,8 @@ import numpy as np
             - binary: 二值图，轮廓不宜多并且噪声处理后
             - rho: 极坐标r的步长
             - theta: 角度步长
-            - threshold: 累加器阈值
+            - threshold: 累加器阈值,图像在霍夫空间每个像素点都是一条曲线，经过的每个(r,theta)都加1，如果多个曲线都经过同一个
+        (r,theta)相交，如果大于给定的域值，说明可能存在一条直线在霍夫空间该点
             - srn, stn: 多尺度霍夫变换时的参数，经典霍夫变换则不需要
             - min_theta: 直线旋转最小角度
             - max_theta: 直线旋转最大角度
