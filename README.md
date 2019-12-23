@@ -62,6 +62,8 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
    - 点多变检测，判断点是否在轮廓内
    - 霍夫直接检测
    - 霍夫圆检测
+   
+[第七节 - 图像形态学分析](./workshops/7-day/summary.md)
 
 ## <a name="backup">备忘录</a>
 
