@@ -26,7 +26,7 @@ def main():
     cv.namedWindow("erode", cv.WINDOW_KEEPRATIO)
     # blur = cv.medianBlur(src, 15)
     gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
-    kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3), (-1, -1))  # 声明结构元素
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3), (-1, -1))  # 获取结构元素
     dilate = cv.dilate(gray, kernel)
     erode = cv.erode(gray, kernel)
     cv.imshow("src", gray)
