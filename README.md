@@ -63,7 +63,13 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
    - 霍夫直接检测
    - 霍夫圆检测
    
-[第七节 - 图像形态学分析](./workshops/7-day/summary.md)
+[第七节 - 图像形态学分析](./workshops/7-day/summary.md)  
+   - 图像的膨胀与腐蚀
+   - 结构元素的运用
+   - 开闭操作
+   - 顶帽、黑帽操作
+   - 图像梯度分析
+   - hit&miss 运用
 
 ## <a name="backup">备忘录</a>
 
