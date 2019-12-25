@@ -23,7 +23,7 @@ def main():
     gray = cv.cvtColor(gradient, cv.COLOR_BGR2GRAY)
     _, binary = cv.threshold(gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)
     cv.imshow("binary", binary)
-    # binary = cv.morphologyEx(binary, cv.MORPH_DILATE, cv.getStructuringElement(cv.MORPH_RECT, (3, 1)))  # 膨胀
+    # binary = cv.morphologyEx(binary, cv.MORPH_DILATE, cv.getStructuringElement(cv.MORPH_CROSS, (3, 3)))  # 膨胀 3*3 十字交叉
     contours, _ = cv.findContours(binary, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     if 0 == len(contours):
         print("未搜寻到结果")
