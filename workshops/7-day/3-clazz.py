@@ -5,6 +5,7 @@ import cv2 as cv
 
 """
     形态学操作 - 开操作
+        开操作 = 腐蚀 + 膨胀
         opencv关于形态学操作进行了封装，所有的形态学操作可使用一个api进行，即
         cv.morphologyEx(src, option, kernel, anchor, iterations)
             - src: 任意输入图像，可以为灰度、彩色或二值
