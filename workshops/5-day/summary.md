@@ -91,9 +91,10 @@ opencv中有关联通组件还有一个是携带其状态的api，`cv.connectedC
         contours, hierarchy = cv.findContours(binary, mode, method[, contours[, hierarchy[, offset]]])
             in
             - binary: 二值图
-            - mode: 轮廓寻早的拓扑结构返回模式，RETR_EXTERNAL 只返回最外层轮廓；RETR_TREE 返回轮廓树结构
+            - mode: 轮廓寻早的拓扑结构返回模式，RETR_EXTERNAL 只返回最外层轮廓；RETR_TREE 返回轮廓树结构; RETR_LIST 返回所有轮廓放到List中
             - method: 轮廓点吉和算法，常见的是基于CHAIN_APPROX_SIMPLE链式编码方法
             - offset: 表示偏移缩放量
+
             out
             - contours: 轮廓点集合
             - hierarchy: 每个轮廓的四个相关信息，分别是同层下一个轮廓索引、同层上一个轮廓索引、下层第一个子索引、上层父轮廓索引
