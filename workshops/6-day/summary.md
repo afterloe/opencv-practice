@@ -9,11 +9,10 @@
 对图像的二值图各轮廓进行相似操作，逼近每个林廓的真实几何形状，从而通过轮廓判断真实物品是什么形状， 但该种判断
 十分脆弱，后续会有更好的算法来实现该功能
 ```
-    cv.approxPolyDP(cure, approxCurve, epsilon, closed)
+    cv.approxPolyDP(cure, epsilon, closed)
         - curve: 轮廓曲线点
-        - approxCurve: 输出的顶点数目
         - epsilon: 真实曲线的最大距离，值越小越逼近真实轮廓
-        - closed: 区域是否闭合
+        - closed: 区域是否闭合, booleand
 ```
 
 ## [几何矩计算轮廓中心与横纵波对比过滤](./2-clazz.py)

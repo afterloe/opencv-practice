@@ -10,17 +10,9 @@ import numpy as np
 """
 
 
-def main():
-    src = cv.imread("../../pic/case6.jpg")
-    # blur = cv.GaussianBlur(src, (5, 5), 0)
-    cv.imshow("src", src)
-    blur = cv.medianBlur(src, 3)
-    gray = cv.cvtColor(blur, cv.COLOR_BGR2GRAY)
-    _, binary = cv.threshold(gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)
-    kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
-    binary = cv.morphologyEx(binary, cv.MORPH_CLOSE, kernel)
-    contours, _ = cv.findContours(binary, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+def contour_process(src, contours):
     height, width = src.shape[:2]
+    # 提取最大轮廓
     i = 0
     max_value = 0
     for index in range(len(contours)):
@@ -39,12 +31,41 @@ def main():
     for pt in key_pts:
         cv.circle(src, (pt[0][0], pt[0][1]), 2, (255, 0, 0), 2, cv.LINE_8)
         cv.circle(result, (pt[0][0], pt[0][1]), 2, (255, 0, 0), 2, cv.LINE_8)
-    cv.imshow("binary", binary)
     cv.imshow("dst", src)
     cv.imshow("result", result)
+
+
+def main():
+    src = cv.imread("../../pic/case6.jpg")
+    cv.imshow("src", src)
+    blur = cv.medianBlur(src, 3)
+    gray = cv.cvtColor(blur, cv.COLOR_BGR2GRAY)
+    _, binary = cv.threshold(gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)  # 全局阈值二值化
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
+    # binary = cv.morphologyEx(gray, cv.MORPH_GRADIENT, kernel)
+    cv.imshow("binary", binary)
+    binary = cv.morphologyEx(binary, cv.MORPH_CLOSE, kernel)
+    contours, _ = cv.findContours(binary, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+    contour_process(src, contours)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+
+def main_1():
+    src = cv.imread("../../pic/case6.jpg")
+    blur = cv.medianBlur(src, 3)
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
+    gradient = cv.morphologyEx(blur, cv.MORPH_GRADIENT, kernel)
+    gray = cv.cvtColor(gradient, cv.COLOR_BGR2GRAY)
+    _, binary = cv.threshold(gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)
+
+    contours, _ = cv.findContours(binary, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    contour_process(src, contours)
+    cv.imshow("dst", binary)
+    cv.imshow("src", src)
     cv.waitKey(0)
     cv.destroyAllWindows()
 
 
 if "__main__" == __name__:
-    main()
+    main_1()
