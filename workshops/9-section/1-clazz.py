@@ -5,7 +5,7 @@ import cv2 as cv
 import numpy as np
 
 """
-    角点检测
+    Harris角点检测
         角点检测常用于工业仪表分析中提取指针、仪表的明显特征，对于一介倒数而言，角点在各方向的变化是最大的，而边缘区域只有在某一方向具有
     明显变化，后续的特征提取均布CNN替换，该示例仅作为示例进行。相关api描述如下：
         cv.cornerHarris(gary, blockSize, aperture_size, k)
