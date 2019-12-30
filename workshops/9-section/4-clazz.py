@@ -29,9 +29,7 @@ import numpy as np
 """
 
 
-"""
-    dict: python3的基本数据类型，类似于map， 采用key-value存储，支持for循环，使用 **开头可用于方法解构
-"""
+# dict(): python3的基本数据类型，类似于map，采用key-value存储，支持for循环，使用 **开头可用于函数参数解构
 # 角点检测参数
 feature_params = dict(maxCorners=100, qualityLevel=0.01, minDistance=10, blockSize=3)
 # KLT光流参数
@@ -72,7 +70,7 @@ def main():
         # zip() 函数用于将可迭代的对象作为参数，将对象中对应的元素打包成一个个元组，然后返回由这些元组组成的对象，这样做的好处是节约了不少的内存。
         # 一般用于两个以上的参数循环
         for i, (newer, older) in enumerate(zip(good_new, good_old)):
-            # ravel 将多维数组 转换为 一维数组
+            # ravel() 函数实现将多维数组 转换为 一维数组
             a, b = newer.ravel()
             c, d = older.ravel()
             frame = cv.line(frame, (a, b), (c, d), color[i].tolist(), 2)
@@ -81,7 +79,7 @@ def main():
         key = cv.waitKey(30) & 0xff
         if 27 == key:
             break
-        # 更新
+        # 更新前一帧的内容
         pre_frame = now_frame.copy()
         pre_corners = good_new.reshape(-1, 1, 2)
 
