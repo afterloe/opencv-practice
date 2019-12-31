@@ -91,9 +91,10 @@ opencv中有关联通组件还有一个是携带其状态的api，`cv.connectedC
         contours, hierarchy = cv.findContours(binary, mode, method[, contours[, hierarchy[, offset]]])
             in
             - binary: 二值图
-            - mode: 轮廓寻早的拓扑结构返回模式，RETR_EXTERNAL 只返回最外层轮廓；RETR_TREE 返回轮廓树结构
+            - mode: 轮廓寻早的拓扑结构返回模式，RETR_EXTERNAL 只返回最外层轮廓；RETR_TREE 返回轮廓树结构; RETR_LIST 返回所有轮廓放到List中
             - method: 轮廓点吉和算法，常见的是基于CHAIN_APPROX_SIMPLE链式编码方法
             - offset: 表示偏移缩放量
+
             out
             - contours: 轮廓点集合
             - hierarchy: 每个轮廓的四个相关信息，分别是同层下一个轮廓索引、同层上一个轮廓索引、下层第一个子索引、上层父轮廓索引
@@ -118,7 +119,10 @@ opencv中有关联通组件还有一个是携带其状态的api，`cv.connectedC
         最小外接矩形
         angle, center, size = cv.minAreaRect(points)
             - points: 点阵集
+        返回三个值,最小矩形的旋转角度、中心点坐标及大小
 ```
+注：最小矩形的运用技巧是使用`cv.boxPoints`，传入作为数组的外接矩形的三个参数，返回该外接矩形的坐标点，不过需要注意的是需要
+通过`np.int0`或`np.int32`进行转换
 
 形态学操作
 ```

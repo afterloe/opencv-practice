@@ -1,6 +1,6 @@
 # 图像形态学分析
 > create by [afterloe](605728727@qq.com)  
-> version is 1.0  
+> version is 1.3  
 > MIT License  
 
 常用的图像二值化方法归结如下：

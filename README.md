@@ -26,6 +26,7 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
    - 图像翻转、缩放（插值计算）、绘图
    - ROI区域提取（规则、非规则）、图像直方图
    - 直方图均衡化（图像增强）、相似度对比（直方图比较）
+   - HSV 色系取值范围
    - [直方图反向投影（图像ROI目标检索）](./workshops/2-day/class_10.py)
    
 [第三节 - 图像卷积相关操作](./workshops/3-day/summary.md)
@@ -70,6 +71,17 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
    - 顶帽、黑帽操作
    - 图像梯度分析
    - hit&miss 运用
+
+[第八节 - 综合运用与技能回顾](./workshops/8-day/summary.md)
+   - 二值图像分析运用，缺陷检测
+   - 最大轮廓提取
+   - 图像水印去除与修复
+   - 图像透视变换
+   - 视频的读取与色彩追踪
+   - 视频的前景背景分离与ROI区域提取
+
+[第九节 - 视频综合分析](./workshops/9-section/summary.md)
+   - 角点特征分析
 
 ## <a name="backup">备忘录</a>
 
