@@ -19,6 +19,7 @@ features_params = dict(maxCorners=MAX_CORNERS, qualityLevel=0.01, minDistance=10
 lk_params = dict(nextPts=None, winSize=(31, 31), maxLevel=3,
                  criteria=(cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 30, 0.01))
 color_set = np.random.randint(0, 255, (MAX_CORNERS, 3))
+# points = []
 
 
 @with_goto
@@ -31,7 +32,7 @@ def main():
     prv_frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
     prv_frame = cv.medianBlur(prv_frame, 3)
     prv_corners = cv.goodFeaturesToTrack(prv_frame, **features_params)
-    # total_corners = prv_corners.copy()
+    # points += prv_corners
     while True:
         ret, frame = capture.read()
         if True is not ret:
@@ -51,10 +52,11 @@ def main():
             if 2 < hypotenuse:
                 cv.circle(frame, (c, d), 5, color_set[i].tolist(), -1)
                 cv.line(frame, (c, d), (a, b), color_set[i].tolist(), 2, cv.LINE_8)
-                # total_corners[i] = next_corners[i]
-        # if 40 > len(total_corners):
-        #     print("here")
-        #     total_corners = cv.goodFeaturesToTrack(gray, **features_params)
+        #     else:
+        #         new_pts.remove(older)
+        # if 40 > len(new_pts):
+        #     next_corners, status, err = cv.calcOpticalFlowPyrLK(prv_frame, next_frame, prv_corners, **lk_params)
+        #     new_pts = next_corners[1 == status]
         cv.imshow("frame", frame)
         key = cv.waitKey(30) & 0xff
         if 27 == key:
