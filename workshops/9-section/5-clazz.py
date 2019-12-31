@@ -3,6 +3,8 @@
 
 import cv2 as cv
 from goto import with_goto
+import math
+import numpy as np
 
 """
     KLT光流跟踪法二：
@@ -11,15 +13,57 @@ from goto import with_goto
     并回到输入第二帧图像，开始循环。
 """
 
+MAX_CORNERS = 100
 
+features_params = dict(maxCorners=MAX_CORNERS, qualityLevel=0.01, minDistance=10, blockSize=3, mask=None)
+lk_params = dict(nextPts=None, winSize=(31, 31), maxLevel=3,
+                 criteria=(cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 30, 0.01))
+color_set = np.random.randint(0, 255, (MAX_CORNERS, 3))
+
+
+@with_goto
 def main():
     capture = cv.VideoCapture(0)
     ret, frame = capture.read()
     if True is not ret:
         print("can't read any video")
         goto .end
+    prv_frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+    prv_frame = cv.medianBlur(prv_frame, 3)
+    prv_corners = cv.goodFeaturesToTrack(prv_frame, **features_params)
+    # total_corners = prv_corners.copy()
+    while True:
+        ret, frame = capture.read()
+        if True is not ret:
+            print("can't read next frame.")
+            break
+        next_frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        next_frame = cv.medianBlur(next_frame, 3)
+        next_corners, status, err = cv.calcOpticalFlowPyrLK(prv_frame, next_frame, prv_corners, **lk_params)
+        old_pts = prv_corners[1 == status]
+        new_pts = next_corners[1 == status]
+        for i, (older, newer) in enumerate(zip(old_pts, new_pts)):
+            a, b = older.ravel()
+            c, d = newer.ravel()
+            width = math.pow(abs(a - c), 2)
+            height = math.pow(abs(b - d), 2)
+            hypotenuse = math.sqrt(width + height)
+            if 2 < hypotenuse:
+                cv.circle(frame, (c, d), 5, color_set[i].tolist(), -1)
+                cv.line(frame, (c, d), (a, b), color_set[i].tolist(), 2, cv.LINE_8)
+                # total_corners[i] = next_corners[i]
+        # if 40 > len(total_corners):
+        #     print("here")
+        #     total_corners = cv.goodFeaturesToTrack(gray, **features_params)
+        cv.imshow("frame", frame)
+        key = cv.waitKey(30) & 0xff
+        if 27 == key:
+            break
+        # 更新前一帧的内容
+        prv_frame = next_frame.copy()
+        prv_corners = new_pts.reshape(-1, 1, 2)
 
-    lable .end
+    label .end
     capture.release()
     cv.destroyAllWindows()
 
