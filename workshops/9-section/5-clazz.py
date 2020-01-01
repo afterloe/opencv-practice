@@ -24,7 +24,7 @@ color_set = np.random.randint(0, 255, (MAX_CORNERS, 3))
 
 @with_goto
 def main():
-    capture = cv.VideoCapture(0)
+    capture = cv.VideoCapture("../../../raspberry-auto/pic/vtest.avi")
     ret, frame = capture.read()
     if True is not ret:
         print("can't read any video")
