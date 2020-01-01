@@ -39,14 +39,14 @@ def main():
         hsv[..., 2] = cv.normalize(mag, None, 0, 255, cv.NORM_MINMAX)
         bgr = cv.cvtColor(hsv, cv.COLOR_HSV2BGR)
         cv.imshow("frame", bgr)
-        key = cv.waikKey(1) & 0xff
+        key = cv.waitKey(1) & 0xff
         if 27 == key:
             break
         prv_frame = next_frame
 
     label .end
     capture.release()
-    cv.destoryAllWindows()
+    cv.destroyAllWindows()
 
 
 
