@@ -102,3 +102,4 @@ resources: 资源修改
 #### 优秀的图像处理库 - imutils
 #### 直方图GUI绘制库 - matplotlib
 #### 数学库 - numpy
+#### go to - goto-statement

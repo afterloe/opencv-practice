@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
 import cv2 as cv
@@ -16,6 +16,13 @@ from matplotlib import pyplot as plt
             - LUT查找表
             - 卷积模糊
             - 归一化输出
+        
+    cv.calcBackProject(images, channels, hist, ranges, scale)
+        - images: 
+        - channels: 
+        - hist: 
+        - ranges:
+        - scale:
 """
 
 
@@ -53,7 +60,7 @@ def back_projection_demo(target):
 
 
 # 显示抓取内容
-def showResult(src, mask):
+def show_result(src, mask):
     canvas = cv.bitwise_and(src, src, mask=mask)  # 获取的roi与原图 进行与操作
     cv.imshow("dst", canvas)
 
@@ -61,7 +68,7 @@ def showResult(src, mask):
 def main():
     src = cv.imread("../../pic/money.jpg")
     dst = back_projection_demo(src)
-    showResult(src, dst)
+    show_result(src, dst)
     cv.waitKey(0)
     cv.destroyAllWindows()
 
