@@ -91,6 +91,10 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
    - 基于均值迁移的对象移动分析
    - 移动对象的轨迹绘制
 
+[第十节 - 对象检测与特征提取](./workshops/10-section/summary.md)
+   - HAAR级联对象检测器
+
+
 ## <a name="backup">备忘录</a>
 
 ### 关于git提交的type
