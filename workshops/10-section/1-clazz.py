@@ -18,17 +18,19 @@ import cv2 as cv
 """
 
 video_param = 0
+multi_param = dict(scaleFactor=1.05, minNeighbors=1, minSize=(120, 120), maxSize=(520, 520))
+cascade_param = cv.data.haarcascades + "haarcascade_frontalface_alt.xml"
 
 
 def main():
     capture = cv.VideoCapture(video_param)
-    detector = cv.CascadeClassifier(cv.data.haarcascades + "haarcascade_frontalface_alt.xml")
+    detector = cv.CascadeClassifier(cascade_param)
     while True:
         ret, frame = capture.read()
         if True is not ret:
             print("video is end.")
             break
-        faces = detector.detectMultiScale(frame, scaleFactor=1.05, minNeighbors=1, minSize=(120, 120), maxSize=(520, 520))
+        faces = detector.detectMultiScale(frame, **multi_param)
         for x, y, w, h in faces:
             cv.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2, cv.LINE_AA)
         cv.imshow("main", frame)
