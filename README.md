@@ -82,6 +82,18 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
 
 [第九节 - 视频综合分析](./workshops/9-section/summary.md)
    - 角点特征分析
+   - shi-tomas 角点检测
+   - 亚像素级别角点检测
+   - KLT光流跟踪
+   - KLT动态光流跟踪
+   - 稠密光流分析
+   - 基于帧差法实现移动对象分析
+   - 基于均值迁移的对象移动分析
+   - 移动对象的轨迹绘制
+
+[第十节 - 对象检测与特征提取](./workshops/10-section/summary.md)
+   - HAAR级联对象检测器
+
 
 ## <a name="backup">备忘录</a>
 
