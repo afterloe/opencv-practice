@@ -23,24 +23,42 @@ def main():
 
     bf = cv.BFMatcher(cv.NORM_HAMMING, crossCheck=True)
     matches = bf.match(des1, des2)
-    matches = sorted(matches, key=lambda x: x.distance)
+
+    good_matches = []
+    max_dist = 0
+
+    for index in range(len(matches)):
+        max_dist = max(max_dist, matches[index].distance)
+    for index in range(len(matches)):
+        if max_dist * 0.4 > matches[index].distance:
+            good_matches.append(matches[index])
+
     result = cv.drawMatches(meter, kp1, meter_find, kp2, matches[:10], None)
     cv.namedWindow("orb-match", cv.WINDOW_NORMAL)
     cv.imshow("orb-match", result)
 
     obj_pts = []
     scene_pts = []
-    for i in range(len(good_matches)):
-        obj_pts.append(kp1[good_matches[i].queryIdx].pt)
-        scene_pts.append(kp2[good_matches[i].trainIdx].pt)
-    M, mask = cv.findHomography(obj_pts, scene_pts, cv.RHO)
 
+    for index in range(len(good_matches)):
+        obj_pts.append(kp1[good_matches[index].queryIdx].pt)
+        scene_pts.append(kp2[good_matches[index].trainIdx].pt)
+
+    h = cv.findHomography(np.asarray(obj_pts), np.asarray(scene_pts), cv.RHO)
+
+    obj_corners = []
     # shape - width * height
     width, height = meter_find.shape[:2]
-    obj_corners = np.float32([[0, 0], [w, 0], [w, h], [0, h]]).reshape(-1, 1, 2)
-    scene_corners = cv.perspectiveTransform(obj_corners, M)
-    meter_find = cv.polylines(meter_find, [np.int32(scene_corners)], True, (0, 0, 255), 3, cv.LINE_AA)
+    obj_corners.append((0, 0))
+    obj_corners.append((width, 0))
+    obj_corners.append((width, height))
+    obj_corners.append((0, height))
+    scene_corners = cv.perspectiveTransform(np.asarray(obj_corners), h)
 
+    cv.line(result, scene_corners[0] + (width, 0), scene_corners[3] + (width, 0), (255, 0, 0), 4)
+    cv.line(result, scene_corners[1] + (width, 0), scene_corners[2] + (width, 0), (255, 0, 0), 4)
+    cv.line(result, scene_corners[2] + (width, 0), scene_corners[1] + (width, 0), (255, 0, 0), 4)
+    cv.line(result, scene_corners[3] + (width, 0), scene_corners[0] + (width, 0), (255, 0, 0), 4)
 
     cv.namedWindow("orb-match", cv.WINDOW_NORMAL)
     cv.imshow("orb-match", result)
