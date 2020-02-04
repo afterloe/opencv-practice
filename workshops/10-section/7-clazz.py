@@ -12,12 +12,13 @@ HOG特征检测的相关步骤
     输入图像 -> Gramma校正 -> 灰度化处理 -> 计算XY梯度 -> 8x8网格方向梯度权重直方图统计 -> 块描述与特征向量归一化
 
 API描述(部分)
-    HOG.detectMultiScale(img, winStride, padding, scale, useMeanshiftGrouping)
+    HOG.detectMultiScale(img, foundLocations, winStride, padding, scale, useMeanshiftGrouping)
         - img 需要搜索的图像
+        - foundLocations 发现对象的矩阵形框
         - winStride 开窗计算的窗口大小, 整数
-        - padding 内边距
-        - scale 扫描比率
-        - useMeanshiftGrouping 是否分组算法
+        - padding 填充大小
+        - scale 尺度空间
+        - useMeanshiftGrouping 是否分组算法， 不建议用 速度太慢
 """
 
 hog_param = {"winStride": (1, 1), "padding": (1, 1), "scale": 1.5, "useMeanshiftGrouping": False}
