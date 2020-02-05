@@ -13,7 +13,7 @@ def main():
     image = cv.imread("../../../raspberry-auto/pic/elec_watch/test/scene_08.jpg")
     test_img = cv.resize(image, (0, 0), fx=0.2, fy=0.2)
     cv.imshow("input", test_img)
-    gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+    gray = cv.cvtColor(test_img, cv.COLOR_BGR2GRAY)
     print(test_img.shape)
     h, w = test_img.shape[:2]
     svm = cv.ml.SVM_load('svm_data.dat')
