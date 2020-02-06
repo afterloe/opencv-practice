@@ -5,7 +5,10 @@ import cv2 as cv
 import numpy as np
 
 """
+验证 hog + svm的组合自定义对象检测方法
 
+这种方法的缺点就是开窗检测是从左到右、从上到下，是一个高耗时的操作，
+所以步长选择一般会选择HOG窗口默认步长的一半，这样可以减少检测框的数目
 """
 
 
@@ -30,6 +33,7 @@ def main():
                 one_fv[i] = hog_desc[i][0]
             one_fv = np.reshape(one_fv, [-1, len(hog_desc)])
             result = svm.predict(one_fv)[1]
+            # 在predict时候会发现多个重复框，求取它们的平均值即可得到最终的检测框
             if result[0][0] > 0:
                 sum_x += (col - 32)
                 sum_y += (row - 64)

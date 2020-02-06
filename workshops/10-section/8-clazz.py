@@ -12,7 +12,7 @@ HOG特征匹配
      hog.compute(image, winStride, padding)
         - image 提取图像的地址
         - winStride HOG描述子窗口大小
-        - padding 
+        - padding 填充大小 
 """
 
 

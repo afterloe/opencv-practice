@@ -6,10 +6,20 @@ import os
 import numpy as np
 
 """
+使用SVM分类训练，对HOG提取的正负样本进行训练处理
 
+SVM分类器使用ml包进行创建，创建之后需要进行设置分类器类型、回归距离参数等内容
+
+SVM训练api如下：
+cv.ml.statModel.train(samples, layout, responses)
+    - samples 训练样本数据/HOG特征数据
+    - layout 组织方式 ROW_SAMPLE/ COL_SAMPLE
+    - response 每个样本的标签
 """
 
+# 正向样本集
 positive_dir = "../../../raspberry-auto/pic/elec_watch/positive/"
+# 反向像本集
 negative_dir = "../../../raspberry-auto/pic/elec_watch/negative/"
 
 
@@ -57,14 +67,18 @@ def generate_data_set(p_dir, n_dir):
 
 
 def main():
-    svm = cv.ml.SVM_create()
-    svm.setKernel(cv.ml.SVM_LINEAR)
-    svm.setType(cv.ml.SVM_C_SVC)
-    svm.setC(2.67)
-    svm.setGamma(5.383)
+    # 线性不可分离分类器， 若是线性可分离可选择神经网络ANN模块
+    svm = cv.ml.SVM_create()  # 创建SVM分类器
+    svm.setKernel(cv.ml.SVM_LINEAR)  # 设置分类器属性， 线性不可分离
+    svm.setType(cv.ml.SVM_C_SVC)  # 设置分类器类型
+    svm.setC(2.67)  # 设置优化参数， 默认为0
+    svm.setGamma(5.383)  # 核函数参数γ的值， 回归分类的零界限，越大越接近，越小越精准
     train_data, responses = generate_data_set(positive_dir, negative_dir)
+    # 样本归一化处理
     responses = np.reshape(responses, [-1, 1])
+    # SVM分类, 训练API
     svm.train(train_data, cv.ml.ROW_SAMPLE, responses)
+    # 存储训练结果
     svm.save('svm_data.dat')
 
 
