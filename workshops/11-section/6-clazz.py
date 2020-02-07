@@ -16,7 +16,7 @@ def main():
     x = np.array(cells)
     train = x[:, : 50].reshape(-1, 400).astype(np.float32)
     test = x[:, 50: 100].reshape(-1, 400).astype(np.float32)
-    k = np.array(10)
+    k = np.arange(10)
     train_labels = np.repeat(k, 250)[:, np.newaxis]
     test_labels = train_labels.copy()
     dt = cv.ml.RTrees_create()
