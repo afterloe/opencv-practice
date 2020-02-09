@@ -25,6 +25,30 @@ Opencv DNN 实现图像分类
         - ddepth 数据类型
         
 ps: (模型说明)[https://github.com/opencv/opencv/tree/master/samples/dnn]
+
+OpenCV可以设置计算机后台与计算目标设备，相关API如下
+    cv.dnn.setPreferableBackend(backendId)
+        - backendId 后台计算id DNN_BACKEND_DEFAULT (DNN_BACKEND_INFERENCE_ENGINE)表示默认使用intel的预测推断库
+    (需要下载安装Intel® OpenVINO™ toolkit， 然后重新编译OpenCV源码，在CMake时候enable该选项方可)， 可加速计算！
+    DNN_BACKEND_OPENCV 一般情况都是使用opencv dnn作为后台计算
+    
+    cv.dnn.net.setPreferableTarget(targetId)
+        - targetId 目标设备ID
+        
+常见的目标设备id如下：
+    -	DNN_TARGET_CPU其中表示使用CPU计算，默认是的
+    -	DNN_TARGET_OPENCL 表示使用OpenCL加速，一般情况速度都很扯
+    -	DNN_TARGET_OPENCL_FP16 可以尝试
+    -	DNN_TARGET_MYRIAD 树莓派上的
+
+关系图
+ |                        | DNN_BACKEND_OPENCV | DNN_BACKEND_INFERENCE_ENGINE | DNN_BACKEND_HALIDE |
+*|------------------------|--------------------|------------------------------|--------------------|
+*| DNN_TARGET_CPU         |                  + |                            + |                  + |
+*| DNN_TARGET_OPENCL      |                  + |                            + |                  + |
+*| DNN_TARGET_OPENCL_FP16 |                  + |                            + |                    |
+*| DNN_TARGET_MYRIAD      |                    |                            + |                    |
+*| DNN_TARGET_FPGA        |                    |                            + |                    |
 """
 
 bin_model = "../../../raspberry-auto/models/googlenet/bvlc_googlenet.caffemodel"
@@ -42,6 +66,11 @@ def main():
     result = np.copy(image)
     cv.imshow("src", image)
     net.setInput(blob)
+    # 设置目标设备ID与后台计算ID
+    net.setPreferableBackend(cv.dnn.DNN_BACKEND_OPENCV)
+    # 默认为CPU计算，且不进行后台计算ID设置
+    net.setPreferableTarget(cv.dnn.DNN_TARGET_OPENCL)
+
     out = net.forward()
     out = out.flatten()
     classId = np.argmax(out)
