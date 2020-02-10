@@ -52,7 +52,7 @@ def main():
             top = detection[4] * h
             right = detection[5] * w
             bottom = detection[6] * h
-            cv.rectangle(image, (int(left), int(top), int(right), int(bottom)), (255, 0, 0), 2)
+            cv.rectangle(image, (int(left), int(top)), (int(right), int(bottom)), (255, 0, 0), 2)
             cv.putText(image, word, (int(left) - 10, int(top) - 5), cv.FONT_HERSHEY_SIMPLEX, 0.7,
                        (0, 255, 0), 2, cv.LINE_8)
             print(word)
