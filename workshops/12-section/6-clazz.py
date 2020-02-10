@@ -6,6 +6,8 @@ import cv2 as cv
 """
 OpenCV DNN 基于残差网络的视频人脸检测
     支持单精度的fp16的检测准确度更好的Caffe模型加载与使用，这里实现了一个基于Caffe Model的视频实时人脸监测模型
+    
+文章: (两种移动端可以实时运行的网络模型)[https://mp.weixin.qq.com/s/5a9a0zir7bJ7769JRj1ixA] 
 """
 
 
