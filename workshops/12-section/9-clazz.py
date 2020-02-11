@@ -28,6 +28,7 @@ API描述如下
 相关推荐文章
     (对象检测网络中的NMS算法详解)[https://mp.weixin.qq.com/s/yccBloK5pOVxDIFkmoY7xg]
     (OpenCV中使用YOLO对象检测)[https://mp.weixin.qq.com/s/95hftpJfSDIMlMVOC7iq4g]
+    (OpenCV4.0如何跑YOLOv3对象检测模型)[https://mp.weixin.qq.com/s/UZ9wpghrilgJPaYj04_dfQ]
 """
 
 bin_model = "../../../raspberry-auto/models/yolo/yolov3.weights"
