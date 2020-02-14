@@ -2,11 +2,19 @@
 # -*- coding=utf-8 -*-
 
 import cv2 as cv
-import math
 import time
 
 """
-
+OpenCV DNN 实现性别与年龄预测
+    OpenCV DNN中如何调用多个模型，相互配合使用
+实现步骤:
+    1. 完整的实现步骤需要如下几步：
+    2. 预先加载三个网络模型
+    3. 打开摄像头视频流/加载图像
+    4. 对每一帧进行人脸检测
+        - 对检测到的人脸进行性别与年龄预测
+        - 解析预测结果
+        - 显示结果
 """
 
 FACE_PROTO = "../../../raspberry-auto/models/face_detector/opencv_face_detector.pbtxt"
