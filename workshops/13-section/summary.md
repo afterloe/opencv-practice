@@ -3,6 +3,23 @@
 > version is 1.0
 > MIT License
 
+## OpenCV DNN使用OpenVINO加速
+[OpenVINO](https://software.intel.com/en-us/openvino-toolkit), 支持raspberry、widnows、linux系统的CPU加速，对OpenCV DNN模块
+，其它的API调用都进行了加速。通过DLIE(Deep Learning Inference Engine)对OpenCV进行重新编译。
+最新的在线安装web installer, w_openvino_toolkit_p_2018.5.456_online 内置已经编译好的OpenCV4.0.1版本直接配置即可使用！
+其配置方式与正常的OpenCV+VS2015开发配置相同，唯一不同的是需要把
+`%install_dir%\inference_engine\bin\intel64\Debug`
+加到环境变量中去, 然后在调用的时候，直接通过下面这句话就可以使用IE作为计算后台
+```python
+net.setPreferableBackend(DNN_BACKEND_INFERENCE_ENGINE)
+```
+对某些模型使用IE作为计算后台时，会报错，需要使用默认后台`net.setPreferableBackend(DNN_BACKEND_OPENCV)`即可
+
+相关链接
+[github源码](https://github.com/opencv/dldt)
+[开发平台](https://software.intel.com/en-us/articles/OpenVINO-InferEngine)
+OpenVINO还提供了一系列的API可以单独解析二进制的模型，实现调用，无须OpenCV DNN支持，安装以后可以去sample文件夹学习即可
+
 ## OpenCV DNN解析网络输出结果
 ### 常用结构
 多数时候DNN模块中深度学习网络的输出结果，可能是二维、三维、四维，具体与网络结构有很大的关系，一般常见的图像分类网络，是一个1XN维的
