@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-import cv2 as cv
+#import cv2 as cv
 import os
 import tensorflow as tf
 
@@ -14,7 +14,7 @@ def main():
     x = tf.random.uniform([3, 3])
 
     print("Is there a GPU available: "),
-    print(tf.config.experimental.list_physical_devices("GPU"))
+    print(tf.config.experimental.list_physical_devices())
 
     print("Is the Tensor on GPU #0:  "),
     print(x.device.endswith('GPU:0'))
