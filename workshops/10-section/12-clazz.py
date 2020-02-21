@@ -17,8 +17,8 @@ def main():
     test_img = cv.resize(image, (0, 0), fx=0.2, fy=0.2)
     cv.imshow("input", test_img)
     gray = cv.cvtColor(test_img, cv.COLOR_BGR2GRAY)
-    print(test_img.shape)
     h, w = test_img.shape[:2]
+    print(h, w)
     svm = cv.ml.SVM_load('svm_data.dat')
     sum_x = 0
     sum_y = 0
