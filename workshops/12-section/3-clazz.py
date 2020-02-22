@@ -31,7 +31,7 @@ objName = ["background",
 
 
 def main():
-    image = cv.imread("../../../raspberry-auto/pic/dog.jpg")
+    image = cv.imread("../../../raspberry-auto/pic/2020-17-08-26-49.jpeg")
     classes = None
     with open(classes_path, "r") as f:
         classes = f.read().rstrip("\n").split("\n")
