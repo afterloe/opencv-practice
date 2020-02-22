@@ -36,7 +36,7 @@ def contour_process(src, contours):
 
 
 def main():
-    src = cv.imread("../../pic/case6.jpg")
+    src = cv.imread("../../../raspberry-auto/pic/case6.jpg")
     cv.imshow("src", src)
     blur = cv.medianBlur(src, 3)
     gray = cv.cvtColor(blur, cv.COLOR_BGR2GRAY)
@@ -52,7 +52,7 @@ def main():
 
 
 def main_1():
-    src = cv.imread("../../pic/case6.jpg")
+    src = cv.imread("../../../raspberry-auto/pic/case6.jpg")
     blur = cv.medianBlur(src, 3)
     kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
     gradient = cv.morphologyEx(blur, cv.MORPH_GRADIENT, kernel)
@@ -68,4 +68,5 @@ def main_1():
 
 
 if "__main__" == __name__:
-    main_1()
+    # main_1()
+    main()

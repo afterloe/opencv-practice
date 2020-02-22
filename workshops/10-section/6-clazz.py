@@ -5,6 +5,8 @@ import cv2 as cv
 import numpy as np
 
 """
+    目标定位：
+        特殊目标定位使用的锚点距离排序，并根据排序后的锚点距离进行点对点的距离映射
 
 """
 
@@ -69,3 +71,4 @@ def main():
 
 if "__main__" == __name__:
     main()
+
