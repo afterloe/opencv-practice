@@ -20,7 +20,7 @@ import numpy as np
 
 
 def main():
-    src = cv.imread("../../pic/sudoku.png")
+    src = cv.imread("../../../raspberry-auto/pic/sudoku.png")
     # blur = cv.medianBlur(src, 15)
     gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
     T = 80
