@@ -25,6 +25,8 @@ def process(image, out):
         score = float(detection[2])
         index = int(detection[1])
         word = "score:%.2f, %s" % (score, objName[index])
+        if index == 15:
+            continue
         if 0.5 < score:
             left = detection[3] * w
             top = detection[4] * h
@@ -38,7 +40,8 @@ def process(image, out):
 
 
 def main():
-    video = cv.VideoCapture("../../../raspberry-auto/pic/two_red_line.mp4")
+    # video = cv.VideoCapture("../../../raspberry-auto/pic/two_red_line.mp4")
+    video = cv.VideoCapture(0)
     net = cv.dnn.readNetFromCaffe(ssd_config, ssd_bin)
     while True:
         ret, frame = video.read()
