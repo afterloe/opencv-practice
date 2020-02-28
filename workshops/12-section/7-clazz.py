@@ -25,6 +25,8 @@ label_map = "../../../raspberry-auto/models/ssd/mscoco_label_map.pbtxt"
 def main():
     image = cv.imread("../../../raspberry-auto/pic/2020-17-08-27-19.jpeg")
     dnn = cv.dnn.readNetFromTensorflow(bin_model, pbtxt)
+    dnn.setPreferableBackend(cv.dnn.DNN_BACKEND_CUDA)
+    dnn.setPreferableTarget(cv.dnn.DNN_TARGET_CUDA)
     h, w = image.shape[:2]
     data = cv.dnn.blobFromImage(image, 1.25, (300, 300), False, False)
     dnn.setInput(data)
