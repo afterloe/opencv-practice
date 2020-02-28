@@ -67,6 +67,9 @@ def main():
             content = []
             for i in range(len(result)):
                 content.append(str(np.int32(result[i][0])))
+            # print(content)
+            if "0" == content[0]:
+                content[0] = "0."
             print("".join(content))
             cv.waitKey(0)
 
