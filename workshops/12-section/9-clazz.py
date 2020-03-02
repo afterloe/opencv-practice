@@ -31,18 +31,27 @@ API描述如下
     (OpenCV4.0如何跑YOLOv3对象检测模型)[https://mp.weixin.qq.com/s/UZ9wpghrilgJPaYj04_dfQ]
 """
 
-bin_model = "../../../raspberry-auto/models/yolo/yolov3.weights"
-config = "../../../raspberry-auto/models/yolo/yolov3.cfg"
+# bin_model = "../../../raspberry-auto/models/yolo/yolov3.weights"
+# config = "../../../raspberry-auto/models/yolo/yolov3.cfg"
+# label = "../../../raspberry-auto/models/yolo/object_detection_classes_yolov3.txt"
+
+bin_model = "../../../raspberry-auto/models/yolo/yolov3-tiny.weights"
+config = "../../../raspberry-auto/models/yolo/yolov3-tiny.cfg"
 label = "../../../raspberry-auto/models/yolo/object_detection_classes_yolov3.txt"
 
 
 def main():
-    image = cv.imread("../../../raspberry-auto/pic/objects.jpg")
+    image = cv.imread("../../../raspberry-auto/pic/2020-17-08-27-19.jpeg")
+    # image = cv.imread("../../../raspberry-auto/pic/Meter_in_word.png")
     labels = None
     with open(label, "r") as f:
         labels = f.read().rstrip("\n").split("\n")
     print(labels)
     dnn = cv.dnn.readNetFromDarknet(config, bin_model)
+    # 设置目标设备ID与后台计算ID
+    dnn.setPreferableBackend(cv.dnn.DNN_BACKEND_CUDA)
+    # 默认为CPU计算，且不进行后台计算ID设置
+    dnn.setPreferableTarget(cv.dnn.DNN_TARGET_CUDA)
 
     # 获得所有层名称与索引
     layer_names = dnn.getLayerNames()
@@ -80,7 +89,6 @@ def main():
                 class_ids.append(int(class_id))
                 confidences.append(float(confidence))
                 boxes.append([left, top, width, height])
-
     indices = cv.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
     for i in indices:
         i = i[0]
@@ -88,7 +96,7 @@ def main():
         left, top, width, height = box[:4]
         cv.rectangle(image, (left, top), (left + width, top + height), (0, 0, 255), 2, cv.LINE_AA)
         cv.putText(image, labels[class_ids[i]], (left, top), cv.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), 2)
-
+        print(labels[class_ids[i]])
     cv.imshow("dst", image)
     cv.waitKey(0)
 
