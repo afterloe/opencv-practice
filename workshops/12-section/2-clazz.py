@@ -61,7 +61,7 @@ def main():
     with open(classes_path, "rt") as f:
         classes = f.read().rstrip("\n").split("\n")
     net = cv.dnn.readNetFromCaffe(prototxt, bin_model)
-    image = cv.imread("../../../raspberry-auto/pic/Meter.jpg")
+    image = cv.imread("../../../raspberry-auto/pic/2020-17-08-25-28.jpeg")
     blob = cv.dnn.blobFromImage(image, 1.0, (224, 224), (104, 117, 123), False, crop=False)
     result = np.copy(image)
     cv.imshow("src", image)
