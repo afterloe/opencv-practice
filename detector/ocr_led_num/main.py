@@ -18,7 +18,19 @@ def main():
     image = imutils.resize(image, width=500)
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     blurred = cv.GaussianBlur(gray, (3, 3), 0)
-    edged = cv.Canny(gray, 50, 200, 255)
+    t = 20
+    edged = cv.Canny(blurred, t, t * 2)
+    # edged = cv.adaptiveThreshold(ed, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 25, 10)
+    cnts = cv.findContours(edged.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    cnts = imutils.grab_contours(cnts)
+    # 轮廓排序
+    cnts = sorted(cnts, key=cv.contourArea, reverse=False)
+    for c in cnts:
+        t = image.copy()
+        cv.drawContours(t, c, 0, (0, 255, 0))
+        cv.imshow("dist", t)
+        cv.waitKey(0)
+
     cv.imshow("edged", edged)
     cv.waitKey(0)
 
