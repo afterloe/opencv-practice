@@ -11,26 +11,34 @@ import numpy as np
 
 """
 
+RESOURCE_PATH = "G:/Project/opencv-ascs-resources/"
+
 
 def main():
-    image = cv.imread("G:/Project/opencv-ascs-resources/led/2020-03-02_21-36-07.jpeg")
+    image = cv.imread(RESOURCE_PATH + "led-2/2020-03-03_21-04-17.jpeg")
     cv.imshow("input", image)
-    image = imutils.resize(image, width=500)
+    # ratio = image.shape[0] / 500.0
+    image = imutils.resize(image, width=1000)
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    blurred = cv.GaussianBlur(gray, (3, 3), 0)
-    t = 20
-    edged = cv.Canny(blurred, t, t * 2)
-    # edged = cv.adaptiveThreshold(ed, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 25, 10)
+    blurred = cv.GaussianBlur(gray, (9, 9), 0)
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
+    gray = cv.morphologyEx(gray, cv.MORPH_OPEN, kernel)
+    edged = cv.Canny(blurred, 20, 120)
     cnts = cv.findContours(edged.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
-    # 轮廓排序
-    cnts = sorted(cnts, key=cv.contourArea, reverse=False)
-    for c in cnts:
-        t = image.copy()
-        cv.drawContours(t, c, 0, (0, 255, 0))
-        cv.imshow("dist", t)
-        cv.waitKey(0)
+    print(len(cnts))
+    cnts = sorted(cnts, key=cv.contourArea, reverse=True)[:10]
+    # screen_cnt = None
+    # for c in cnts:
+    #     peri = cv.arcLength(c, True)
+    #     print(peri)
+    #     approx = cv.approxPolyDP(c, peri * 0.12, True)
+    #     if len(approx) == 4:
+    #         screen_cnt = approx
+    #         # break
 
+    cv.drawContours(image, cnts, -1, (0, 255, 0), 3)
+    cv.imshow("led", image)
     cv.imshow("edged", edged)
     cv.waitKey(0)
 
