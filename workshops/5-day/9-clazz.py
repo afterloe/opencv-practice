@@ -17,6 +17,12 @@ import numpy as np
         最小外接矩形
         angle, center, size = cv.minAreaRect(points)
             - points: 点整集
+            
+        梯度提取
+        binary = cv.Canny(mat, t, t2)
+            - mat: 输入图像
+            - t: 阈值1
+            - t2: 阈值2，一般是前一个阈值的2倍
 """
 
 
