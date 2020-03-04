@@ -3,44 +3,75 @@
 
 import cv2 as cv
 import imutils
+from imutils.video import VideoStream
 from imutils import contours
 from imutils.perspective import four_point_transform
 import numpy as np
+import time
 
 """
 
 """
 
-RESOURCE_PATH = "G:/Project/opencv-ascs-resources/"
+PADDING = 200
+
+
+def log(message, log_type="INFO"):
+    content = "[{}][{}]: {}".format(log_type, time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())), message)
+    print(content)
+    return content
+
+
+def draw_line(image):
+    if None is image:
+        raise Exception("can't draw line in block image!")
+    h, w = image.shape[:2]
+    x, y, width, height = w // 2 - PADDING // 2, h // 2 - PADDING // 2, PADDING, PADDING
+    cv.rectangle(image, (x, y), (x + width, y + height), (0, 0, 255), 2, cv.LINE_AA)
+    return image, (x, y, (x + width), (y + height))
+
+
+def produce_roi(roi, width, height):
+    image = imutils.resize(roi, width=500)
+    ratio = image.shape[1] / 300.0
+    gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+    gray = cv.bilateralFilter(gray, 11, 17, 17)
+    blurred = cv.GaussianBlur(gray, (11, 11), 0)
+    threshed = cv.threshold(blurred.copy(), 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)[1]
+    kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (1, 13))
+    threshed = cv.morphologyEx(threshed, cv.MORPH_CLOSE, kernel)
+    cnts = cv.findContours(threshed, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    cnts = imutils.grab_contours(cnts)
+    rects = []
+    for cnt in cnts:
+        x, y, w, h = cv.boundingRect(cnt)
+        # rects.append((x, y, x + w, y + h))
+        cv.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
+    # threshed = cv.adaptiveThreshold(gray.copy(), 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 45, 3)
+    cv.imshow("threshed", threshed)
+    cv.imshow("roi", image)
 
 
 def main():
-    image = cv.imread(RESOURCE_PATH + "led-2/2020-03-03_21-04-17.jpeg")
-    cv.imshow("input", image)
-    # ratio = image.shape[0] / 500.0
-    image = imutils.resize(image, width=1000)
-    gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    blurred = cv.GaussianBlur(gray, (9, 9), 0)
-    kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
-    gray = cv.morphologyEx(gray, cv.MORPH_OPEN, kernel)
-    edged = cv.Canny(blurred, 20, 120)
-    cnts = cv.findContours(edged.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-    cnts = imutils.grab_contours(cnts)
-    print(len(cnts))
-    cnts = sorted(cnts, key=cv.contourArea, reverse=True)[:10]
-    # screen_cnt = None
-    # for c in cnts:
-    #     peri = cv.arcLength(c, True)
-    #     print(peri)
-    #     approx = cv.approxPolyDP(c, peri * 0.12, True)
-    #     if len(approx) == 4:
-    #         screen_cnt = approx
-    #         # break
-
-    cv.drawContours(image, cnts, -1, (0, 255, 0), 3)
-    cv.imshow("led", image)
-    cv.imshow("edged", edged)
-    cv.waitKey(0)
+    log("starting video stream ...")
+    vs = VideoStream(src=0).start()
+    time.sleep(1.0)
+    try:
+        while True:
+            frame = vs.read()
+            frame, (w, h, width, height) = draw_line(frame)
+            produce_roi(frame[h: height, w: width, :], width, height)
+            # cv.imshow("number detector", frame)
+            key = cv.waitKey(10) & 0xff
+            if ord("q") == key:
+                log("wait to quit ...")
+                break
+    except Exception as e:
+        # print(e)
+        log(e, "ERROR")
+    finally:
+        vs.stop()
+        cv.destroyAllWindows()
 
 
 if "__main__" == __name__:
