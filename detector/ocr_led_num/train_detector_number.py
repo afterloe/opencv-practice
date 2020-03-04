@@ -20,13 +20,13 @@ def load_data():
     count = len(resources)
     sample_data = np.zeros((count, 60 * 120), dtype=np.float32)
     index = 0
-    for resource in resources:
-        resource = os.path.join(RESOURCE_PATH, resource)
+    for name in resources:
+        resource = os.path.join(RESOURCE_PATH, name)
         if True is os.path.isfile(resource):
             images.append(resource)
-            labels.append(resource[:1])
+            labels.append(name[:1])
             image = cv.imread(resource, cv.IMREAD_GRAYSCALE)
-            image = cv.resize(image, 60, 120)
+            image = cv.resize(image, (60, 120))
             row = np.reshape(image, (-1, 60 * 120))
             sample_data[index] = row
             index += 1
