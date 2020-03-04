@@ -38,18 +38,28 @@ def produce_roi(roi, width, height):
     gray = cv.bilateralFilter(gray, 11, 17, 17)
     blurred = cv.GaussianBlur(gray, (11, 11), 0)
     threshed = cv.threshold(blurred.copy(), 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)[1]
-    kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (1, 13))
+    kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (3, 13))
     threshed = cv.morphologyEx(threshed, cv.MORPH_CLOSE, kernel)
     cnts = cv.findContours(threshed, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
-    rects = []
+    # cnts = sorted(cnts, key=cv.contourArea, reverse=True)
+    digit_cnts = []
     for cnt in cnts:
         x, y, w, h = cv.boundingRect(cnt)
-        # rects.append((x, y, x + w, y + h))
-        cv.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
-    # threshed = cv.adaptiveThreshold(gray.copy(), 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 45, 3)
+        if w >= 3 and (60 <= h <= 200):
+            digit_cnts.append(cnt)
+        #     cv.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
     cv.imshow("threshed", threshed)
     cv.imshow("roi", image)
+    if 0 == len(digit_cnts):
+        return
+    digit_cnts = contours.sort_contours(digit_cnts, method="left-to-right")[0]
+    for cnt in digit_cnts:
+        x, y, w, h = cv.boundingRect(cnt)
+        name = "{}.jpeg".format(int(time.time()))
+        path = "../collect/pic/{}".format(name)
+        cv.imwrite(path, threshed[y: y + h, x: x + w], [cv.IMWRITE_JPEG_QUALITY, 100])
+        print("[info] image save in {}".format(path))
 
 
 def main():

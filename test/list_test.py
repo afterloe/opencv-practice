@@ -13,6 +13,7 @@ def main():
     print(time.time())
     print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))
     print("{}.jpeg".format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))))
+    print("{}.jpeg".format(int(time.time())))
 
 
 if "__main__" == __name__:
