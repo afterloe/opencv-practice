@@ -2,6 +2,7 @@
 # -*- coding=utf-8 -*-
 
 import cv2 as cv
+import imutils
 from imutils.video import VideoStream
 import time
 
@@ -19,6 +20,11 @@ def main():
         if None is frame:
             break
         cv.imshow("catching....", frame)
+        frame = imutils.resize(frame, height=500)
+        gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        gray = cv.bilateralFilter(gray, 11, 17, 17)
+        edged = cv.Canny(gray, 30, 200)
+        cv.imshow("edged", edged)
         key = cv.waitKey(1) & 0xff
         if ord("w") == key:
             name = "{}.jpeg".format(time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime(time.time())))
