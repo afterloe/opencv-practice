@@ -4,6 +4,10 @@
 import math
 
 
+def t(x1, y1, x2, y2):
+    return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+
+
 def main():
     width = pow(abs(7 - 4), 2)
     height = pow(abs(14 - 18), 2)
@@ -15,6 +19,7 @@ def main():
     print(v)
     p = range(0, 40)
     print(p)
+    print(t(0, 3, 4, 0))
 
 
 if "__main__" == __name__:
