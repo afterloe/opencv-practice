@@ -48,10 +48,34 @@ def detector_meter(image, net, out_names=None):
                 confidences.append(float(confidence))
                 boxes.append((left, top, width, height))
     targets = non_max_suppression(np.array(boxes), probs=confidences)
+    confidences.clear()
     for left, top, width, height in targets:
-        cv.rectangle(image, (left, top), (left + width, top + height), (0, 0, 255), 2, cv.LINE_AA)
-        cv.putText(image, "target", (left, top), cv.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), 2)
+        confidences.append(image[top: top + height, left: left + width, :])
+        # cv.rectangle(image, (left, top), (left + width, top + height), (0, 0, 255), 2, cv.LINE_AA)
+        # cv.putText(image, "target", (left, top), cv.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), 2)
+    # cv.imshow("target", image)
+    return confidences
+
+
+def produce_roi(roi):
+    image = imutils.resize(roi, width=500)
+    # name = "{}.jpeg".format(time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime(time.time())))
+    # path = "resources/{}".format(name)
+    # cv.imwrite(path, image, [cv.IMWRITE_JPEG_QUALITY, 100])
+    # print("[info] image save in {}".format(path))
+    gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+    gray = cv.bilateralFilter(gray, 11, 17, 17)
+    blurred = cv.GaussianBlur(gray, (9, 9), 0)
+    threshed = cv.adaptiveThreshold(blurred, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 25, 10)
+    cnts = cv.findContours(threshed, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    cnts = imutils.grab_contours(cnts)
+    # for cnt in cnts:
+        # x, y, w, h = cv.boundingRect(cnt)
+        # if w >= 150 and 100 < h < 200:
+            # cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+
     cv.imshow("target", image)
+    cv.imshow("threshed", threshed)
 
 
 def main():
@@ -63,20 +87,23 @@ def main():
     log("starting video steam ... ...")
     vs = VideoStream(src=0).start()
     time.sleep(1.0)
-    fps = FPS().start()
+    # fps = FPS().start()
     while True:
         frame = vs.read()
         if None is frame:
             log("can't read any video frame from device-0", "ERROR")
             raise Exception()
-        detector_meter(frame, dnn, layout_name)
+        cv.imshow("frame", frame)
+        meters = detector_meter(frame, dnn, layout_name)
+        for meter in meters:
+            produce_roi(meter)
         key = cv.waitKey(50) & 0xff
         if ord("q") == key:
             log("enter q to quit ...")
             break
-        fps.stop()
-        log("elapsed time: {:.2f}".format(fps.elapsed()))
-        log("approx. FPS: {:.2f}".format(fps.fps()))
+        # fps.stop()
+        # log("elapsed time: {:.2f}".format(fps.elapsed()))
+        # log("approx. FPS: {:.2f}".format(fps.fps()))
     # except Exception as e:
     #     print(e)
     # finally:
