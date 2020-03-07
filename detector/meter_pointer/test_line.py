@@ -39,8 +39,8 @@ def t(x1, y1, x2, y2):
 
 
 def main():
-    # image = cv.imread("G:\\Project\\opencv-ascs-resources\\meter_pointer_roi\\2020-03-05_22-18-30.jpeg")
-    image = cv.imread("/Users/afterloe/Project/opencv-ascs-resources/meter_pointer_roi/2020-03-05_22-18-30.jpeg")
+    image = cv.imread("G:\\Project\\opencv-ascs-resources\\meter_pointer_roi\\2020-03-05_22-18-25.jpeg")
+    # image = cv.imread("/Users/afterloe/Project/opencv-ascs-resources/meter_pointer_roi/2020-03-05_22-18-30.jpeg")
     start = time.time()
     image = imutils.resize(image, width=500)
     h, w = image.shape[: 2]
@@ -89,26 +89,27 @@ def main():
     #     cv.circle(img, (np.int32(i_c_x), np.int32(i_c_y)), 2, (255, 0, 0), 2, cv.LINE_8)
     #     cv.line(img, (i_x, i_y), (i_x + i_w, i_y + i_h), (0, 255, 255), 1, cv.LINE_AA)
         cv.rectangle(img, (i_x, i_y), (i_x + i_w, i_y + i_h), (255, 255, 0), 2, cv.LINE_8)
-        cv.imshow("target", img)
-        cv.waitKey(0)
+        # cv.imshow("target", img)
+        # cv.waitKey(0)
         for j in range(i, len(dig_cnts) - 1):
             j_x, j_y, j_w, j_h, j_c_x, j_c_y = dig_cnts[j]
             cv.circle(img, (np.int32(j_c_x), np.int32(j_c_y)), 2, (255, 0, 0), 2, cv.LINE_8)
-            cv.imshow("target", img)
             d = t(j_c_x, j_c_y, i_c_x, i_c_y)
             print(d)
-            cv.waitKey(0)
+            # cv.imshow("target", img)
+
+            # cv.waitKey(0)
             if 25 > d:
                 print(d)
                 cv.line(img, (i_x, i_y), (j_x + j_w, j_y + j_h), (0, 255, 255), 1, cv.LINE_AA)
-                cv.imshow("target", img)
-                cv.waitKey(0)
+                # cv.imshow("target", img)
+                # cv.waitKey(0)
     #             i_c_x, i_c_y = j_c_x, j_c_y
     #             cv.rectangle(image, (i_x, i_y), (i_x + j_w, i_y + j_h), (0, 0, 255), 2, cv.LINE_8)
 
     print(time.time() - start)
-    # cv.imshow("threshed", threshed)
-    # cv.imshow("target", image)
+    cv.imshow("threshed", threshed)
+    cv.imshow("target", image)
 
     cv.waitKey(0)
 
