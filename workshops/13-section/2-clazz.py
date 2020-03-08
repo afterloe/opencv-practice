@@ -31,7 +31,7 @@ def main():
     pts_in_hull = pts_in_hull.transpose().reshape(2, 313, 1, 1)
     net.getLayer(net.getLayerId("class8_ab")).blobs = [pts_in_hull.astype(np.float32)]
     net.getLayer(net.getLayerId("conv8_313_rh")).blobs = [np.full([1, 313], 2.606, np.float32)]
-    image = cv.imread("../../../raspberry-auto/pic/70eb501cjw1dwp7pecgewj.jpg")
+    image = cv.imread("G:\\Project\\opencv-ascs-resources\\d788d43f8794a4c2e3aee3470cf41bd5ac6e39c8.jpg")
     h, w = image.shape[:2]
     img_rgb = (image[:, :, [2, 1, 0]] * 1.0 / 255).astype(np.float32)
     img_lab = cv.cvtColor(img_rgb, cv.COLOR_RGB2Lab)
