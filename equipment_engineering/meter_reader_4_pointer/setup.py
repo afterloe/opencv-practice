@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-import cv2 as cv
+from setuptools import setup
 
-"""
+PROJECT_NAME = "meter_reader_4_pointer"
+VERSION = "1.2.0"
 
-"""
-
-
-def main():
-    pass
-
-
-if "__main__" == __name__:
-    main()
+setup(
+    name=PROJECT_NAME,
+    version=VERSION,
+    packages=find_packages(),
+    include_package_data=True,
+    install_requires=["opencv-python", "pyyaml", "imutils"],
+)
