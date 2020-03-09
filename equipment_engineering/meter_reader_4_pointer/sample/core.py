@@ -44,7 +44,7 @@ class ArgumentSetter:
             "min_angle": self.__min_angle,
             "max_angle": self.__max_angle,
             "min_value": self.__min_value,
-            "max_value": self.__max_value,
+            "max_value": self.__max_value
         }
         with open(DEFAULT_CONFIG_SAVE_PATH, "w", encoding=CHARACTER) as f:
             yaml.dump(caps, f, Dumper=yaml.RoundTripDumper)
@@ -53,6 +53,9 @@ class ArgumentSetter:
             log("表盘最大值对应的刻度: %s" % self.__max_angle)
             log("表盘最小值: %s" % self.__min_value)
             log("表盘最大值: %s" % self.__max_value)
+
+    def getArgument(self):
+        return self.__min_angle, self.__max_angle, self.__min_value, self.__max_value
 
 
 def log(message, log_type=INFO):
