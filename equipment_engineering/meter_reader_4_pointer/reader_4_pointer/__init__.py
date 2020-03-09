@@ -2,8 +2,8 @@
 # -*- coding=utf-8 -*-
 
 import argparse
-from argument_setter import ArgumentSetter
-import logger
+from .argument_helper import ArgumentHelper
+from .logger import log
 
 
 if "__main__" == __name__:
@@ -13,7 +13,7 @@ if "__main__" == __name__:
     ap.add_argument("-s", "--set", type=bool, help="进入设置模式", default=False)
     ap.add_argument("-w", "--windows", type=bool, help="开启窗口模式", default=True)
     args = vars(ap.parse_args())
-    setter = ArgumentSetter()
+    setter = ArgumentHelper()
     if True is args["set"]:
         logger.log("进入参数设置模式...")
         setter.setArgument()
