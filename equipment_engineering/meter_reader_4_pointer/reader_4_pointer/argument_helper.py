@@ -35,10 +35,6 @@ class ArgumentHelper:
             log("表盘最大值: %s" % self.__max_value)
 
     def setArgument(self, min_angle, max_angle, min_value, max_value):
-        # self.__min_angle = input("输入表盘最小值对应的刻度: ")
-        # self.__max_angle = input("输入表盘最大值对应的刻度: ")
-        # self.__min_value = input("输入表盘最小值: ")
-        # self.__max_value = input("输入表盘最大值: ")
         self.__min_angle = min_angle
         self.__max_angle = max_angle
         self.__min_value = min_value
