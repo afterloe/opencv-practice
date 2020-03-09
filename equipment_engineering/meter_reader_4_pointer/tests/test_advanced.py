@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-import unittest.mock
+import unittest
+from unittest.mock import patch
 
 
-class Calculator:
-    def sum(self, a, b):
-        return a + b
+class Calculator(object):
+    def add(self, a, b):
+        return a+b
 
 
-class CoreTest(unittest.TestCase):
-
+class TestProducer(unittest.TestCase):
     def setUp(self):
-        self.calc = Calculator()
+        self.calculator = Calculator()
 
-    def test_f2(self):
-        answer = self.calc.sum(2, 4)
-        self.assertEqual(answer, 6)
+    @patch.object(Calculator, 'add')
+    def test_add(self, mock_add):
+        mock_add.return_value = 3
+        print("111111111")
+        self.assertEqual(self.calculator.add(8, 14), 3)
 
 
 if "__main__" == __name__:
