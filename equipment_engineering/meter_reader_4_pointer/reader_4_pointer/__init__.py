@@ -7,7 +7,7 @@ from .logger import log
 
 
 if "__main__" == __name__:
-    logger.log("指针式仪表识别软件 v1.2")
+    log("指针式仪表识别软件 v1.2")
     ap = argparse.ArgumentParser()
     ap.add_argument("-d", "--debug", type=bool, help="开启可视化窗口， 进入debug模式", default=False)
     ap.add_argument("-s", "--set", type=bool, help="进入设置模式", default=False)
@@ -15,5 +15,9 @@ if "__main__" == __name__:
     args = vars(ap.parse_args())
     setter = ArgumentHelper()
     if True is args["set"]:
-        logger.log("进入参数设置模式...")
-        setter.setArgument()
+        log("进入参数设置模式...")
+        min_angle = input("输入表盘最小值对应的刻度: ")
+        max_angle = input("输入表盘最大值对应的刻度: ")
+        min_value = input("输入表盘最小值: ")
+        max_value = input("输入表盘最大值: ")
+        setter.setArgument(min_angle, max_angle, min_value, max_value)
