@@ -2,7 +2,7 @@
 # -*- coding=utf-8 -*-
 
 import os
-from ruamel import yaml
+from yaml import load, dump
 import time
 
 
@@ -24,7 +24,7 @@ class ArgumentSetter:
             log("按照默认配置进行")
             return
         with open(DEFAULT_CONFIG_SAVE_PATH, "r", encoding=CHARACTER) as f:
-            config = yaml.load(f.read(), Loader=yaml.Loader)
+            config = load(f.read(), Loader=yaml.Loader)
             self.__min_angle = config["min_angle"]
             self.__max_angle = config["max_angle"]
             self.__min_value = config["min_value"]
@@ -47,7 +47,7 @@ class ArgumentSetter:
             "max_value": self.__max_value
         }
         with open(DEFAULT_CONFIG_SAVE_PATH, "w", encoding=CHARACTER) as f:
-            yaml.dump(caps, f, Dumper=yaml.RoundTripDumper)
+            dump(caps, f, Dumper=yaml.RoundTripDumper)
             log("配置已写入 %s" % DEFAULT_CONFIG_SAVE_PATH, SUCCESS)
             log("表盘最小值对应的刻度: %s" % self.__min_angle)
             log("表盘最大值对应的刻度: %s" % self.__max_angle)
@@ -61,5 +61,6 @@ class ArgumentSetter:
 def log(message, log_type=INFO):
     content = "[{}][{}]: {}".format(log_type, time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())),
                                     message)
+    print(content)
     return content
 
