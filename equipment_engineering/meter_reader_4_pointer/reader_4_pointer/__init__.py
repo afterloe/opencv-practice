@@ -2,6 +2,7 @@
 # -*- coding=utf-8 -*-
 
 from .argument_helper import ArgumentHelper
+from .current_util import is_number
 from .debug_helper import DebugHelper
 from .logger import *
 import os
@@ -14,22 +15,15 @@ def version():
 
 
 def input_number_check(key):
-    try:
-        value = input("输入%s: " % key)
-        if False is value.isnumeric():
-            assert Exception(key)
-        return int(value)
-    except:
+    value = input("输入%s: " % key)
+    if False is is_number(value):
         log("%s必须为数字！" % key, ERROR)
         os._exit(101)
+    return value
 
 
 def set_detector_argument(min_angle, max_angle, min_value, max_value):
     try:
-        min_angle = int(min_angle)
-        max_angle = int(max_angle)
-        min_value = int(min_value)
-        max_value = int(max_value)
         ARGUMENT_HELPER.setArgument(min_angle, max_angle, min_value, max_value)
     except Exception as e:
         log("%s必须为数字！" % e, ERROR)
