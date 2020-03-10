@@ -27,6 +27,7 @@ class ArgumentHelper:
             self._min_angle = detector_config["min_angle"]
             self._max_angle = detector_config["max_angle"]
             self._min_value = detector_config["min_value"]
+            self._max_value = detector_config["max_value"]
             self._util = detector_config["util"]
             log("读取配置文件 %s" % DEFAULT_CONFIG_SAVE_PATH, SUCCESS)
             log("表盘最小值对应的刻度: %s" % self._min_angle)
