@@ -16,23 +16,22 @@ class EquipmentRunner(ABC):
         self.__successor = None
 
     @property
-    def run(self):
+    def mode(self):
         if not self.__successor:
             exit(404)
         return self.__successor
 
-    @run.setter
-    def run(self, successor):
+    @mode.setter
+    def mode(self, successor):
         self.__successor = successor
-        return self.__successor
 
     @abc.abstractmethod
-    def mode(self, request): ...
+    def run(self, request): ...
 
 
 class RunSettingMode(EquipmentRunner):
 
-    def mode(self, request):
+    def run(self, request):
         if True is request["set"]:
             try:
                 log("进入参数设置模式...")
@@ -49,8 +48,14 @@ class RunSettingMode(EquipmentRunner):
 
 class RunDebugMode(EquipmentRunner):
 
-    def mode(self, request):
-        print(request)
+    def run(self, request):
+        if True is request["debug"]:
+            try:
+                log("进入调试模式...")
+            except Exception as e:
+                log(e, ERROR)
+        else:
+            self.next.mode(request)
 
 
 if "__main__" == __name__:
@@ -64,4 +69,4 @@ if "__main__" == __name__:
     setting_mode = RunSettingMode()
     debug_mode = RunDebugMode()
     setting_mode.next = debug_mode
-    setting_mode.mode(args)
+    setting_mode.run(args)
