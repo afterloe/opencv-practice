@@ -19,7 +19,7 @@ class ArgumentHelper:
     def __init__(self):
         flag = os.path.isfile(DEFAULT_CONFIG_SAVE_PATH)
         if False is flag:
-            log("%s 文件不存在， 无法读取配置，按照默认配置进行" % DEFAULT_CONFIG_SAVE_PATH)
+            log("%s 文件不存在，无法读取配置，按照默认配置进行" % DEFAULT_CONFIG_SAVE_PATH)
             return
         with open(DEFAULT_CONFIG_SAVE_PATH, "r", encoding=CHARACTER) as f:
             config = yaml.load(f.read(), Loader=yaml.SafeLoader)
