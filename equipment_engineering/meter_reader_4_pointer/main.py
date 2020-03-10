@@ -39,7 +39,8 @@ class RunSettingMode(EquipmentRunner):
                 max_angle = input_number_check("表盘最大值对应的刻度")
                 min_value = input_number_check("表盘最小值")
                 max_value = input_number_check("表盘最大值")
-                set_detector_argument(min_angle, max_angle, min_value, max_value)
+                util = input("仪表单位: ")
+                set_detector_argument(min_angle, max_angle, min_value, max_value, util)
             except Exception as e:
                 log(e, ERROR)
         else:
