@@ -44,4 +44,4 @@ def set_detector_argument(min_angle, max_angle, min_value, max_value):
         ARGUMENT_HELPER.setArgument(min_angle, max_angle, min_value, max_value)
     except Exception as e:
         log("%s 必须为数字！" % e, ERROR)
-        assert Exception(e)
+        os.exit(101)
