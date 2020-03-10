@@ -37,9 +37,9 @@ def set_detector_argument(min_angle, max_angle, min_value, max_value):
 
 
 def start_with_debug():
-    try:
-        debug = DebugHelper()
+    # try:
+        debug = DebugHelper(ARGUMENT_HELPER.getArgument())
         debug.calibrate_gauge()
-    except Exception as e:
-        log(e, ERROR)
-        os._exit(102)
+    # except Exception as e:
+    #     log(e, ERROR)
+    #     os._exit(102)

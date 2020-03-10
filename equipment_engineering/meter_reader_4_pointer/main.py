@@ -50,11 +50,11 @@ class RunDebugMode(EquipmentRunner):
 
     def run(self, request):
         if True is request["debug"]:
-            try:
+            # try:
                 log("进入调试模式...")
                 start_with_debug()
-            except Exception as e:
-                log(e, ERROR)
+            # except Exception as e:
+            #     log(e, ERROR)
         else:
             self.next.run(request)
 
