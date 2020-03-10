@@ -11,6 +11,7 @@ class Calculator(object):
 
 
 class TestProducer(unittest.TestCase):
+
     def setUp(self):
         self.calculator = Calculator()
 
