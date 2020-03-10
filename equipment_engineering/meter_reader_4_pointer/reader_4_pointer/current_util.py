@@ -15,3 +15,20 @@ def avg_circles(circles, b):
 
 def calculate_distance(x1, y1, x2, y2):
     return np.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+
+
+def is_number(input_str):
+    try:
+        float(input_str)
+        return True
+    except ValueError:
+        pass
+
+    try:
+        import unicodedata
+        unicodedata.numeric(input_str)
+        return True
+    except (TypeError, ValueError):
+        pass
+
+    return False
