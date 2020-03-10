@@ -10,28 +10,30 @@ from abc import ABC
 """
 
 
-class EquipmentRunner:
+class EquipmentRunner(ABC):
 
     def __init__(self):
         self.__successor = None
 
-    def setNext(self, successor):
+    @property
+    def run(self):
+        if not self.__successor:
+            exit(404)
+        return self.__successor
+
+    @run.setter
+    def run(self, successor):
         self.__successor = successor
         return self.__successor
 
     @abc.abstractmethod
-    def run(self, request):
-        pass
+    def mode(self, request): ...
 
 
-class RunSettingMode(EquipmentRunner, ABC):
+class RunSettingMode(EquipmentRunner):
 
-    __args = None
-
-    def __init__(self) -> None:
-        super().__init__()
-
-    def run(self, request):
+    def mode(self, request):
+        print(request)
         if True is request["set"]:
             try:
                 log("进入参数设置模式...")
@@ -43,7 +45,13 @@ class RunSettingMode(EquipmentRunner, ABC):
             except Exception as e:
                 log(e, ERROR)
         else:
-            return "Next"
+            self.next.mode(request)
+
+
+class RunDebugMode(EquipmentRunner):
+
+    def mode(self, request):
+        print(request)
 
 
 if "__main__" == __name__:
@@ -54,8 +62,7 @@ if "__main__" == __name__:
     ap.add_argument("-s", "--set", type=bool, help="进入设置模式", default=False)
     ap.add_argument("-w", "--windows", type=bool, help="开启窗口模式", default=True)
     args = vars(ap.parse_args())
-
-    runner = EquipmentRunner()
     setting_mode = RunSettingMode()
-    runner.setNext(setting_mode)
-    runner.run(args)
+    debug_mode = RunDebugMode()
+    setting_mode.next = debug_mode
+    setting_mode.mode(args)
