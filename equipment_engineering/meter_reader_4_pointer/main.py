@@ -33,7 +33,6 @@ class EquipmentRunner(ABC):
 class RunSettingMode(EquipmentRunner):
 
     def mode(self, request):
-        print(request)
         if True is request["set"]:
             try:
                 log("进入参数设置模式...")
