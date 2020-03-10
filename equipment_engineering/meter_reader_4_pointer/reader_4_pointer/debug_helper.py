@@ -64,7 +64,7 @@ class DebugHelper:
         for i in range(0, interval):
             cv.line(image, (int(p1[i][0]), int(p1[i][1])), (int(p2[i][0]), int(p2[i][1])), (0, 255, 0), 2)
             cv.putText(image, "%s" % (int(i * self._separation)), (int(p_text[i][0]), int(p_text[i][1])),
-                       cv.FONT_HERSHEY_SIMPLEX, 0.3, (0, 255, 255), 2, cv.LINE_AA)
+                       cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1, cv.LINE_AA)
         return image
 
     def calibrate_gauge(self):
@@ -74,7 +74,10 @@ class DebugHelper:
         while True:
             frame = self._vs.read()
             frame_with_roi, (w, h, width, height) = self.draw_box(frame.copy())
-            self.draw_gauge(frame[h: height, w: width, :].copy())
+            gauge_roi = self.draw_gauge(frame[h: height, w: width, :].copy())
+            cv.imshow("computer vision", gauge_roi)
+            
+            # frame_with_roi[h: height, w: width, :] = gauge_roi
             cv.imshow("user view", frame_with_roi)
             key = cv.waitKey(10) & 0xff
             if ord("q") == key:
