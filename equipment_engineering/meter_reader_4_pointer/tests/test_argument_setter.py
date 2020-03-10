@@ -15,15 +15,15 @@ class TestArgumentHelper(TestCase):
         self.helper = argument_helper.ArgumentHelper()
 
     def test_argument_1_getter(self):
-        min_angle, max_angle, min_value, max_value = self.helper.getArgument()
+        min_angle, max_angle, min_value, max_value, util = self.helper.getArgument()
         self.assertEqual(min_angle, 0)
         self.assertEqual(max_angle, 0)
         self.assertEqual(min_value, 0)
         self.assertEqual(max_value, 0)
 
     def test_argument_2_setter(self):
-        self.helper.setArgument(45, 320, 0, 200)
-        min_angle, max_angle, min_value, max_value = self.helper.getArgument()
+        self.helper.setArgument(45, 320, 0, 200, "")
+        min_angle, max_angle, min_value, max_value, util = self.helper.getArgument()
         self.assertEqual(min_angle, 45)
         self.assertEqual(max_angle, 320)
         self.assertEqual(min_value, 0)
