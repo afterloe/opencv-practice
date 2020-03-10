@@ -43,7 +43,7 @@ class RunSettingMode(EquipmentRunner):
             except Exception as e:
                 log(e, ERROR)
         else:
-            self.next.mode(request)
+            self.next.run(request)
 
 
 class RunDebugMode(EquipmentRunner):
@@ -52,15 +52,17 @@ class RunDebugMode(EquipmentRunner):
         if True is request["debug"]:
             try:
                 log("进入调试模式...")
+                start_with_debug()
             except Exception as e:
                 log(e, ERROR)
         else:
-            self.next.mode(request)
+            self.next.run(request)
 
 
 if "__main__" == __name__:
     from reader_4_pointer import *
 
+    version()
     ap = argparse.ArgumentParser()
     ap.add_argument("-d", "--debug", type=bool, help="开启可视化窗口， 进入debug模式", default=False)
     ap.add_argument("-s", "--set", type=bool, help="进入设置模式", default=False)
