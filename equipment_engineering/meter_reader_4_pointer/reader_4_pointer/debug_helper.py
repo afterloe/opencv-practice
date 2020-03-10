@@ -18,7 +18,7 @@ class DebugHelper:
         self._padding = 300
         self._separation = 10
         self._x, self._y = 0, 0
-        self._min_angle, self._max_angle, self._min_value, self._max_value = argument
+        self._min_angle, self._max_angle, self._min_value, self._max_value, self._util = argument
 
     def draw_box(self, image):
         if None is image:
@@ -111,8 +111,10 @@ class DebugHelper:
             if flag:
                 value, gauge_roi = self.infer_value(frame[h: height, w: width, :].copy())
                 cv.imshow("computer vision for pointer", gauge_roi)
-                print(value)
+                log("value is {:.3f} {}".format(value, self._util))
+                cv.putText(frame_with_roi, "{:.3f} {}".format(value, self._util), (w, h),
+                           cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
             cv.imshow("user view", frame_with_roi)
-            key = cv.waitKey(10) & 0xff
+            key = cv.waitKey(100) & 0xff
             if ord("q") == key:
                 break

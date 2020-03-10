@@ -11,7 +11,7 @@ ARGUMENT_HELPER = ArgumentHelper()
 
 
 def version():
-    log("指针式仪表识别软件 v1.2")
+    log("指针式仪表识别软件 v1.2.4")
 
 
 def input_number_check(key):
@@ -22,18 +22,18 @@ def input_number_check(key):
     return value
 
 
-def set_detector_argument(min_angle, max_angle, min_value, max_value):
+def set_detector_argument(min_angle, max_angle, min_value, max_value, util):
     try:
-        ARGUMENT_HELPER.setArgument(min_angle, max_angle, min_value, max_value)
+        ARGUMENT_HELPER.setArgument(min_angle, max_angle, min_value, max_value, util)
     except Exception as e:
         log("%s必须为数字！" % e, ERROR)
         os._exit(101)
 
 
 def start_with_debug():
-    # try:
+    try:
         debug = DebugHelper(ARGUMENT_HELPER.getArgument())
         debug.calibrate_gauge()
-    # except Exception as e:
-    #     log(e, ERROR)
-    #     os._exit(102)
+    except Exception as e:
+        log(e, ERROR)
+        os._exit(102)
