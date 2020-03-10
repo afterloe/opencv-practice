@@ -9,9 +9,11 @@ import os
 
 ARGUMENT_HELPER = ArgumentHelper()
 
+__version__ = '1.3'
+
 
 def version():
-    log("指针式仪表识别软件 v1.2.4")
+    log("指针式仪表识别软件 v%s" % __version__)
 
 
 def input_number_check(key):
