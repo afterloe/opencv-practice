@@ -2,6 +2,7 @@
 # -*- coding=utf-8 -*-
 
 from .argument_helper import ArgumentHelper
+from .application import Application
 from .current_util import is_number
 from .debug_helper import DebugHelper
 from .logger import *
@@ -37,13 +38,14 @@ def start_with_debug():
         debug = DebugHelper(ARGUMENT_HELPER.getArgument())
         debug.calibrate_gauge()
     except Exception as e:
-        log(e, ERROR)
+        log("%s" % e, ERROR)
         os._exit(102)
 
 
 def start_with_vision():
     try:
-        pass
+        app = Application(ARGUMENT_HELPER.getArgument())
+        app.run(vision=True, device=0)
     except Exception as e:
-        log(e, ERROR)
+        log("%s" % e, ERROR)
         os._exit(102)
