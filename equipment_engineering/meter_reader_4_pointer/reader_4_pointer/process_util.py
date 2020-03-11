@@ -7,6 +7,8 @@ import numpy as np
 from .current_util import calculate_distance
 # import imutils
 
+hsv_min, hsv_max = (0, 0, 0), (180, 255, 50)
+
 
 def draw_box(image, padding=300, color=(0, 0, 255)):
     if None is image:
@@ -40,8 +42,6 @@ def meter_detection(image):
 
 def pointer_detection(image):
     hsv = cv.cvtColor(image.copy(), cv.COLOR_BGR2HSV)
-    hsv_min = (0, 0, 0)
-    hsv_max = (180, 255, 50)
     mask = cv.inRange(hsv, hsv_min, hsv_max)
     edged = cv.GaussianBlur(mask, (0, 0), 3)
     lines = cv.HoughLinesP(edged, 1, np.pi / 180, 130, None, 45, 10)
@@ -112,21 +112,22 @@ def infer(x, y, pointer, min_angle, max_angle, min_value, max_value):
 def infer_diff(previous, now):
     if None is now:
         return False, None
-    gray = cv.cvtColor(now, cv.COLOR_BGR2GRAY)
-    blurred = cv.GaussianBlur(gray, (0, 0), 13)
+    hsv = cv.cvtColor(now.copy(), cv.COLOR_BGR2HSV)
+    mask = cv.inRange(hsv, hsv_min, hsv_max)
+    edged = cv.GaussianBlur(mask, (0, 0), 3)
+    hist = cv.calcHist([hsv], [0], edged, [180], [0, 180])
+    cv.normalize(hist, hist, 0, 255, cv.NORM_MINMAX)
+    h, w = now.shape[: 2]
+
     if None is previous:
-        previous = np.copy(blurred)
+        # previous = np.copy(blurred)
+        # TODO
         return True, previous
-    diff = cv.subtract(previous, blurred)
-    _, thresh = cv.threshold(diff, thresh=0, maxval=255, type=cv.THRESH_BINARY_INV | cv.THRESH_OTSU)
-    kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
-    binary = cv.morphologyEx(thresh, op=cv.MORPH_OPEN, kernel=kernel)
-    contours = cv.findContours(binary, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-    # contours = imutils.grab_contours(contours)
-    # for cnt in contours:
-    #     x, y, w, h = cv.boundingRect(cnt)
-    #     cv.rectangle(now, (x, y), (x + w, y + h), (255, 0, 0), 2, cv.LINE_AA)
-    # cv.imshow("now", now)
+    dst = cv.calcBackProject([hsv], [0], hist, [0, 180], 1)
+    box = cv.CamShift(dst, (0, 0, h, w), (cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 10, 1))
+    print(len(box))
+    # track_window = track_box[1]
+
     if 1 < len(contours):
         previous = np.copy(blurred)
         return True, previous
