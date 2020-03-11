@@ -43,8 +43,8 @@ def pointer_detection(image):
     hsv_min = (0, 0, 0)
     hsv_max = (180, 255, 50)
     mask = cv.inRange(hsv, hsv_min, hsv_max)
-    edged = cv.GaussianBlur(mask, (3, 3), 0)
-    lines = cv.HoughLinesP(edged, 1, np.pi / 180, 130, None, 30, 10)
+    edged = cv.GaussianBlur(mask, (0, 0), 3)
+    lines = cv.HoughLinesP(edged, 1, np.pi / 180, 130, None, 45, 10)
     if None is lines:
         return False, None
     return True, lines[0][0]
