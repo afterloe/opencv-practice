@@ -2,8 +2,8 @@
 # -*- coding=utf-8 -*-
 
 import abc
-import argparse
 from abc import ABC
+import argparse
 
 """
 
@@ -34,7 +34,7 @@ class RunSettingMode(EquipmentRunner):
     def run(self, request):
         if True is request["set"]:
             try:
-                log("进入参数设置模式...")
+                log("进入参数设置模式 ...")
                 min_angle = input_number_check("表盘最小值对应的刻度")
                 max_angle = input_number_check("表盘最大值对应的刻度")
                 min_value = input_number_check("表盘最小值")
@@ -52,7 +52,7 @@ class RunDebugMode(EquipmentRunner):
     def run(self, request):
         if True is request["debug"]:
             try:
-                log("进入调试模式...")
+                log("进入调试模式 ...")
                 start_with_debug()
             except Exception as e:
                 log(e, ERROR)
@@ -60,8 +60,22 @@ class RunDebugMode(EquipmentRunner):
             self.next.run(request)
 
 
+class RunVisionMode(EquipmentRunner):
+
+    def run(self, request):
+        if True is request["windows"]:
+            try:
+                log("以可视化模式运行 ...")
+                start_with_vision()
+            except Exception as e:
+                log(e, ERROR)
+        else:
+            self.next.run(request)
+
+
 if "__main__" == __name__:
-    from reader_4_pointer import *
+    from reader_4_pointer import start_with_vision, start_with_debug, set_detector_argument
+    from reader_4_pointer import version, log, ERROR
 
     version()
     ap = argparse.ArgumentParser()
@@ -71,5 +85,7 @@ if "__main__" == __name__:
     args = vars(ap.parse_args())
     setting_mode = RunSettingMode()
     debug_mode = RunDebugMode()
+    vision_mode = RunVisionMode()
     setting_mode.next = debug_mode
+    debug_mode.next = vision_mode
     setting_mode.run(args)

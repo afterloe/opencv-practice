@@ -9,7 +9,7 @@ import os
 
 ARGUMENT_HELPER = ArgumentHelper()
 
-__version__ = '1.3'
+__version__ = '1.5'
 
 
 def version():
@@ -36,6 +36,14 @@ def start_with_debug():
     try:
         debug = DebugHelper(ARGUMENT_HELPER.getArgument())
         debug.calibrate_gauge()
+    except Exception as e:
+        log(e, ERROR)
+        os._exit(102)
+
+
+def start_with_vision():
+    try:
+        pass
     except Exception as e:
         log(e, ERROR)
         os._exit(102)
