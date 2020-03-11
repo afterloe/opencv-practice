@@ -45,6 +45,7 @@ class Application:
             if vision:
                 cv.putText(frame_with_box, "{:.3f} {}".format(value, self._util), (w, h),
                            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
+                cv.line(frame_with_box, (pointer[0], pointer[1]), (pointer[2], pointer[3]), (0, 0, 255), 5, cv.LINE_AA)
                 cv.imshow("watch dog", frame_with_box)
             key = cv.waitKey(100) & 0xff
             self.process_with_key(key, vision)
