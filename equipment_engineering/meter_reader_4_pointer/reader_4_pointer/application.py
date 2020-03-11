@@ -5,7 +5,7 @@ import cv2 as cv
 from imutils.video import FPS
 from imutils.video import VideoStream
 from .logger import log, ERROR
-from .process_util import draw_box, infer_diff, meter_detection, avg_circles, infer
+from .process_util import draw_box, infer_diff, meter_detection, pointer_detection, avg_circles, infer
 import time
 
 
@@ -43,8 +43,9 @@ class Application:
             value = infer(x, y, pointer, self._min_angle, self._max_angle, self._min_value, self._max_value)
             log("value is {:.3f} {}".format(value, self._util))
             if vision:
-                cv.putText(frame_with_roi, "{:.3f} {}".format(value, self._util), (w, h),
+                cv.putText(frame_with_box, "{:.3f} {}".format(value, self._util), (w, h),
                            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
+                cv.imshow("watch dog", frame_with_box)
             key = cv.waitKey(100) & 0xff
             self.process_with_key(key, vision)
 
