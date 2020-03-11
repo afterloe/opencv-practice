@@ -26,9 +26,10 @@ class Application:
             frame = self._vs.read()
             frame_with_box, (x, y, w, h) = draw_box(frame)
             roi_next = frame[y: h, x: w, :]
-            if False is infer_diff(self._roi_previous, roi_next):
+            flag, previous = infer_diff(self._roi_previous, roi_next)
+            if False is flag:
                 continue
-            self._roi_previous = roi_next
+            self._roi_previous = previous
             if vision:
                 cv.imshow("watch dog", frame_with_box)
             key = cv.waitKey(100) & 0xff

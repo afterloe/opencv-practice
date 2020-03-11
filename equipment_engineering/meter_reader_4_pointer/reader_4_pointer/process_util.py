@@ -5,6 +5,7 @@
 import cv2 as cv
 import numpy as np
 from .current_util import calculate_distance
+import imutils
 
 
 def draw_box(image, padding=300, color=(0, 0, 255)):
@@ -106,3 +107,28 @@ def infer(x, y, pointer):
     new_range = new_max - new_min
     new_value = (((old_value - old_min) * new_range) / old_range) + new_min
     return new_value
+
+
+def infer_diff(previous, now):
+    if None is now:
+        return False, None
+    gray = cv.cvtColor(now, cv.COLOR_BGR2GRAY)
+    blurred = cv.GaussianBlur(gray, (0, 0), 13)
+    if None is previous:
+        previous = np.copy(blurred)
+        return True, previous
+    diff = cv.subtract(previous, blurred)
+    _, thresh = cv.threshold(diff, thresh=0, maxval=255, type=cv.THRESH_BINARY_INV | cv.THRESH_OTSU)
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
+    binary = cv.morphologyEx(thresh, op=cv.MORPH_OPEN, kernel=kernel)
+    contours = cv.findContours(binary, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    # contours = imutils.grab_contours(contours)
+    # for cnt in contours:
+    #     x, y, w, h = cv.boundingRect(cnt)
+    #     cv.rectangle(now, (x, y), (x + w, y + h), (255, 0, 0), 2, cv.LINE_AA)
+    # cv.imshow("now", now)
+    if 1 < len(contours):
+        previous = np.copy(blurred)
+        return True, previous
+    else:
+        return False, None
