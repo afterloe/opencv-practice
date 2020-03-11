@@ -38,7 +38,7 @@ def process(image):
 
 
 def main():
-    src = cv.imread("../../pic/ele_panel.jpg")
+    src = cv.imread("../../../raspberry-auto/pic/ele_panel.jpg")
     cv.imshow("src", src)
     result = process(src)
     cv.imshow("dst", result)
