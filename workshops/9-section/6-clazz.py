@@ -34,7 +34,7 @@ flow_params = dict(flow=None, pyr_scale=0.5, levels=3, winsize=15, iterations=3,
 
 @with_goto
 def main():
-    capture = cv.VideoCapture("../../../raspberry-auto/pic/vtest.avi")
+    capture = cv.VideoCapture(0)
     ret, frame = capture.read()
     if True is not ret:
         print("can't read video!")

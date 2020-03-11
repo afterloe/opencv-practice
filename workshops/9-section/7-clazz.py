@@ -3,6 +3,7 @@
 
 import cv2 as cv
 from goto import with_goto
+import imutils
 import numpy as np
 
 """
@@ -31,7 +32,7 @@ def process(frame):
 @with_goto
 def main():
     # 三帧差
-    capture = cv.VideoCapture(video_param)
+    capture = cv.VideoCapture(0)
     ret, prev_1 = capture.read()
     if True is not ret:
         print("can't read any frame")
@@ -89,6 +90,11 @@ def main_1():
         _, binary = cv.threshold(**threshold_param)
         morphology_param["src"] = binary
         binary = cv.morphologyEx(**morphology_param)
+        contours = cv.findContours(binary, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        contours = imutils.grab_contours(contours)
+        for cnt in contours:
+            x, y, w, h = cv.boundingRect(cnt)
+            cv.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2, cv.LINE_AA)
         cv.imshow("video", frame)
         cv.imshow("result", binary)
         prev_blur = np.copy(blur)
@@ -102,4 +108,5 @@ def main_1():
 
 
 if "__main__" == __name__:
+    # main_1()
     main()
