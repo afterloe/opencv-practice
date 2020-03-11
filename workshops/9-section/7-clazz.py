@@ -32,7 +32,7 @@ def process(frame):
 @with_goto
 def main():
     # 三帧差
-    capture = cv.VideoCapture(video_param)
+    capture = cv.VideoCapture(0)
     ret, prev_1 = capture.read()
     if True is not ret:
         print("can't read any frame")
@@ -108,4 +108,5 @@ def main_1():
 
 
 if "__main__" == __name__:
-    main_1()
+    # main_1()
+    main()
