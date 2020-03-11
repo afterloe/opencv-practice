@@ -5,7 +5,7 @@
 import cv2 as cv
 import numpy as np
 from .current_util import calculate_distance
-import imutils
+# import imutils
 
 
 def draw_box(image, padding=300, color=(0, 0, 255)):
@@ -82,7 +82,7 @@ def draw_gauge(image, separation=10):
     return True, image
 
 
-def infer(x, y, pointer):
+def infer(x, y, pointer, min_angle, max_angle, min_value, max_value):
     start_x, start_y, end_x, end_y = pointer
     dist_pt_0, dist_pt_1 = calculate_distance(x, y, start_x, start_y), calculate_distance(x, y, end_x, end_y)
     if dist_pt_0 > dist_pt_1:
@@ -100,8 +100,8 @@ def infer(x, y, pointer):
         final_angle = 90 - res
     if x_angle > 0 and y_angle < 0:
         final_angle = 270 - res
-    old_min, old_max = float(self._min_angle), float(self._max_angle)
-    new_min, new_max = float(self._min_value), float(self._max_value)
+    old_min, old_max = float(min_angle), float(max_angle)
+    new_min, new_max = float(min_value), float(max_value)
     old_value = final_angle
     old_range = old_max - old_min
     new_range = new_max - new_min
