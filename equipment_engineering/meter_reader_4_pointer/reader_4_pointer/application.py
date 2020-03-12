@@ -35,11 +35,11 @@ class Application:
             self._roi = frame[y: h, x: w, :]
             key = cv.waitKey(100) & 0xff
             self.process_with_key(key, vision)
-            flag, binary_now = infer_diff(self._roi_previous, self._roi)
-            if False is flag or True is self._flag_infer_diff:
-                self._flag_infer_diff = False
-                continue
-            self._roi_previous = binary_now
+            # flag, binary_now = infer_diff(self._roi_previous, self._roi)
+            # if False is flag or True is self._flag_infer_diff:
+            #     self._flag_infer_diff = False
+            #     continue
+            # self._roi_previous = binary_now
             flag, meter = meter_detection(self._roi)
             if False is flag:
                 continue
