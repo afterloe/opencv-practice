@@ -12,10 +12,14 @@ def mean_shift_filtering(value):
     TEMP_VALUE_LIST.append(value)
     if 20 > len(TEMP_VALUE_LIST):
         del TEMP_VALUE_LIST[0]
+    length = len(TEMP_VALUE_LIST)
+    if 1 == length:
+        return value
     mean = np.mean(TEMP_VALUE_LIST)
     reliability = np.sqrt((value - mean) ** 2)
+    print((reliability / mean) * 100)
     if CONFIDENCE < (reliability / mean) * 100:
-        return TEMP_VALUE_LIST[len(TEMP_VALUE_LIST) - 1]
+        return TEMP_VALUE_LIST[length - 1]
     return value
 
 

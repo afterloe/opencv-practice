@@ -105,7 +105,7 @@ def infer(x, y, pointer, min_angle, max_angle, min_value, max_value):
     old_range = old_max - old_min
     new_range = new_max - new_min
     new_value = (((old_value - old_min) * new_range) / old_range) + new_min
-    return mean_shift_filtering(new_value)
+    return float(new_value)
 
 
 def infer_diff(previous, now):
@@ -130,7 +130,7 @@ def infer_diff(previous, now):
         x, y, w, h = cv.boundingRect(cnt)
         if 100 > h and 100 > w:
             continue
-        cv.rectangle(now, (x, y), (x + w, y + h), (0, 0, 255), 2, cv.LINE_AA)
+        # cv.rectangle(now, (x, y), (x + w, y + h), (0, 0, 255), 2, cv.LINE_AA)
         flag = True
     # cv.imshow("sport", now)
     previous = np.copy(edged)
