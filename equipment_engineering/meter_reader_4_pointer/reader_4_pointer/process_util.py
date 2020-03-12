@@ -4,7 +4,7 @@
 
 import cv2 as cv
 import numpy as np
-from .current_util import calculate_distance, mean_shift_filtering
+from .current_util import calculate_distance, mean_shift_filtering, calculate_point_2_line
 import imutils
 
 hsv_min, hsv_max = (0, 0, 0), (180, 255, 50)
@@ -40,13 +40,21 @@ def meter_detection(image):
     return True, circles
 
 
-def pointer_detection(image):
+def pointer_detection(image, circles):
     hsv = cv.cvtColor(image.copy(), cv.COLOR_BGR2HSV)
     mask = cv.inRange(hsv, hsv_min, hsv_max)
     lines = cv.HoughLinesP(mask, 1, np.pi / 180, 100, None, 35, 10)
     if None is lines:
         return False, None
-    return True, lines[0][0]
+    x, y, r = circles
+    min_dis, pointer = r, None
+    for i in range(len(lines)):
+        line = lines[i][0]
+        dis = calculate_point_2_line((x, y), line)
+        if min_dis > dis:
+            min_dis = dis
+            pointer = line
+    return True, pointer
 
 
 def draw_gauge(image, separation=10):
