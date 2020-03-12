@@ -17,19 +17,26 @@ class Application:
         self._min_angle, self._max_angle, self._min_value, self._max_value, self._util = argument
         self._value, self._full_image, self._flag_infer_diff = 0.0, None, False
 
+    def argument_process(self):
+        self._min_angle = float(self._min_angle)
+        self._max_angle = float(self._max_angle)
+        self._min_value = float(self._min_value)
+        self._max_value = float(self._max_value)
+
     def run(self, device=0, vision=True) -> None:
         self._vs = VideoStream(src=device).start()
         time.sleep(1.0)
+        self.argument_process()
         self._fps = FPS().start()
         while self._flag:
             frame = self._vs.read()
             frame_with_box, (x, y, w, h) = draw_box(frame)
             self._roi = frame[y: h, x: w, :]
-            # TODO diff continue
-            flag, binary_now = infer_diff(self._roi_previous, roi_now)
+            flag, binary_now = infer_diff(self._roi_previous, self._roi)
             key = cv.waitKey(100) & 0xff
             self.process_with_key(key, vision)
             if False is flag or True is self._flag_infer_diff:
+                self._flag_infer_diff = False
                 continue
             self._roi_previous, self._full_image = binary_now, frame
             flag, meter = meter_detection(self._roi)
