@@ -61,7 +61,7 @@ def pointer_detection(image, circles):
             point_roi = (a, b, w, h)
     # draw point roi
     a, b, w, h = point_roi
-    cv.rectangle(image, (a, b), (a + w, b + h), (255, 0, 0), 1, cv.LINE_AA)
+    # cv.rectangle(image, (a, b), (a + w, b + h), (255, 0, 0), 1, cv.LINE_AA)
     # cv.imshow("mask", blurred[b: b + h, a: a + w])
     lines = cv.HoughLinesP(blurred[b: b + h, a: a + w], 1, np.pi / 180, 50, None, 60, 10)
     if None is lines:

@@ -33,11 +33,11 @@ class Application:
             frame = self._vs.read()
             frame_with_box, (x, y, w, h) = draw_box(frame)
             self._roi = frame[y: h, x: w, :]
-            # flag, binary_now = infer_diff(self._roi_previous, self._roi)
-            # if False is flag or True is self._flag_infer_diff:
-            #     self._flag_infer_diff = False
-            #     continue
-            # self._roi_previous = binary_now
+            flag, binary_now = infer_diff(self._roi_previous, self._roi)
+            if False is flag or True is self._flag_infer_diff:
+                self._flag_infer_diff = False
+                continue
+            self._roi_previous = binary_now
             flag, meter = meter_detection(self._roi)
             if False is flag:
                 continue
@@ -50,10 +50,10 @@ class Application:
             if value < self._min_value or value > self._max_value:
                 self._flag_infer_diff = True
                 continue
-            # flag = mean_shift_filtering(value)
-            # if True is flag:
-            #     self._flag_infer_diff = True
-            #     continue
+            flag = mean_shift_filtering(value)
+            if True is flag:
+                self._flag_infer_diff = True
+                continue
             log("value is {:.3f} {}".format(value, self._util))
             if vision:
                 a1, b1, c1, d1 = pointer
