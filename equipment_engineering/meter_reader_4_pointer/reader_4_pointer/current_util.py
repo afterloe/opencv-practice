@@ -4,6 +4,21 @@
 import numpy as np
 
 
+TEMP_VALUE_LIST = []
+CONFIDENCE = 45
+
+
+def mean_shift_filtering(value):
+    TEMP_VALUE_LIST.append(value)
+    if 20 > len(TEMP_VALUE_LIST):
+        del TEMP_VALUE_LIST[0]
+    mean = np.mean(TEMP_VALUE_LIST)
+    reliability = np.sqrt((value - mean) ** 2)
+    if CONFIDENCE < (reliability / mean) * 100:
+        return TEMP_VALUE_LIST[len(TEMP_VALUE_LIST) - 1]
+    return value
+
+
 def avg_circles(circles, b):
     avg_x, avg_y, avg_r = 0, 0, 0
     for i in range(b):
