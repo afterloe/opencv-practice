@@ -44,14 +44,32 @@ def pointer_detection(image, circles):
     x, y, r = circles
     hsv = cv.cvtColor(image.copy(), cv.COLOR_BGR2HSV)
     mask = cv.inRange(hsv, hsv_min, hsv_max)
-    cv.imshow("mask", mask)
-    lines = cv.HoughLinesP(mask, 1, np.pi / 180, 100, None, 80, 10)
+    blurred = cv.GaussianBlur(mask, (3, 3), 0)
+    contours = cv.findContours(blurred, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    contours = imutils.grab_contours(contours)
+    min_dis = r
+    c = None
+    for cnt in contours:
+        a, b, w, h = cv.boundingRect(cnt)
+        area = cv.contourArea(cnt)
+        if 300 > area:
+            continue
+        rect = cv.minAreaRect(cnt)
+        cx, cy = rect[0]
+        dis = calculate_distance(x, y, cx, cy)
+        if r > dis:
+            r = dis
+            c = (a, b, w, h)
+    a, b, w, h = c
+    cv.rectangle(image, (a, b), (a + w, b + h), (255, 0, 0), 1, cv.LINE_AA)
+    cv.imshow("mask", blurred)
+    lines = cv.HoughLinesP(blurred, 1, np.pi / 180, 100, None, 80, 10)
     if None is lines:
         return False, None
     min_dis, pointer = r, None
     for i in range(len(lines)):
         line = lines[i][0]
-        cv.line(image, (line[0], line[1]), (line[2], line[3]), (255, 0, 0), 1, cv.LINE_AA)
+        # cv.line(image, (line[0], line[1]), (line[2], line[3]), (255, 0, 0), 1, cv.LINE_AA)
         dis_r = calculate_point_2_line((x, y), line)
         if min_dis > dis_r:
             min_dis = dis_r

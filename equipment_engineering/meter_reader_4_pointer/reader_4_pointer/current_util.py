@@ -4,7 +4,6 @@
 import numpy as np
 import math
 
-
 TEMP_VALUE_LIST = []
 CONFIDENCE = 20
 
@@ -70,3 +69,30 @@ def is_number(input_str):
         pass
 
     return False
+
+
+def cross_point(line1, line2):
+    x1 = line1[0]
+    y1 = line1[1]
+    x2 = line1[2]
+    y2 = line1[3]
+
+    x3 = line2[0]
+    y3 = line2[1]
+    x4 = line2[2]
+    y4 = line2[3]
+
+    k1 = (y2 - y1) * 1.0 / (x2 - x1)
+    b1 = y1 * 1.0 - x1 * k1 * 1.0
+    if (x4 - x3) == 0:
+        k2 = None
+        b2 = 0
+    else:
+        k2 = (y4 - y3) * 1.0 / (x4 - x3)
+        b2 = y3 * 1.0 - x3 * k2 * 1.0
+    if None is k2:
+        x = x3
+    else:
+        x = (b2 - b1) * 1.0 / (k1 - k2)
+    y = k1 * x * 1.0 + b1 * 1.0
+    return x, y
