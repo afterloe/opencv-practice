@@ -27,6 +27,7 @@ class Application:
             frame_with_box, (x, y, w, h) = draw_box(frame)
             roi_next = frame[y: h, x: w, :]
             flag, previous = infer_diff(self._roi_previous, roi_next)
+            key = cv.waitKey(100) & 0xff
             if vision:
                 cv.imshow("watch dog", frame_with_box)
             if False is flag:
@@ -47,7 +48,7 @@ class Application:
                            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
                 cv.line(frame_with_box, (pointer[0], pointer[1]), (pointer[2], pointer[3]), (0, 0, 255), 5, cv.LINE_AA)
                 cv.imshow("watch dog", frame_with_box)
-            key = cv.waitKey(100) & 0xff
+            # key = cv.waitKey(100) & 0xff
             self.process_with_key(key, vision)
 
     def process_with_key(self, key, vision) -> None:
