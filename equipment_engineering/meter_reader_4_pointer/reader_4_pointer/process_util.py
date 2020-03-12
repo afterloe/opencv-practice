@@ -4,7 +4,7 @@
 
 import cv2 as cv
 import numpy as np
-from .current_util import calculate_distance
+from .current_util import calculate_distance, mean_shift_filtering
 import imutils
 
 hsv_min, hsv_max = (0, 0, 0), (180, 255, 50)
@@ -105,7 +105,7 @@ def infer(x, y, pointer, min_angle, max_angle, min_value, max_value):
     old_range = old_max - old_min
     new_range = new_max - new_min
     new_value = (((old_value - old_min) * new_range) / old_range) + new_min
-    return new_value
+    return mean_shift_filtering(new_value)
 
 
 def infer_diff(previous, now):

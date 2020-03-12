@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
+from .current_util import mean_shift_filtering
 import cv2 as cv
 from imutils.video import FPS
 from imutils.video import VideoStream
@@ -12,11 +13,9 @@ import time
 class Application:
 
     def __init__(self, argument):
-        self._vs = None
-        self._fps = None
-        self._flag = True
-        self._roi_previous = None
+        self._vs, self._fps, self._flag, self._roi_previous, self._roi = None, None, True, None, None
         self._min_angle, self._max_angle, self._min_value, self._max_value, self._util = argument
+        self._value, self._full_image, self._flag_infer_diff = 0.0, None, False
 
     def run(self, device=0, vision=True) -> None:
         self._vs = VideoStream(src=device).start()
@@ -25,31 +24,33 @@ class Application:
         while self._flag:
             frame = self._vs.read()
             frame_with_box, (x, y, w, h) = draw_box(frame)
-            roi_next = frame[y: h, x: w, :]
-            flag, previous = infer_diff(self._roi_previous, roi_next)
+            self._roi = frame[y: h, x: w, :]
+            # TODO diff continue
+            flag, binary_now = infer_diff(self._roi_previous, roi_now)
             key = cv.waitKey(100) & 0xff
-            if vision:
-                cv.imshow("watch dog", frame_with_box)
-            if False is flag:
+            self.process_with_key(key, vision)
+            if False is flag or True is self._flag_infer_diff:
                 continue
-            self._roi_previous = previous
-            flag, meter = meter_detection(roi_next)
-            if False is flag:
-                continue
-            flag, pointer = pointer_detection(roi_next)
+            self._roi_previous, self._full_image = binary_now, frame
+            flag, meter = meter_detection(self._roi)
             if False is flag:
                 continue
             a, b, c = meter.shape
             x, y, _ = avg_circles(meter, b)
+            flag, pointer = pointer_detection(self._roi)
+            if False is flag:
+                continue
             value = infer(x, y, pointer, self._min_angle, self._max_angle, self._min_value, self._max_value)
+            if value < self._min_value or value > self._max_value:
+                self._flag_infer_diff = True
+                continue
+            value = mean_shift_filtering(value)
             log("value is {:.3f} {}".format(value, self._util))
             if vision:
                 cv.putText(frame_with_box, "{:.3f} {}".format(value, self._util), (w, h),
                            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
                 cv.line(frame_with_box, (pointer[0], pointer[1]), (pointer[2], pointer[3]), (0, 0, 255), 5, cv.LINE_AA)
                 cv.imshow("watch dog", frame_with_box)
-            # key = cv.waitKey(100) & 0xff
-            self.process_with_key(key, vision)
 
     def process_with_key(self, key, vision) -> None:
         if ord("q") == key:
