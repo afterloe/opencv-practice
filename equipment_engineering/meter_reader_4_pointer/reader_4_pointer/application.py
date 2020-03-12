@@ -6,6 +6,7 @@ import cv2 as cv
 from imutils.video import FPS
 from imutils.video import VideoStream
 from .logger import log, ERROR
+import numpy as np
 from .process_util import draw_box, infer_diff, meter_detection, pointer_detection, avg_circles, infer
 import time
 
@@ -43,20 +44,21 @@ class Application:
             if False is flag:
                 continue
             a, b, c = meter.shape
-            x, y, _ = avg_circles(meter, b)
+            meter_x, meter_y, _ = avg_circles(meter, b)
             flag, pointer = pointer_detection(self._roi)
             if False is flag:
                 continue
-            value = infer(x, y, pointer, self._min_angle, self._max_angle, self._min_value, self._max_value)
+            value = infer(meter_x, meter_y, pointer, self._min_angle, self._max_angle, self._min_value, self._max_value)
             if value < self._min_value or value > self._max_value:
                 self._flag_infer_diff = True
                 continue
             value = mean_shift_filtering(value)
             log("value is {:.3f} {}".format(value, self._util))
             if vision:
-                cv.putText(frame_with_box, "{:.3f} {}".format(value, self._util), (w, h),
+                cv.putText(frame_with_box, "{:.3f} {}".format(value, self._util), (x, y),
                            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
-                cv.line(frame_with_box, (pointer[0], pointer[1]), (pointer[2], pointer[3]), (0, 0, 255), 5, cv.LINE_AA)
+                cv.line(self._roi, (pointer[0], pointer[1]), (pointer[2], pointer[3]), (0, 0, 255), 5, cv.LINE_AA)
+                cv.imshow("pointer", self._roi)
                 cv.imshow("watch dog", frame_with_box)
 
     def process_with_key(self, key, vision) -> None:
