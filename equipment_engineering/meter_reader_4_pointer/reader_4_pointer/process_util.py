@@ -47,8 +47,7 @@ def pointer_detection(image, circles):
     blurred = cv.GaussianBlur(mask, (3, 3), 0)
     contours = cv.findContours(blurred, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     contours = imutils.grab_contours(contours)
-    min_dis = r
-    c = None
+    min_dis, point_roi = r, None
     for cnt in contours:
         a, b, w, h = cv.boundingRect(cnt)
         area = cv.contourArea(cnt)
@@ -57,29 +56,40 @@ def pointer_detection(image, circles):
         rect = cv.minAreaRect(cnt)
         cx, cy = rect[0]
         dis = calculate_distance(x, y, cx, cy)
-        if r > dis:
-            r = dis
-            c = (a, b, w, h)
-    a, b, w, h = c
+        if min_dis > dis:
+            min_dis = dis
+            point_roi = (a, b, w, h)
+    # draw point roi
+    a, b, w, h = point_roi
     cv.rectangle(image, (a, b), (a + w, b + h), (255, 0, 0), 1, cv.LINE_AA)
-    cv.imshow("mask", blurred)
-    lines = cv.HoughLinesP(blurred, 1, np.pi / 180, 100, None, 80, 10)
+    # cv.imshow("mask", blurred[b: b + h, a: a + w])
+    lines = cv.HoughLinesP(blurred[b: b + h, a: a + w], 1, np.pi / 180, 50, None, 60, 10)
     if None is lines:
         return False, None
-    min_dis, pointer = r, None
+    # a1, b1, c1, d1 = pointer
+    # cv.putText(self._roi, "start", (a1, b1),
+    #            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
+    # cv.putText(self._roi, "end", (c1, d1),
+    #            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
+    # cv.line(self._roi, (pointer[0], pointer[1]), (pointer[2], pointer[3]), (0, 0, 255), 5, cv.LINE_AA)
+    max_l, pointer = 0, None
+    # for line in lines:
+    #     a, b, c, d = line[0]
+    #     cv.line(image, (a, b), (c, d), (0, 255, 0), 1, cv.LINE_AA)
     for i in range(len(lines)):
-        line = lines[i][0]
+        x, y, w, h = lines[i][0]
         # cv.line(image, (line[0], line[1]), (line[2], line[3]), (255, 0, 0), 1, cv.LINE_AA)
-        dis_r = calculate_point_2_line((x, y), line)
-        if min_dis > dis_r:
-            min_dis = dis_r
-            pointer = line
-    if None is pointer:
-        return False, pointer
-    cv.imshow("pointer", image)
-    dis = calculate_distance(pointer[0], pointer[1], pointer[2], pointer[3])
-    if dis > r / 2:
-        pointer = (x, y, pointer[2], pointer[3])
+        dis = calculate_distance(x, y, w, h)
+        if max_l < dis:
+            max_l = dis
+            pointer = (x + a, y + b, w + a, h + b)
+    # if None is pointer:
+    #     return False, pointer
+    # cv.imshow("pointer", image)
+    # dis = calculate_distance(pointer[0], pointer[1], pointer[2], pointer[3])
+    # if dis > r / 2:
+
+    # pointer = (lines[0][0][0] + a, lines[0][0][1] + b, x, y)
     return True, pointer
 
 
