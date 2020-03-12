@@ -1,6 +1,7 @@
 # node addons file
 *.node
 node_modules/
+equipment_engineering/*.yml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

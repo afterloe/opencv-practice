@@ -75,7 +75,7 @@ class RunVisionMode(EquipmentRunner):
 
 if "__main__" == __name__:
     from reader_4_pointer import start_with_vision, start_with_debug, set_detector_argument
-    from reader_4_pointer import version, log, ERROR
+    from reader_4_pointer import version, log, ERROR, input_number_check
 
     version()
     ap = argparse.ArgumentParser()
