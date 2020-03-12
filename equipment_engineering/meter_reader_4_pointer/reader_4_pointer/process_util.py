@@ -32,8 +32,7 @@ def avg_circles(circles, shape):
 def meter_detection(image):
     height, width = image.shape[: 2]
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    gray = cv.bilateralFilter(gray, 11, 17, 17)
-    blurred = cv.GaussianBlur(gray, (3, 3), 0)
+    blurred = cv.GaussianBlur(gray, (0, 0), 3)
     circles = cv.HoughCircles(blurred, cv.HOUGH_GRADIENT, 1, 20, np.array([]), 100, 50,
                               int(height * 0.35), int(height * 0.48))
     if 3 != len(circles.shape):
@@ -44,8 +43,7 @@ def meter_detection(image):
 def pointer_detection(image):
     hsv = cv.cvtColor(image.copy(), cv.COLOR_BGR2HSV)
     mask = cv.inRange(hsv, hsv_min, hsv_max)
-    edged = cv.GaussianBlur(mask, (0, 0), 3)
-    lines = cv.HoughLinesP(edged, 1, np.pi / 180, 130, None, 45, 10)
+    lines = cv.HoughLinesP(mask, 1, np.pi / 180, 100, None, 35, 10)
     if None is lines:
         return False, None
     return True, lines[0][0]
@@ -129,8 +127,11 @@ def infer_diff(previous, now):
     contours = imutils.grab_contours(contours)
     flag = False
     for cnt in contours:
-        area = cv.contourArea(cnt)
-        if 100 < area:
-            flag = True
+        x, y, w, h = cv.boundingRect(cnt)
+        if 100 > h and 100 > w:
+            continue
+        cv.rectangle(now, (x, y), (x + w, y + h), (0, 0, 255), 2, cv.LINE_AA)
+        flag = True
+    # cv.imshow("sport", now)
     previous = np.copy(edged)
     return flag, previous
