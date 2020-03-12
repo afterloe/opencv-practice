@@ -43,9 +43,9 @@ def start_with_debug():
 
 
 def start_with_vision():
-    try:
+    # try:
         app = Application(ARGUMENT_HELPER.getArgument())
         app.run(vision=True, device=0)
-    except Exception as e:
-        log("%s" % e, ERROR)
-        os._exit(102)
+    # except Exception as e:
+    #     log("%s" % e, ERROR)
+    #     os._exit(102)
