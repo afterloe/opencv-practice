@@ -41,19 +41,27 @@ def meter_detection(image):
 
 
 def pointer_detection(image, circles):
+    x, y, r = circles
     hsv = cv.cvtColor(image.copy(), cv.COLOR_BGR2HSV)
     mask = cv.inRange(hsv, hsv_min, hsv_max)
-    lines = cv.HoughLinesP(mask, 1, np.pi / 180, 100, None, 35, 10)
+    cv.imshow("mask", mask)
+    lines = cv.HoughLinesP(mask, 1, np.pi / 180, 100, None, 80, 10)
     if None is lines:
         return False, None
-    x, y, r = circles
     min_dis, pointer = r, None
     for i in range(len(lines)):
         line = lines[i][0]
-        dis = calculate_point_2_line((x, y), line)
-        if min_dis > dis:
-            min_dis = dis
+        cv.line(image, (line[0], line[1]), (line[2], line[3]), (255, 0, 0), 1, cv.LINE_AA)
+        dis_r = calculate_point_2_line((x, y), line)
+        if min_dis > dis_r:
+            min_dis = dis_r
             pointer = line
+    if None is pointer:
+        return False, pointer
+    cv.imshow("pointer", image)
+    dis = calculate_distance(pointer[0], pointer[1], pointer[2], pointer[3])
+    if dis > r / 2:
+        pointer = (x, y, pointer[2], pointer[3])
     return True, pointer
 
 

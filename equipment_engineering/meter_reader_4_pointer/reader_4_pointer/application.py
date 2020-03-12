@@ -33,9 +33,9 @@ class Application:
             frame = self._vs.read()
             frame_with_box, (x, y, w, h) = draw_box(frame)
             self._roi = frame[y: h, x: w, :]
-            flag, binary_now = infer_diff(self._roi_previous, self._roi)
             key = cv.waitKey(100) & 0xff
             self.process_with_key(key, vision)
+            flag, binary_now = infer_diff(self._roi_previous, self._roi)
             if False is flag or True is self._flag_infer_diff:
                 self._flag_infer_diff = False
                 continue
@@ -48,6 +48,8 @@ class Application:
             flag, pointer = pointer_detection(self._roi, (meter_x, meter_y, meter_r))
             if False is flag:
                 continue
+
+            a1, b1, c1, d1 = pointer
             value = infer(meter_x, meter_y, pointer, self._min_angle, self._max_angle, self._min_value, self._max_value)
             if value < self._min_value or value > self._max_value:
                 self._flag_infer_diff = True
@@ -58,9 +60,16 @@ class Application:
                 continue
             log("value is {:.3f} {}".format(value, self._util))
             if vision:
+
+                cv.putText(self._roi, "start", (a1, b1),
+                           cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
+                cv.putText(self._roi, "end", (c1, d1),
+                           cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
+
                 cv.putText(frame_with_box, "{:.3f} {}".format(value, self._util), (x, y),
                            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
                 cv.line(self._roi, (pointer[0], pointer[1]), (pointer[2], pointer[3]), (0, 0, 255), 5, cv.LINE_AA)
+                cv.imshow("self_roi", self._roi)
                 cv.imshow("watch dog", frame_with_box)
 
     def process_with_key(self, key, vision) -> None:

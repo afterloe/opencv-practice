@@ -64,11 +64,11 @@ class RunVisionMode(EquipmentRunner):
 
     def run(self, request):
         if True is request["windows"]:
-            try:
+            # try:
                 log("以可视化模式运行 ...")
                 start_with_vision()
-            except Exception as e:
-                log(e, ERROR)
+            # except Exception as e:
+            #     log(e, ERROR)
         else:
             self.next.run(request)
 
