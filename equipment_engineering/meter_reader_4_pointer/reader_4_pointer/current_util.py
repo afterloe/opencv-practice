@@ -2,10 +2,19 @@
 # -*- coding=utf-8 -*-
 
 import numpy as np
+import math
 
 
 TEMP_VALUE_LIST = []
 CONFIDENCE = 20
+
+
+def average(numbers):
+    length = len(numbers)
+    sum_value = 0
+    for number in numbers:
+        sum_value += number
+    return sum_value / length
 
 
 def mean_shift_filtering(value):
@@ -14,13 +23,13 @@ def mean_shift_filtering(value):
     if 20 < len(TEMP_VALUE_LIST):
         del TEMP_VALUE_LIST[0]
     if 1 == length:
-        return value
-    mean = np.mean(TEMP_VALUE_LIST)
+        return False
+    mean = average(TEMP_VALUE_LIST)
     reliability = np.sqrt((value - mean) ** 2)
-    print(reliability, mean, (reliability / mean) * 100)
-    if CONFIDENCE < (reliability / mean) * 100:
-        return TEMP_VALUE_LIST[length - 1]
-    return value
+    # print(mean, reliability, (reliability / mean) * 100)
+    if CONFIDENCE > (reliability / mean) * 100:
+        return True
+    return False
 
 
 def avg_circles(circles, b):
@@ -34,6 +43,16 @@ def avg_circles(circles, b):
 
 def calculate_distance(x1, y1, x2, y2):
     return np.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+
+
+def calculate_point_2_line(point, line):
+    x, y = point
+    start_x, start_y, end_x, end_y = line
+    a = end_y - start_y
+    b = start_x - end_x
+    c = end_x * start_y - start_x * end_y
+    dis = (math.fabs(a * x + b * y + c)) / (math.pow(a * a + b * b, 0.5))
+    return float(dis)
 
 
 def is_number(input_str):

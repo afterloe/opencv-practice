@@ -16,7 +16,7 @@ class Application:
     def __init__(self, argument):
         self._vs, self._fps, self._flag, self._roi_previous, self._roi = None, None, True, None, None
         self._min_angle, self._max_angle, self._min_value, self._max_value, self._util = argument
-        self._value, self._full_image, self._flag_infer_diff = 0.0, None, False
+        self._value, self._flag_infer_diff = 0.0, False
 
     def argument_process(self):
         self._min_angle = float(self._min_angle)
@@ -39,26 +39,28 @@ class Application:
             if False is flag or True is self._flag_infer_diff:
                 self._flag_infer_diff = False
                 continue
-            self._roi_previous, self._full_image = binary_now, frame
+            self._roi_previous = binary_now
             flag, meter = meter_detection(self._roi)
             if False is flag:
                 continue
             a, b, c = meter.shape
-            meter_x, meter_y, _ = avg_circles(meter, b)
-            flag, pointer = pointer_detection(self._roi)
+            meter_x, meter_y, meter_r = avg_circles(meter, b)
+            flag, pointer = pointer_detection(self._roi, (meter_x, meter_y, meter_r))
             if False is flag:
                 continue
             value = infer(meter_x, meter_y, pointer, self._min_angle, self._max_angle, self._min_value, self._max_value)
             if value < self._min_value or value > self._max_value:
                 self._flag_infer_diff = True
                 continue
-            value = mean_shift_filtering(value)
+            flag = mean_shift_filtering(value)
+            if True is flag:
+                self._flag_infer_diff = True
+                continue
             log("value is {:.3f} {}".format(value, self._util))
             if vision:
                 cv.putText(frame_with_box, "{:.3f} {}".format(value, self._util), (x, y),
                            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
                 cv.line(self._roi, (pointer[0], pointer[1]), (pointer[2], pointer[3]), (0, 0, 255), 5, cv.LINE_AA)
-                cv.imshow("pointer", self._roi)
                 cv.imshow("watch dog", frame_with_box)
 
     def process_with_key(self, key, vision) -> None:
