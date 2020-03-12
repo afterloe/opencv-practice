@@ -13,7 +13,7 @@ kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
 
 def draw_box(image, padding=300, color=(0, 0, 255)):
     if None is image:
-        raise Exception("can't draw line in block image")
+        raise Exception("无法读取图像")
     h, w = image.shape[: 2]
     x, y, width, height = w // 2 - padding // 2, h // 2 - padding // 2, padding, padding
     cv.rectangle(image, (x, y), (x + width, y + height), color, 2, cv.LINE_AA)

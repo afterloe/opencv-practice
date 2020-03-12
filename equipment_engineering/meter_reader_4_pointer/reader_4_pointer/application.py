@@ -33,6 +33,8 @@ class Application:
             frame = self._vs.read()
             frame_with_box, (x, y, w, h) = draw_box(frame)
             self._roi = frame[y: h, x: w, :]
+            if vision:
+                cv.imshow("watch dog", frame_with_box)
             key = cv.waitKey(100) & 0xff
             self.process_with_key(key, vision)
             # flag, binary_now = infer_diff(self._roi_previous, self._roi)
