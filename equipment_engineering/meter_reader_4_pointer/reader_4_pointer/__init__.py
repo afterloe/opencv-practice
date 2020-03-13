@@ -49,3 +49,12 @@ def start_with_vision():
     except Exception as e:
         log("%s" % e, ERROR)
         os._exit(102)
+
+
+def start_with_backend():
+    try:
+        app = Application(ARGUMENT_HELPER.getArgument())
+        app.run(vision=False, device=0)
+    except Exception as e:
+        log("%s" % e, ERROR)
+        os._exit(102)

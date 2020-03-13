@@ -16,7 +16,7 @@ class Application:
     def __init__(self, argument):
         self._vs, self._fps, self._flag, self._roi_previous, self._roi = None, None, True, None, None
         self._min_angle, self._max_angle, self._min_value, self._max_value, self._util = argument
-        self._content, self._flag_infer_diff = "", False
+        self._content, self._flag_infer_diff = "wait ... ...", False
 
     def run(self, device=0, vision=True) -> None:
         self._vs = VideoStream(src=device).start()
@@ -39,14 +39,14 @@ class Application:
             self._roi_previous = binary_now
             flag, meter = meter_detection(self._roi)
             if False is flag:
-                self._content = "wait... ... meter lose"
+                self._content = "meter lose ... ..."
                 self._flag_infer_diff = True
                 continue
             a, b, c = meter.shape
             meter_x, meter_y, meter_r = avg_circles(meter, b)
             flag, pointer = pointer_detection(self._roi, (meter_x, meter_y, meter_r))
             if False is flag:
-                self._content = "wait... ... pointer loser"
+                self._content = "pointer loser ... ..."
                 self._flag_infer_diff = True
                 continue
             value = infer(meter_x, meter_y, pointer, self._min_angle, self._max_angle, self._min_value, self._max_value)
