@@ -64,4 +64,5 @@ class ArgumentHelper:
             log("单位: %s" % self._util)
 
     def getArgument(self):
-        return self._min_angle, self._max_angle, self._min_value, self._max_value, self._util
+        return float(self._min_angle),  float(self._max_angle), \
+               float(self._min_value), float(self._max_value), self._util
