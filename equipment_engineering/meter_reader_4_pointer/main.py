@@ -4,6 +4,7 @@
 import abc
 from abc import ABC
 import argparse
+import os
 
 
 class EquipmentRunner(ABC):
@@ -82,6 +83,24 @@ class RunBackendMode(EquipmentRunner):
             self.next.run(request)
 
 
+def fork():
+    setting_mode = RunSettingMode()
+    debug_mode = RunDebugMode()
+    vision_mode = RunVisionMode()
+    backend_mode = RunBackendMode()
+
+    setting_mode.next = debug_mode
+    debug_mode.next = backend_mode
+    backend_mode.next = vision_mode
+    # try:
+    #     os.chdir("/tmp")
+    #     os.setsid()
+    #     os.umask(0)
+    setting_mode.run(args)
+    # except OSError:
+    #     pass
+
+
 if "__main__" == __name__:
     from reader_4_pointer import start_with_vision, start_with_debug, set_detector_argument, start_with_backend
     from reader_4_pointer import version, log, ERROR, input_number_check
@@ -93,12 +112,4 @@ if "__main__" == __name__:
     ap.add_argument("-w", "--windows", type=bool, help="可视化模式", default=True)
     ap.add_argument("-b", "--backend", type=bool, help="后台模式", default=False)
     args = vars(ap.parse_args())
-    setting_mode = RunSettingMode()
-    debug_mode = RunDebugMode()
-    vision_mode = RunVisionMode()
-    backend_mode = RunBackendMode()
-
-    setting_mode.next = debug_mode
-    debug_mode.next = backend_mode
-    backend_mode.next = vision_mode
-    setting_mode.run(args)
+    fork()
