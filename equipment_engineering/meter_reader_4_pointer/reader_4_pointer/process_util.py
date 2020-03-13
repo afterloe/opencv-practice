@@ -90,6 +90,14 @@ def pointer_detection(image, circles):
     # if dis > r / 2:
 
     # pointer = (lines[0][0][0] + a, lines[0][0][1] + b, x, y)
+
+    # a1, b1, c1, d1 = pointer
+    # cv.putText(self._roi, "start", (a1, b1),
+    #            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
+    # cv.putText(self._roi, "end", (c1, d1),
+    #            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
+    # cv.line(self._roi, (pointer[0], pointer[1]), (pointer[2], pointer[3]), (0, 0, 255), 5, cv.LINE_AA)
+
     return True, pointer
 
 
