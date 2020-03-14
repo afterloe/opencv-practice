@@ -109,5 +109,6 @@ if "__main__" == __name__:
     ap.add_argument("-s", "--set", type=bool, help="设置模式", default=False)
     ap.add_argument("-w", "--windows", type=bool, help="可视化模式", default=True)
     ap.add_argument("-b", "--backend", type=bool, help="后台模式", default=False)
+    ap.add_argument("-p", "--path", help="日志存放位置")
     args = vars(ap.parse_args())
     fork()
