@@ -66,8 +66,6 @@ class RunVisionMode(EquipmentRunner):
                 start_with_vision()
             except Exception as e:
                 log(e, ERROR)
-        # else:
-        #     self.next.run(request)
 
 
 class RunBackendMode(EquipmentRunner):

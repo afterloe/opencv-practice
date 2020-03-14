@@ -4,7 +4,7 @@
 
 import cv2 as cv
 import numpy as np
-from .current_util import calculate_distance, mean_shift_filtering, calculate_point_2_line
+from .current_util import calculate_distance
 import imutils
 
 hsv_min, hsv_max = (0, 0, 0), (180, 255, 50)
@@ -59,57 +59,28 @@ def pointer_detection(image, circles):
         if min_dis > dis:
             min_dis = dis
             point_roi = (a, b, w, h)
-    # draw point roi
     a, b, w, h = point_roi
-    # cv.rectangle(image, (a, b), (a + w, b + h), (255, 0, 0), 1, cv.LINE_AA)
-    # cv.imshow("mask", blurred[b: b + h, a: a + w])
     lines = cv.HoughLinesP(blurred[b: b + h, a: a + w], 1, np.pi / 180, 50, None, 60, 10)
     if None is lines:
         return False, None
-    # a1, b1, c1, d1 = pointer
-    # cv.putText(self._roi, "start", (a1, b1),
-    #            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
-    # cv.putText(self._roi, "end", (c1, d1),
-    #            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
-    # cv.line(self._roi, (pointer[0], pointer[1]), (pointer[2], pointer[3]), (0, 0, 255), 5, cv.LINE_AA)
     max_l, pointer = 0, None
-    # for line in lines:
-    #     a, b, c, d = line[0]
-    #     cv.line(image, (a, b), (c, d), (0, 255, 0), 1, cv.LINE_AA)
     for i in range(len(lines)):
         x, y, w, h = lines[i][0]
-        # cv.line(image, (line[0], line[1]), (line[2], line[3]), (255, 0, 0), 1, cv.LINE_AA)
         dis = calculate_distance(x, y, w, h)
         if max_l < dis:
             max_l = dis
             pointer = (x + a, y + b, w + a, h + b)
-    # if None is pointer:
-    #     return False, pointer
-    # cv.imshow("pointer", image)
-    # dis = calculate_distance(pointer[0], pointer[1], pointer[2], pointer[3])
-    # if dis > r / 2:
-
-    # pointer = (lines[0][0][0] + a, lines[0][0][1] + b, x, y)
-
-    # a1, b1, c1, d1 = pointer
-    # cv.putText(image,  "start", (a1, b1),
-    #            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
-    # cv.putText(image, "end", (c1, d1),
-    #            cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv.LINE_AA)
-    # cv.line(image, (pointer[0], pointer[1]), (pointer[2], pointer[3]), (0, 0, 255), 5, cv.LINE_AA)
-    # cv.imshow("pointer", image)
 
     return True, pointer
 
 
-def draw_gauge(image, separation=10):
-    flag, circles = meter_detection(image)
-    if False is flag:
+def draw_gauge(circles, image, separation=10):
+    if None is circles:
         return False, image
     a, b, c = circles.shape
     x, y, r = avg_circles(circles, b)
-    cv.circle(image, (x, y), r, (0, 0, 255), 3, cv.LINE_AA)
-    cv.circle(image, (x, y), 2, (0, 255, 255), 3, cv.LINE_AA)  # 圆心
+    cv.circle(image, (x, y), r, (0, 255, 0), 3, cv.LINE_AA)
+    cv.circle(image, (x, y), 2, (0, 255, 255), 3, cv.LINE_AA)
     interval = int(360 / separation)
     p1, p2, p_text = np.zeros((interval, 2)), np.zeros((interval, 2)), np.zeros((interval, 2))
     for i in range(0, interval):
@@ -185,6 +156,5 @@ def infer_diff(previous, now):
             continue
         # cv.rectangle(now, (x, y), (x + w, y + h), (0, 0, 255), 2, cv.LINE_AA)
         flag = True
-    # cv.imshow("sport", now)
     previous = np.copy(edged)
     return flag, previous

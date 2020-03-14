@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-from .current_util import mean_shift_filtering
 import cv2 as cv
 from imutils.video import FPS
 from imutils.video import VideoStream
-from .logger import log, ERROR
-import numpy as np
+from .logger import log
 from .process_util import draw_box, infer_diff, meter_detection, pointer_detection, avg_circles, infer
 import time
 
