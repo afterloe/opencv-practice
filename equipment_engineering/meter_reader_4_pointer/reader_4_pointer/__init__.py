@@ -15,6 +15,7 @@ __version__ = '1.5'
 
 def version():
     log("指针式仪表识别软件 v%s" % __version__)
+    log("日志写于 %s" % LOG_FILE)
 
 
 def input_number_check(key):
@@ -36,7 +37,7 @@ def set_detector_argument(min_angle, max_angle, min_value, max_value, util):
 def start_with_debug():
     try:
         debug = DebugHelper(ARGUMENT_HELPER.getArgument())
-        debug.calibrate_gauge()
+        debug.run(device=0)
     except Exception as e:
         log("%s" % e, ERROR)
         os._exit(102)

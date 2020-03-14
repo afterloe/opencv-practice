@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-import os
-from .logger import *
 import yaml
 
+from .logger import *
 
 DEFAULT_CONFIG_SAVE_PATH = "../config.yml"
 CHARACTER = "utf-8"
