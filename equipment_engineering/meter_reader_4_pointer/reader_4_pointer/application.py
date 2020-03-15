@@ -17,7 +17,7 @@ class Application:
         self._content, self._flag_infer_diff = "wait ... ...", False
 
     def run(self, device=0, vision=True) -> None:
-        self._vs = VideoStream(src=device).start()
+        self._vs = VideoStream(src=device, usePiCamera=True).start()
         time.sleep(1.0)
         self._fps = FPS().start()
         while self._flag:
