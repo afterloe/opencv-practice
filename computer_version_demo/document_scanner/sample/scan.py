@@ -4,6 +4,7 @@
 import cv2 as cv
 import imutils
 from imutils.perspective import four_point_transform
+import numpy as np
 import os
 
 """
@@ -51,8 +52,13 @@ class ScanRunner(object):
         cv.imshow("output", warped)
         # warped = cv.GaussianBlur(warped, (15, 15), 0)
         warped = cv.cvtColor(warped, cv.COLOR_BGR2GRAY)
+        
+        value, thresh = cv.threshold(warped, 255, 255, cv.THRESH_BINARY_INV | cv.THRESH_OTSU)
         # 自适应阈值， 后两个参数 - 卷积核 大小，越大越快； 均匀阀值，不必设置太大，一般10、15左右
-        thresh = cv.adaptiveThreshold(warped, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 45, 10)
+        # thresh = cv.adaptiveThreshold(warped, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 45, 10)
+        outs = (warped > value).astype("uint8") * 255
+
+        cv.imshow("outs", outs)
         cv.imshow("thresh", thresh)
 
         cv.waitKey(0)
