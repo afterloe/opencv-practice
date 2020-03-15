@@ -23,7 +23,8 @@ class FaceDetection(object):
         if False is os.path.isfile(path_of_image):
             assert Exception("%s 图像不存在！" % path_of_image)
         image = cv.imread(path_of_image)
-        self.__image = cv.resize(image, (WIDTH, HEIGHT))
+        # self.__image = cv.resize(image, (WIDTH, HEIGHT))
+        self.__image = image
 
     def inference(self):
         if None is self.__image:
@@ -31,7 +32,7 @@ class FaceDetection(object):
         h, w = self.__image.shape[: 2]
         blob = cv.dnn.blobFromImage(self.__image, 1.0, (WIDTH, HEIGHT), (104.0, 177.0, 123.0))
         self.__net.setInput(blob)
-        detections = self.__net.forwad()
+        detections = self.__net.forward()
         for i in range(0, detections.shape[2]):
             confidence = detections[0, 0, i, 2]
             if self.__confidence < confidence:
