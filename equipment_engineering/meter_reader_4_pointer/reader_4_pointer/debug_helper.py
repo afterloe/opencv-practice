@@ -33,7 +33,7 @@ class DebugHelper:
                        [cv.IMWRITE_JPEG_QUALITY, 100])
 
     def run(self, device):
-        self._vs = VideoStream(src=device).start()
+        self._vs = VideoStream(src=device, usePiCamera=True).start()
         time.sleep(1.0)
         self._fps = FPS().start()
         while True:
