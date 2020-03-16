@@ -13,7 +13,7 @@ import time
 class DebugHelper:
 
     _vs, _roi, _fps, _key, _save_image_with_box, _save_image_with_gauge = None, None, None, None, None, None
-    _content = "wait to read ... ..."
+    _content, _flag = "wait to read ... ...", True
 
     def __init__(self, argument):
         self._min_angle, self._max_angle, self._min_value, self._max_value, self._util = argument
@@ -21,6 +21,7 @@ class DebugHelper:
     def process_with_key(self) -> None:
         if ord("q") == self._key:
             log("准备退出程序")
+            self._flag = False
             self._vs.stop()
             cv.destroyAllWindows()
         if ord("w") == self._key:
@@ -33,10 +34,10 @@ class DebugHelper:
                        [cv.IMWRITE_JPEG_QUALITY, 100])
 
     def run(self, device):
-        self._vs = VideoStream(src=device, usePiCamera=True).start()
+        self._vs = VideoStream(src=device, usePiCamera=False).start()
         time.sleep(1.0)
         self._fps = FPS().start()
-        while True:
+        while self._flag:
             frame = self._vs.read()
             frame_with_box, (x, y, w, h) = draw_box(frame)
             self._roi = frame[y: h, x: w, :]
