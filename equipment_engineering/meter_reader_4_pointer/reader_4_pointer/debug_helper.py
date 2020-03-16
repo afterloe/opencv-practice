@@ -12,7 +12,7 @@ import time
 
 class DebugHelper:
 
-    _vs, _roi, _fps, _key, _save_image_with_box, _save_image_with_gauge = None, None, None, None, None, None
+    _vs, _roi, _fps, _key, _save_image_with_box = None, None, None, None, None
     _content, _flag = "wait to read ... ...", True
 
     def __init__(self, argument):
@@ -28,12 +28,10 @@ class DebugHelper:
             log("调试图像保存在 %s" % LOG_SAVE_PATH)
             cv.imwrite("%s_%s_%s" % (LOG_SAVE_PATH, "image_with_box", get_time_str()), self._save_image_with_box,
                        [cv.IMWRITE_JPEG_QUALITY, 100])
-            cv.imwrite("%s_%s_%s" % (LOG_SAVE_PATH, "image_with_gauge", get_time_str()), self._save_image_with_gauge,
-                       [cv.IMWRITE_JPEG_QUALITY, 100])
             cv.imwrite("%s_%s_%s" % (LOG_SAVE_PATH, "image_with_roi", get_time_str()), self._roi,
                        [cv.IMWRITE_JPEG_QUALITY, 100])
 
-    def run(self, device):
+    def run(self, device=0) -> None:
         self._vs = VideoStream(src=device, usePiCamera=False).start()
         time.sleep(1.0)
         self._fps = FPS().start()
@@ -43,7 +41,7 @@ class DebugHelper:
             self._roi = frame[y: h, x: w, :]
             cv.putText(frame_with_box, self._content, (x, y), cv.FONT_HERSHEY_SIMPLEX, 0.5,
                        (0, 255, 255), 2, cv.LINE_AA)
-            cv.imshow("debug view", frame_with_box)
+            cv.imshow("user view", frame_with_box)
             self._key = cv.waitKey(100) & 0xff
             self.process_with_key()
             flag, meter = meter_detection(self._roi)
@@ -53,7 +51,6 @@ class DebugHelper:
             flag, roi_with_gauge = draw_gauge(meter, self._roi)
             if False is flag:
                 continue
-            cv.imshow("gauge", roi_with_gauge)
             a, b, c = meter.shape
             meter_x, meter_y, meter_r = avg_circles(meter, b)
             flag, pointer = pointer_detection(self._roi, (meter_x, meter_y, meter_r))
@@ -71,7 +68,7 @@ class DebugHelper:
             if value < self._min_value or value > self._max_value:
                 self._content = "out of rang!"
                 continue
+            cv.imshow("debug view", frame_with_box)
             self._content = "{:.3f} {}".format(value, self._util)
             self._save_image_with_box = frame_with_box
-            self._save_image_with_gauge = roi_with_gauge
             log(self._content)
