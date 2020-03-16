@@ -33,6 +33,9 @@ class DebugHelper:
         self._vs = VideoStream(src=device, usePiCamera=False).start()
         time.sleep(1.0)
         self._fps = FPS().start()
+        log("图像界面热键提示: ")
+        log("    输入 'q' ，退出程序.")
+        log("    输入 's' ，保存调试图像.")
         while self._flag:
             frame = self._vs.read()
             frame_with_box, (x, y, w, h) = draw_box(frame)
