@@ -94,14 +94,14 @@ def draw_gauge(circles, image, separation=10):
         for j in range(0, 2):
             if 0 == j % 2:
                 p2[i][j] = x + r * np.cos(separation * i * np.pi / 180)
-                p_text[i][j] = x - text_offset_x + 1.2 * r * np.cos(separation * (i + 9) * np.pi / 180)
+                p_text[i][j] = x - text_offset_x + 0.8 * r * np.cos(separation * (i + 9) * np.pi / 180)
             else:
                 p2[i][j] = y + r * np.sin(separation * i * np.pi / 180)
-                p_text[i][j] = y + text_offset_y + 1.2 * r * np.sin(separation * (i + 9) * np.pi / 180)
+                p_text[i][j] = y + text_offset_y + 0.8 * r * np.sin(separation * (i + 9) * np.pi / 180)
     for i in range(0, interval):
         cv.line(image, (int(p1[i][0]), int(p1[i][1])), (int(p2[i][0]), int(p2[i][1])), (0, 255, 0), 2)
         cv.putText(image, "%s" % (int(i * separation)), (int(p_text[i][0]), int(p_text[i][1])),
-                   cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1, cv.LINE_AA)
+                   cv.FONT_HERSHEY_SIMPLEX, 0.35, (255, 0, 0), 1, cv.LINE_AA)
     return True, image
 
 
