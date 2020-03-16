@@ -19,17 +19,15 @@ class DebugHelper:
         self._min_angle, self._max_angle, self._min_value, self._max_value, self._util = argument
 
     def process_with_key(self) -> None:
-        if ord("q") == self._key:
+        if ord("w") == self._key:
+            box_image_name = "%s/%s_%s.jpeg" % (LOG_SAVE_PATH, "image_with_box", get_time_str())
+            cv.imwrite(box_image_name, self._save_image_with_box, [cv.IMWRITE_JPEG_QUALITY, 100])
+            log("debug图像保存于 -> %s" % box_image_name)
+        elif ord("q") == self._key:
             log("准备退出程序")
             self._flag = False
             self._vs.stop()
             cv.destroyAllWindows()
-        if ord("w") == self._key:
-            log("调试图像保存在 %s" % LOG_SAVE_PATH)
-            cv.imwrite("%s_%s_%s" % (LOG_SAVE_PATH, "image_with_box", get_time_str()), self._save_image_with_box,
-                       [cv.IMWRITE_JPEG_QUALITY, 100])
-            cv.imwrite("%s_%s_%s" % (LOG_SAVE_PATH, "image_with_roi", get_time_str()), self._roi,
-                       [cv.IMWRITE_JPEG_QUALITY, 100])
 
     def run(self, device=0) -> None:
         self._vs = VideoStream(src=device, usePiCamera=False).start()
