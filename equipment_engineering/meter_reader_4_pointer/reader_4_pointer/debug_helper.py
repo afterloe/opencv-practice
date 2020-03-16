@@ -19,7 +19,7 @@ class DebugHelper:
         self._min_angle, self._max_angle, self._min_value, self._max_value, self._util = argument
 
     def process_with_key(self) -> None:
-        if ord("w") == self._key:
+        if ord("s") == self._key:
             box_image_name = "%s/%s_%s.jpeg" % (LOG_SAVE_PATH, "image_with_box", get_time_str())
             cv.imwrite(box_image_name, self._save_image_with_box, [cv.IMWRITE_JPEG_QUALITY, 100])
             log("debug图像保存于 -> %s" % box_image_name)
