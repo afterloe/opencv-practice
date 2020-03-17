@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-from collections import deque
+from collections import deque  # collections 是 python 内建的一个集合模块
 import cv2 as cv
 import imutils
 from imutils.video import VideoStream, FPS
@@ -21,6 +21,7 @@ class ObjectTract(object):
             self.__vs = cv.VideoCapture(video)
         self.__video = video
         self.__max_buff = max_buff
+        # deque 是双边队列（double - ended queue），具有队列和栈的性质
         self.__queue = deque(maxlen=max_buff)
 
     def __del__(self):
