@@ -1,4 +1,5 @@
 # node addons file
+.idea/
 *.node
 node_modules/
 equipment_engineering/*.yml
@@ -45,7 +46,7 @@ wheels/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# Unit tried_unknow / coverage reports
 htmlcov/
 .tox/
 .coverage
@@ -150,7 +151,7 @@ bld/
 # Visual Studio 2017 auto generated files
 Generated\ Files/
 
-# MSTest test Results
+# MSTest tried_unknow Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
