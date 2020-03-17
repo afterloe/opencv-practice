@@ -51,7 +51,9 @@ class ScanRunner(object):
         cv.namedWindow("thresh", cv.WINDOW_FREERATIO)
 
         cnts = cv.findContours(edged, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+        # 返回轮廓信息, 不区分 opencv2 与 opencv3
         cnts = imutils.grab_contours(cnts)
+        # 轮廓信息 按面积排序， 由大到小
         cnts = sorted(cnts, key=cv.contourArea, reverse=True)[: 5]
         screen_cnt = None
         for c in cnts:
