@@ -20,6 +20,11 @@ class OMRUtil(object):
         self.__answer_key = {0: 1, 1: 4, 2: 0, 3: 3, 4: 1}  # omr 答案 第一题B, 第二题E, 第三题A, 第四题D, 第五题B
 
     def detector(self):
+        """
+        未考虑OMR 未涂写或 重复涂写的情况
+
+        :return:
+        """
         h, w = self.__image.shape[: 2]
         ratio = h / float(self.__step)
         image = imutils.resize(self.__image, height=self.__step)
