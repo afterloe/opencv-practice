@@ -13,5 +13,5 @@ if "__main__" == __name__:
     ap.add_argument("-i", "--image", required=True, help="omr 的图像")
     args = vars(ap.parse_args())
     omr_util = OMRUtil(args["image"])
-    omr_util.detector()
-    omr_util.infer()
+    paper = omr_util.detector()
+    omr_util.infer(paper)
