@@ -49,10 +49,12 @@ class ObjectTract(object):
             contours = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
             contours = imutils.grab_contours(contours)
             center = None
-            if 0 < len(contours):
+            if 0 <= len(contours):
                 contour = max(contours, key=cv.contourArea)
                 (x, y), radius = cv.minEnclosingCircle(contour)
+                # 计算轮廓的几何矩
                 M = cv.moments(contour)
+                # 并根据几何矩获取 轮廓的质心
                 center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
                 if 10 < radius:
                     cv.circle(frame, (int(x), int(y)), int(radius), (255, 0, 255), 2)
