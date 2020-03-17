@@ -18,8 +18,8 @@ class OMRUtil(object):
 
     def run(self):
         h, w = self.__image.shape[: 2]
-        ratio = h / float(__step)
-        image = imutils.resize(self.__image, height=__step)
+        ratio = h / float(self.__step)
+        image = imutils.resize(self.__image, height=self.__step)
         gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
         blurred = cv.bilateralFilter(gray, 5, 17, 17)
         edged = cv.Canny(blurred, 75, 200)
@@ -35,6 +35,7 @@ class OMRUtil(object):
                 break
         warped = four_point_transform(self.__image, screen_cnt.reshape(4, 2) * ratio)
         cv.imshow("output", warped)
+        cv.waitKey(0)
 
     def detector(self):
         h, w = self.__image.shape[: 2]
@@ -56,10 +57,8 @@ class OMRUtil(object):
         if None is paper_contour:
             print("can't find paper!")
             return
-        # warped = four_point_transform(self.__image, paper_contour.reshape(4, 2) * ratio)
         warped = four_point_transform(self.__image, paper_contour.reshape(4, 2) * ratio)
         cv.imshow("output", warped)
-        # cv.imshow("warped", warped)
         cv.waitKey(0)
         pass
 
