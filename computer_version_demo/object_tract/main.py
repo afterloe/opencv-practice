@@ -9,5 +9,5 @@ if "__main__" == __name__:
     ap.add_argument("-v", "--video", required=True, help="输入检测图像")
     ap.add_argument("-b", "--buffer", type=int, default=64, help="最大缓冲区大小")
     args = vars(ap.parse_args())
-    tractUtil = ObjectTract(video=ap["video"], max_buff=ap["buffer"])
+    tractUtil = ObjectTract(video=args["video"], max_buff=args["buffer"])
     tractUtil.start_track()
