@@ -4,7 +4,6 @@
 import cv2 as cv
 import imutils
 from imutils.contours import sort_contours
-from imutils import perspective
 from scipy.spatial import distance
 import numpy as np
 import os
@@ -14,6 +13,16 @@ def midpoint(ptA, ptB):
     return (ptA[0] + ptB[0]) * 0.5, (ptA[1] + ptB[1]) * 0.5
 
 
+"""
+    使用 OpenCV 测量图像中的对象大小
+    
+关键点:
+    1) 已知这个物体的宽高，并输入其单位（如毫米、厘米、英寸等）;
+    2) 通过宽高进行估算;
+    3) 使用公式 pixels_per_metric = object_width / know_width; (使用像素比作为比比例尺进行推算)
+"""
+
+
 class Measure(object):
 
     def __init__(self, path_of_image):
@@ -21,7 +30,6 @@ class Measure(object):
             assert Exception("图像文件不存在")
         self.__image = cv.imread(path_of_image)
         self.__width = 1
-        # cv.namedWindow("origin", cv.WINDOW_FREERATIO)
 
     def set_width(self, width):
         self.__width = width
