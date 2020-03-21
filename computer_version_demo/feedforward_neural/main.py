@@ -13,7 +13,7 @@ if "__main__" == __name__:
                         datefmt='%a, %d %b %Y %H:%M:%S')
     console = logging.getLogger("dev")
     console.setLevel(logging.DEBUG)
-    console.info("facial landmarks %s", __version__)
+    console.info("simple neural network %s", __version__)
     ap = argparse.ArgumentParser()
     ap.add_argument("-d", "--dataset", required=True, help="数据集路径")
     ap.add_argument("-m", "--model", required=True, help="输出的模型路径")
