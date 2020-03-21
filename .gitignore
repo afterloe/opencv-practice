@@ -3,6 +3,7 @@
 *.node
 node_modules/
 equipment_engineering/*.yml
+computer_version_demo/feedforward_neural/resources
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
