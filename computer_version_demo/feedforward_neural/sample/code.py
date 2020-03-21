@@ -3,6 +3,7 @@
 
 import cv2 as cv
 from .funs import image_to_feature_vector
+from imutils import paths
 from keras.utils import np_utils
 from keras.models import Sequential
 from keras.optimizers import SGD
@@ -21,7 +22,7 @@ class Code(object):
     def __init__(self, image_path):
         if False is os.path.isdir(image_path):
             assert Exception("文件目录不存在")
-        self.__image_paths = image_path
+        self.__image_paths = list(paths.list_images(image_path))
         self.__labels = []
         self.__data = []
         pass
