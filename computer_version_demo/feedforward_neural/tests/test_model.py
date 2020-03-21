@@ -6,7 +6,7 @@ from imutils import paths
 from keras.models import load_model
 import logging
 import numpy as np
-from ..sample.funs import image_to_feature_vector
+import sys
 import unittest
 
 CLASSES = ["cat", "dog"]
@@ -14,8 +14,8 @@ MODEL_PATH = "G:/Project/py3/computer_version_demo/feedforward_neural/out/simple
 TEST_IMAGES_PATH = "G:/Project/py3/computer_version_demo/feedforward_neural/resources"
 
 logging.basicConfig(level=logging.INFO,
-                        format='[%(asctime)8s][%(filename)s][%(levelname)s] - %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S')
+                    format='[%(asctime)8s][%(filename)s][%(levelname)s] - %(message)s',
+                    datefmt='%a, %d %b %Y %H:%M:%S')
 console = logging.getLogger("dev")
 console.setLevel(logging.DEBUG)
 
@@ -45,4 +45,6 @@ class TestModel(unittest.TestCase):
 
 
 if "__main__" == __name__:
+    sys.path.append("..")
+    from sample.funs import image_to_feature_vector
     unittest.main()
