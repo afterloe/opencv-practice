@@ -10,8 +10,14 @@ from ..sample.funs import image_to_feature_vector
 import unittest
 
 CLASSES = ["cat", "dog"]
-MODEL_PATH = "../out/simple_neural_network.hdf5"
-TEST_IMAGES_PATH = "../resources/"
+MODEL_PATH = "G:/Project/py3/computer_version_demo/feedforward_neural/out/simple_neural_network.hdf5"
+TEST_IMAGES_PATH = "G:/Project/py3/computer_version_demo/feedforward_neural/resources"
+
+logging.basicConfig(level=logging.INFO,
+                        format='[%(asctime)8s][%(filename)s][%(levelname)s] - %(message)s',
+                        datefmt='%a, %d %b %Y %H:%M:%S')
+console = logging.getLogger("dev")
+console.setLevel(logging.DEBUG)
 
 
 class TestModel(unittest.TestCase):
@@ -39,9 +45,4 @@ class TestModel(unittest.TestCase):
 
 
 if "__main__" == __name__:
-    logging.basicConfig(level=logging.INFO,
-                        format='[%(asctime)8s][%(filename)s][%(levelname)s] - %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S')
-    console = logging.getLogger("dev")
-    console.setLevel(logging.DEBUG)
     unittest.main()
