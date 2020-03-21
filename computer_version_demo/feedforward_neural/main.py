@@ -19,4 +19,5 @@ if "__main__" == __name__:
     ap.add_argument("-m", "--model", required=True, help="输出的模型路径")
     args = vars(ap.parse_args())
     console.info("启动图像描述 ... ... ")
-
+    runner = Code(image_path=args["dataset"])
+    runner.start_describe(save_path=args["model"])
