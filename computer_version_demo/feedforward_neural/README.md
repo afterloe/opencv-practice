@@ -4,7 +4,7 @@
 > version is 1.0.3
 
 Keras是一个功能强大，易于使用的Python库，用于构建神经网络和深度学习网络，本篇博文将进行图像分类训练。
-
+![前馈神经网络示意图 - 2](../../docs/illustrations/simple_neural_network_header-768x377.jpg)
 ## 数据集
 使用到的数据集可以在[这里](https://www.kaggle.com/c/dogs-vs-cats/data)下载，提供了2.5W的分类数据。
 
