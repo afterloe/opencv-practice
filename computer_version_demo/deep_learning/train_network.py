@@ -3,6 +3,7 @@
 
 import argparse
 import logging
+from .sample.train_util import TrainLeNet
 
 
 __version__ = "1.0.1"
@@ -20,3 +21,7 @@ if "__main__" == __name__:
     ap.add_argument("-m", "--model", required=True, help="输出的模型存放位置")
     ap.add_argument("-p", "--plot", type=str, default="plot.png", help="输出精度与损失比直方图")
     args = vars(ap.parse_args())
+    tools = TrainLeNet(args["dataset"])
+    tools.outs = args["model"]
+    tools.run()
+    tools.draw_plt(args["plot"])
