@@ -3,7 +3,7 @@
 
 import argparse
 import logging
-from .sample.train_util import TrainLeNet
+from sample.train_util import TrainLeNet
 
 
 __version__ = "1.0.1"
