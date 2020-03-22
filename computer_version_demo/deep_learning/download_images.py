@@ -55,6 +55,7 @@ class DownloadUtil(object):
             CONSOLE.error("请先设置仓库文件地址")
             return
         images = list_images(self.__warehouse)
+        count = 0
         for image_path in images:
             delete = False
             try:
@@ -66,6 +67,10 @@ class DownloadUtil(object):
                 delete = True
             if delete:
                 os.remove(image_path)
+            count += 1
+            if 0 == count % 100:
+                CONSOLE.info("%d 项检测完毕" % count)
+        CONSOLE.info("共检测 %d 项图像， 检测完毕" % count)
 
     def __del__(self):
         pass
@@ -78,5 +83,5 @@ if "__main__" == __name__:
     args = vars(ap.parse_args())
     util = DownloadUtil(args["url"])
     util.warehouse = args["output"]
-    util.run()
+    # util.run()
     util.validation()
