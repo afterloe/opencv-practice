@@ -25,7 +25,7 @@ def avg_circles(circles, b):
 
 def calibrate_gauge(img):
     """
-    This function should be run using a test image in order to calibrate the range available to the dial as well as the
+    This function should be run using a tried_unknow image in order to calibrate the range available to the dial as well as the
 units.  It works by first finding the center point and radius of the gauge.  Then it draws lines at hard coded intervals
 (separation) in degrees.  It then prompts the user to enter position in degrees of the lowest possible value of the gauge,
 as well as the starting value (which is probably zero in most cases but it won't assume that).  It will then ask for the

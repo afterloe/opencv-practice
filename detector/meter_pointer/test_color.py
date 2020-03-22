@@ -65,7 +65,7 @@ def main():
     #     x, y, w, h, cx, cy = cnt
     #     cv.rectangle(image, (x, y), (x + w, y + h), (255, 255, 0), 2, cv.LINE_8)
 
-    print("[INFO] test detection took {:.6f} seconds".format(time.time() - start))
+    print("[INFO] tried_unknow detection took {:.6f} seconds".format(time.time() - start))
     cv.imshow("image", image)
     # cv.imshow("threshed", threshed)
     # cv.imshow("edged", edged)

@@ -1,6 +1,10 @@
 # node addons file
+.idea/
 *.node
 node_modules/
+equipment_engineering/*.yml
+computer_version_demo/feedforward_neural/resources
+computer_version_demo/deep_learning/resources
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -44,7 +48,7 @@ wheels/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# Unit tried_unknow / coverage reports
 htmlcov/
 .tox/
 .coverage
@@ -149,7 +153,7 @@ bld/
 # Visual Studio 2017 auto generated files
 Generated\ Files/
 
-# MSTest test Results
+# MSTest tried_unknow Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
