@@ -42,6 +42,7 @@ class TestModel(unittest.TestCase):
             console.info("%s is %s" % (image_path, content))
             cv.imshow("image", image)
             cv.waitKey(0)
+        cv.destroyAllWindows()
 
 
 if "__main__" == __name__:
