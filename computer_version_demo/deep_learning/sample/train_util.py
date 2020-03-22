@@ -3,9 +3,6 @@
 
 import logging
 import matplotlib
-
-matplotlib.use("Agg")
-
 from keras.preprocessing.image import ImageDataGenerator, img_to_array
 from keras.optimizers import Adam
 from keras.utils import to_categorical
@@ -19,6 +16,7 @@ import cv2 as cv
 import os
 
 CONSOLE = logging.getLogger("dev")
+matplotlib.use("Agg")
 
 EPOCHS = 25
 INIT_LR = 1e-3
@@ -26,7 +24,6 @@ BS = 32
 
 
 class TrainLeNet(object):
-
     __out_dir, __H = None, None
 
     def __init__(self, path_of_images):
@@ -34,7 +31,7 @@ class TrainLeNet(object):
         self.__labels = []
         self.__path_of_images = sorted(list(paths.list_images(path_of_images)))
         random.seed(42)
-        random.shuffle(path_of_images)
+        random.shuffle(self.__path_of_images)
         pass
 
     def __del__(self):
@@ -72,7 +69,7 @@ class TrainLeNet(object):
         model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
         CONSOLE.info("训练模型")
         self.__H = model.fit_generator(aug.flow(train_x, train_y, batch_size=BS), validation_data=(test_x, test_y),
-                                steps_per_epoch=len(train_x) // BS, epochs=EPOCHS, verbose=1)
+                                       steps_per_epoch=len(train_x) // BS, epochs=EPOCHS, verbose=1)
         CONSOLE.info("序列化模型")
         model.save(self.__out_dir)
 
@@ -82,8 +79,8 @@ class TrainLeNet(object):
         N = EPOCHS
         plt.plot(np.arange(0, N), self.__H.history["loss"], label="train_loss")
         plt.plot(np.arange(0, N), self.__H.history["val_loss"], label="val_loss")
-        plt.plot(np.arange(0, N), self.__H.history["acc"], label="train_acc")
-        plt.plot(np.arange(0, N), self.__H.history["val_acc"], label="val_acc")
+        plt.plot(np.arange(0, N), self.__H.history["accuracy"], label="train_accuracy")
+        plt.plot(np.arange(0, N), self.__H.history["val_accuracy"], label="val_accuracy")
         plt.title("Training Loss and Accuracy on Santa/Not Santa")
         plt.xlabel("Epoch #")
         plt.ylabel("Loss/Accuracy")
