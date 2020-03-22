@@ -28,3 +28,11 @@ hiddenElement.click();
 // Baidu 版本
 var content = $('img.main_img.img-hover').map(function() { return $(this)[0].src; });
 ``` 
+
+## 启动训练脚本
+```shell script
+ & 'D:\Program Files\Python37-64\python.exe' .\train_network.py 
+-d 'G:\Project\py3\computer_version_demo\deep_learning\resources' 
+-m G:\Project\py3\computer_version_demo\deep_learning\resources\nazha_not.model 
+-p G:\Project\py3\computer_version_demo\deep_learning\resources\plot.png
+```
