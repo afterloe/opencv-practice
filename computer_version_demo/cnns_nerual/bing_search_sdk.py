@@ -12,7 +12,7 @@ import os
 API_KEY = "b0c8fb60e0df49089860fa80c09d8aba"
 MAX_RESULTS = 250
 GROUP_SIZE = 50
-SEARCH_URL = "https://api.cognitive.microsoft.com/bing/v7.0/images"
+SEARCH_URL = "https://api.cognitive.microsoft.com/bing/v7.0/images/search"
 
 
 EXCEPTIONS = {IOError, FileNotFoundError, exceptions.RequestException, exceptions.HTTPError, exceptions.ConnectionError,
@@ -49,7 +49,7 @@ if "__main__" == __name__:
         p = os.path.sep.join([args["output"], "%s%s" % (str(total).zfill(0), ext)])
         CONSOLE.info("存储于 %s" % p)
         try:
-            r = requests.get(search_url, timeout=30)
+            r = requests.get(search_url, timeout=5)
             f = open(p, "wb")
             f.write(r.content)
             f.close()
