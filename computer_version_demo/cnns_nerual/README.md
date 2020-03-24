@@ -5,3 +5,23 @@
 > MIT License  
 
 CNNs网络实践
+
+### 训练
+```shell script
+Using TensorFlow backend.
+2020-03-24 22:48:02.663290: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_101.dll
+[Tue, 24 Mar 2020 22:48:06][train.py][INFO] - 模型训练工具 1.0.5
+usage: train.py [-h] -d DATASET -m MODEL -l LABELBIN [-p PLOT]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DATASET, --dataset DATASET
+                        图像集路径
+  -m MODEL, --model MODEL
+                        模型输出路径
+  -l LABELBIN, --labelbin LABELBIN
+                        标签二进制文件输出路径
+  -p PLOT, --plot PLOT  输出训练曲线
+
+& 'D:\Program Files\Python37-64\python.exe' .\train.py -d .\resources\ -m pokedex.model -l lb.pickle
+```
