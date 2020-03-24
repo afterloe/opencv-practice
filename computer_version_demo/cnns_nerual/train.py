@@ -7,7 +7,7 @@ from keras.preprocessing.image import img_to_array, ImageDataGenerator
 from keras.optimizers import Adam
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
-from .smallervggnet import SmallerVGGNet
+from smallervggnet import SmallerVGGNet
 from imutils import paths
 import matplotlib.pyplot as plt
 import numpy as np
@@ -49,7 +49,7 @@ def pre_process(str_path):
         LABELS.append(label)
     DATA = np.array(DATA, dtype="float") / 255.0
     LABELS = np.array(LABELS)
-    CONSOLE.info("数据矩阵: %.2f Mb" % DATA.nbytes / (1024 * 1000.0))
+    CONSOLE.info("数据矩阵: {:.2f} Mb".format(DATA.nbytes / (1024 * 1000.0)))
     return DATA, LABELS
 
 
@@ -78,7 +78,7 @@ def destructor(MODEL, BINARY, mode_path, binary_path) -> None:
     MODEL.save(mode_path)
     CONSOLE.info("二进制文件序列化")
     file = open(binary_path, "wb")
-    file.write(pickle.dump(BINARY))
+    file.write(pickle.dumps(BINARY))
     file.close()
 
 
