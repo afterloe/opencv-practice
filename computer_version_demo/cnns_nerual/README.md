@@ -4,9 +4,14 @@
 > version is 1.0.4  
 > MIT License  
 
-CNNs网络实践
+##### CNNs网络实践  
+使用Keras和深度学习训练卷积神经网络，以识别和分类指定图像
+![VGGNet](../../docs/illustrations/cnn_keras_smallervggnet.png)
+> 图一： 所使用的模型示意图
 
-### 训练
+总共分为四层，其特点是， 仅使用3×3卷积层，以越来越大的深度堆叠在一起并通过最大池化来减少卷大小。
+
+##### 训练
 ```shell script
 Using TensorFlow backend.
 2020-03-24 22:48:02.663290: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_101.dll
