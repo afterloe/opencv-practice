@@ -77,7 +77,7 @@ def run_train(DATA, LABEL):
     H = model.fit_generator(aug.flow(train_x, train_y, batch_size=BS),
                             validation_data=(test_x, test_y),
                             steps_per_epoch=len(train_x) // BS,
-                            use_multiprocessing=True,  # 使用GPU进行运算
+                            # use_multiprocessing=True,  # 使用GPU进行运算
                             epochs=EPOCHS, verbose=1)
     # 每个类别 500-1,000张图像以获得更好的识别效果
     CONSOLE.info("模型训练完毕")
