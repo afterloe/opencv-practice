@@ -14,3 +14,6 @@ class TestCurrentUtil(TestCase):
         for v in value:
             current_value = mean_shift_filtering(v)
             print(current_value)
+
+    def test_print_value(self):
+        print("%s %.2f%%" % ("afterloe", 0.36 * 100.0))
