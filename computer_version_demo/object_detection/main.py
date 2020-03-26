@@ -43,7 +43,7 @@ if "__main__" == __name__:
             CONSOLE.error("无法读取视频流")
             break
         frame = imutils.resize(frame, width=400)
-        h, w = frame[: 2]
+        h, w = frame.shape[: 2]
         blob_data = cv.dnn.blobFromImage(cv.resize(frame, (300, 300)), 0.007843, (300, 300), 127.5)
         net_model.setInput(blob_data)
         detections = net_model.forward()
