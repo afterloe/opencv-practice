@@ -12,3 +12,4 @@ Computer Version With deep learning
 >> [x.name for x in local_device_protos if x.device_type == 'GPU']
 ```
 > 执行以上内容输出当前可用的GPU列表
+
