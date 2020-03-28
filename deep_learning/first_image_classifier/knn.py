@@ -3,10 +3,10 @@
 
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import  train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
-from .simple_preprocessor import SimplePreprocessor
-from .simple_dataset_loader import SimpleDatasetLoader
+from simple_preprocessor import SimplePreprocessor
+from simple_dataset_loader import SimpleDatasetLoader
 from imutils import paths
 import argparse
 import logging
@@ -32,7 +32,7 @@ if "__main__" == __name__:
     data_loader = SimpleDatasetLoader(preprocessor=[processor])
     data, labels = data_loader.load(image_paths, verbose=500)
     data = data.reshape((data.shape[0], 3072))
-    CONSOLE.info("特征点: %.1f MB" % data.nbytes / (1024 * 1000.0))
+    CONSOLE.info("特征点: {:.1f}MB".format(data.nbytes / (1024 * 1000.0)))
     le = LabelEncoder()
     labels = le.fit_transform(labels)
     train_x, test_x, train_y, test_y = train_test_split(data, labels, test_size=0.25, random_state=42)
