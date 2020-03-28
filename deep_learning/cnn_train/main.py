@@ -22,14 +22,12 @@ logging.basicConfig(level=logging.INFO,
                     datefmt='%a, %d %b %Y %H:%M:%S')
 CONSOLE = logging.getLogger("dev")
 CONSOLE.setLevel(logging.DEBUG)
-CONSOLE.info("第一cnn练习 %s", __version__)
+CONSOLE.info("第一个cnn练习 %s", __version__)
 
 
 if "__main__" == __name__:
     ap = argparse.ArgumentParser()
     ap.add_argument("-d", "--dataset", required=True, help="数据存储路径")
-    # ap.add_argument("-k", "--neighbors", type=int, default=1, help="分类的最近相近点")
-    # ap.add_argument("-j", "--jobs", type=int, default=1, help="KNN算法的作业数")
     args = vars(ap.parse_args())
     #  (1)从磁盘加载图像，(2)将它的大小调整为32×32像素，
     #  (3)对通道尺寸进行排序 (4)输出图像。
@@ -37,7 +35,7 @@ if "__main__" == __name__:
     iap = ImageToArrayPreprocessor()
     sdl = SimpleDatasetLoader(preprocessor=[sp, iap])
     image_paths = list(paths.list_images(args["dataset"]))
-    data, labels = sdl.load(image_paths=image_paths, verbose=500)
+    data, labels = sdl.load(image_paths=image_paths, verbose=100)
     data = data.astype("float") / 255.0
     train_x, test_x, train_y, test_y = train_test_split(data, labels, test_size=0.25, random_state=42)
     train_y = LabelBinarizer().fit_transform(train_y)
