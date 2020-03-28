@@ -3,8 +3,8 @@
 
 import argparse
 import logging
-from .preprocessor import SimpleDatasetLoader, SimplePreprocessor, ImageToArrayPreprocessor
-from .shallownet import ShallowNet
+from preprocessor import SimpleDatasetLoader, SimplePreprocessor, ImageToArrayPreprocessor
+from shallownet import ShallowNet
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
