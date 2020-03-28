@@ -83,5 +83,5 @@ if "__main__" == __name__:
     args = vars(ap.parse_args())
     util = DownloadUtil(args["url"])
     util.warehouse = args["output"]
-    # util.run()
+    util.run()
     util.validation()
