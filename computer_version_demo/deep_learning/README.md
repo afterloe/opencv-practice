@@ -37,8 +37,17 @@ hiddenElement.target = '_blank';
 hiddenElement.download = 'urls.txt';
 hiddenElement.click();
 
-// Bing 版本
-var content = $('img.mimg').map(function() { return $(this)[0].src; });
+// 搜狗 版本
+var script = document.createElement('script');
+script.src = "https://code.jquery.com/jquery-2.2.0.min.js";
+document.getElementsByTagName('head')[0].appendChild(script);
+var content = $('img.img-hover').map(function() { return $(this)[0].src; });
+var textToSave = content.toArray().join('\n');
+var hiddenElement = document.createElement('a');
+hiddenElement.href = 'data:attachment/text,' + encodeURI(textToSave);
+hiddenElement.target = '_blank';
+hiddenElement.download = 'urls.txt';
+hiddenElement.click();
 ``` 
 
 ## 启动训练脚本
