@@ -74,7 +74,6 @@ class LicensePlateDetector(object):
             label_mask[label == labels] = 255
             contours = cv.findContours(label_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
             contours = imutils.grab_contours(contours)
-            # contours = contours[0]
             if 0 < len(contours):
                 c = max(contours, key=cv.contourArea)
                 box_x, box_y, box_w, box_h = cv.boundingRect(c)
@@ -87,7 +86,6 @@ class LicensePlateDetector(object):
                 if keep_as_pect_ratio and keep_solidity and keep_height:
                     hull = cv.convexHull(c)
                     cv.drawContours(char_candidates, [hull], -1, 255, -1)
-        # cv.waitKey(0)
         char_candidates = segmentation.clear_border(char_candidates)
 
         # 有时我们检测到的字符数超过了所需的数量 -
