@@ -3,19 +3,20 @@
 
 import cv2 as cv
 import imutils
-from imutils.perspective import four_point_transform
+from imutils import perspective
 from unittest import TestCase
 
 
 class TestDetect(TestCase):
 
     def setUp(self) -> None:
+        orig = cv.imread("../resources/timg_3.jpg")
+        image = imutils.resize(orig, width=640)
+        self.__image = image
         pass
 
     def test_plate_detect(self):
-        orig = cv.imread("../resources/timg_3.jfif")
-        image = imutils.resize(orig, width=600)
-        gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+        gray = cv.cvtColor(self.__image.copy(), cv.COLOR_BGR2GRAY)
         blurred = cv.GaussianBlur(gray, (7, 7), 0)
         blurred = cv.morphologyEx(blurred, cv.MORPH_OPEN, cv.getStructuringElement(cv.MORPH_RECT, (3, 3)))
         edged = cv.Canny(blurred, 50, 200, 255)
@@ -29,9 +30,12 @@ class TestDetect(TestCase):
             if 4 == len(approx):
                 display_cnt = approx
                 break
-        warped = four_point_transform(image, display_cnt.reshape(4, 2))
-        cv.imshow("Input", warped)
+        self.detect_character_candidates(display_cnt.reshape(4, 2))
         cv.waitKey(0)
+
+    def detect_character_candidates(self, region):
+        plate = perspective.four_point_transform(self.__image, region)
+        cv.imshow("perspective transform", imutils.resize(plate, width=400))
 
     def __del__(self):
         cv.destroyAllWindows()

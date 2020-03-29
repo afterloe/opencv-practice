@@ -6,7 +6,6 @@ from skimage.filters import threshold_local
 from skimage import segmentation, measure
 import imutils
 from imutils import perspective
-from imutils.perspective import four_point_transform
 import numpy as np
 import cv2 as cv
 
@@ -30,18 +29,15 @@ class LicensePlateDetector(object):
         self.__min_char_w = minCharW
 
     def detect(self):
-        # 检测图像中的车牌
-        lp_regions = self.__detect_plates()
+        lp_regions = self.__detect_plates()  # 检测图像中的车牌
         for lp_region in lp_regions:
-            # 检查车牌中的字母
-            lp = self.__detect_character_candidates(lp_region)
+            lp = self.__detect_character_candidates(lp_region)  # 检查车牌中的字母
             if lp.success:
                 yield lp, lp_region  # # 产生一个牌照对象和边界框的元组
 
     def __detect_plates(self):
-        orig = cv.imread(self.__image)
-        image = imutils.resize(orig, width=400)
-        gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+        # image = imutils.resize(self.__image, width=400)
+        gray = cv.cvtColor(self.__image, cv.COLOR_BGR2GRAY)
         blurred = cv.GaussianBlur(gray, (7, 7), 0)
         blurred = cv.morphologyEx(blurred, cv.MORPH_OPEN, cv.getStructuringElement(cv.MORPH_RECT, (3, 3)))
         edged = cv.Canny(blurred, 50, 200, 255)
@@ -57,7 +53,7 @@ class LicensePlateDetector(object):
                 break
         if None is display_cnt:
             return []
-        return four_point_transform(image, display_cnt.reshape(4, 2))
+        return [display_cnt.reshape(4, 2)]
 
     def __detect_character_candidates(self, region):
         plate = perspective.four_point_transform(self.__image, region)
@@ -77,9 +73,10 @@ class LicensePlateDetector(object):
             label_mask = np.zeros(thresh.shape, dtype="uint8")
             label_mask[label == labels] = 255
             contours = cv.findContours(label_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-            contours = contours[0] if imutils.is_cv2() else contours[1]
+            contours = imutils.grab_contours(contours)
+            # contours = contours[0]
             if 0 < len(contours):
-                c = max(contours, cv.contourArea)
+                c = max(contours, key=cv.contourArea)
                 box_x, box_y, box_w, box_h = cv.boundingRect(c)
                 aspect_ratio = box_w / float(box_h)
                 solidity = cv.contourArea(c) / float(box_w * box_h)
@@ -90,6 +87,7 @@ class LicensePlateDetector(object):
                 if keep_as_pect_ratio and keep_solidity and keep_height:
                     hull = cv.convexHull(c)
                     cv.drawContours(char_candidates, [hull], -1, 255, -1)
+        # cv.waitKey(0)
         char_candidates = segmentation.clear_border(char_candidates)
 
         # 有时我们检测到的字符数超过了所需的数量 -
