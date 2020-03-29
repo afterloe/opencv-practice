@@ -6,6 +6,7 @@ from skimage.filters import threshold_local
 from skimage import segmentation, measure
 import imutils
 from imutils import perspective
+from imutils.perspective import four_point_transform
 import numpy as np
 import cv2 as cv
 
@@ -38,7 +39,25 @@ class LicensePlateDetector(object):
                 yield lp, lp_region  # # 产生一个牌照对象和边界框的元组
 
     def __detect_plates(self):
-        return []
+        orig = cv.imread(self.__image)
+        image = imutils.resize(orig, width=400)
+        gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+        blurred = cv.GaussianBlur(gray, (7, 7), 0)
+        blurred = cv.morphologyEx(blurred, cv.MORPH_OPEN, cv.getStructuringElement(cv.MORPH_RECT, (3, 3)))
+        edged = cv.Canny(blurred, 50, 200, 255)
+        contours = cv.findContours(edged.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        contours = imutils.grab_contours(contours)
+        contours = sorted(contours, key=cv.contourArea, reverse=True)[: 5]
+        display_cnt = None
+        for contour in contours:
+            peri = cv.arcLength(contour, True)
+            approx = cv.approxPolyDP(contour, 0.02 * peri, True)
+            if 4 == len(approx):
+                display_cnt = approx
+                break
+        if None is display_cnt:
+            return []
+        return four_point_transform(image, display_cnt.reshape(4, 2))
 
     def __detect_character_candidates(self, region):
         plate = perspective.four_point_transform(self.__image, region)
