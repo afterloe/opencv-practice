@@ -2,7 +2,7 @@
 # -*- coding=utf-8 -*-
 
 from __future__ import print_function
-from .license_plate import LicensePlateDetector
+from license_plate import LicensePlateDetector
 from imutils import paths
 import numpy as np
 import argparse
@@ -27,8 +27,8 @@ if "__main__" == __name__:
     for image_path in list(paths.list_images(args["images"])):
         image = cv.imread(image_path)
         CONSOLE.info(image_path)
-        if 640 < image.shape[1]:
-            image = imutils.resize(image, width=640)
+        if 600 < image.shape[1]:
+            image = imutils.resize(image, width=600)
         lpd = LicensePlateDetector(image)
         plates = lpd.detect()
         for (i, (lp, lp_box)) in enumerate(plates):
@@ -37,7 +37,7 @@ if "__main__" == __name__:
             candidates = np.dstack([lp.candidates] * 3)
             thresh = np.dstack([lp.thresh] * 3)
             output = np.vstack([lp.plate, thresh, candidates])
-            cv.imshow("Plate & Candidates #%d" % i + 1, output)
+            cv.imshow("Plate & Candidates #%d" % int(i + 1), output)
         cv.imshow("Image", image)
         cv.waitKey(0)
         cv.destroyAllWindows()
