@@ -6,6 +6,7 @@ equipment_engineering/*.yml
 computer_version_demo/feedforward_neural/resources
 computer_version_demo/deep_learning/resources
 computer_version_demo/cnns_nerual/resources
+computer_version_demo/character_segmentation/resources
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
