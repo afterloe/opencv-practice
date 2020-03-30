@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-from __future__ import print_function
 from src.conv_net_factory import ConvNetFactory
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.datasets import cifar100
