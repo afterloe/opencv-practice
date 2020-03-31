@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Activation, Flatten, Dropout, Dense
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Activation, Flatten, Dense, BatchNormalization, Dropout
 from tensorflow.keras.models import Sequential
 from tensorflow.keras import backend as K
 
 
-class ConvNetFactory(object):
+class CONVNetFactory(object):
 
     def __init__(self):
         pass
@@ -14,17 +14,50 @@ class ConvNetFactory(object):
     @staticmethod
     def build(name, *args, **kargs):
         mappings = {
-            "shallownet": ConvNetFactory.ShallowNet,
-            "lenet": ConvNetFactory.LeNet,
+            "shallownet": CONVNetFactory.ShallowNet,
+            "lenet": CONVNetFactory.LeNet,
             # "karpathynet": ConvNetFactory.KarpathyNet,
-            "minivggnet": ConvNetFactory.MiniVGGNet
+            "minivggnet": CONVNetFactory.MiniVGGNet
         }
         builder = mappings.get(name, None)
         return builder(*args, **kargs)
 
     @staticmethod
-    def MiniVGGNet():
-        pass
+    def MiniVGGNet(channels, height, width, classes, **kwargs):
+        model = Sequential()
+        input_shape = (height, width, channels)
+        chan_dim = -1
+        if "channels_first" == K.image_data_format:
+            input_shape = (channels, height, width)
+            chan_dim = 1
+
+        model.add(Conv2D(32, (3, 3), padding="same", input_shape=input_shape))
+        model.add(Activation("relu"))
+        model.add(BatchNormalization(axis=chan_dim))
+        model.add(Conv2D(32, (3, 3), padding="same"))
+        model.add(Activation("relu"))
+        model.add(BatchNormalization(axis=chan_dim))
+        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(Dropout(0.25))
+
+        model.add(Conv2D(64, (3, 3), padding="same"))
+        model.add(Activation("relu"))
+        model.add(BatchNormalization(axis=chan_dim))
+        model.add(Conv2D(64, (3, 3), padding="same"))
+        model.add(Activation("relu"))
+        model.add(BatchNormalization(axis=chan_dim))
+        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(Dropout(0.25))
+
+        model.add(Flatten())
+        model.add(Dense(512))
+        model.add(Activation("relu"))
+        model.add(BatchNormalization())
+        model.add(Dropout(0.5))
+
+        model.add(Dense(classes))
+        model.add(Activation("softmax"))
+        return model
 
     @staticmethod
     def LeNet(channels, height, width, classes, **kwargs):
