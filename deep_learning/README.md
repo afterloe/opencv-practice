@@ -61,3 +61,6 @@ Computer Version With deep learning
  | FC | 10 |
  | SOFTMAX | 10 | 
 
+> 提升准确率的tip  
+> 1.批处理规范化可以导致更快、更稳定和更高精度的收敛。   
+> 2.需要更多的次数来训练网络，使网络将获得更高的准确性

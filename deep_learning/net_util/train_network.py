@@ -5,10 +5,11 @@ from src.conv_net_factory import CONVNetFactory
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.datasets import cifar100
 from sklearn.preprocessing import LabelBinarizer
-from tensorflow.keras import utils
+from tensorflow.keras.callbacks import ModelCheckpoint
 from sklearn.metrics import classification_report
 import argparse
 import logging
+import os
 
 __version__ = "1.2.3"
 
@@ -24,6 +25,7 @@ if "__main__" == __name__:
     ap = argparse.ArgumentParser()
     ap.add_argument("-n", "--network", required=True, help="name of network to build")
     ap.add_argument("-m", "--model", required=True, help="path to output model file")
+    ap.add_argument("-w", "--weight", required=True, help="path to weights directory")
     ap.add_argument("-d", "--dropout", type=int, default=-1, help="whether or net dropout should be used")
     ap.add_argument("-f", "--activation", type=str, default="tanh", help="activation function to use (LeNet only)")
     ap.add_argument("-e", "--epochs", type=int, default=20, help="# of epochs")
@@ -39,7 +41,7 @@ if "__main__" == __name__:
 
     lb = LabelBinarizer()
     train_labels = lb.fit_transform(train_labels)
-    test_labels = lb.fit_transform(test_labels)
+    test_labels = lb.transform(test_labels)
 
     # collect the keyword arguments to the network
     kargs = {"dropout": args["dropout"] > 0, "activation": args["activation"]}
@@ -55,8 +57,11 @@ if "__main__" == __name__:
     CONSOLE.info("输出分类结果")
     print(classification_report(test_labels.argmax(axis=1), predictions.argmax(axis=1),
                                 target_names=[str(x) for x in lb.classes_]))
-
-    model.fit(train_data, train_labels, batch_size=args["batch_size"], epochs=args["epochs"], verbose=args["verbose"])
+    fname = os.path.sep.join([args["weights"], "weights-{epoch:03d}-{val_loss:.4f}.hdf5"])
+    checkpoint = ModelCheckpoint(fname, monitor="val_loss", mode="min", save_best_only=True, verbose=1)
+    callbacks = [checkpoint]
+    model.fit(train_data, train_labels, batch_size=args["batch_size"], epochs=args["epochs"], callbacks=callbacks,
+              verbose=args["verbose"])
     loss, accuracy = model.evaluate(test_data, test_labels, batch_size=args["batch_size"], verbose=args["verbose"])
     CONSOLE.info("accuracy: {:.2f}%".format(accuracy * 100))
     CONSOLE.info("dumping architecture and weights to file...")
