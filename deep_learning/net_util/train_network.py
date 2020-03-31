@@ -57,8 +57,9 @@ if "__main__" == __name__:
     CONSOLE.info("输出分类结果")
     print(classification_report(test_labels.argmax(axis=1), predictions.argmax(axis=1),
                                 target_names=[str(x) for x in lb.classes_]))
-    fname = os.path.sep.join([args["weights"], "weights-{epoch:03d}-{val_loss:.4f}.hdf5"])
-    checkpoint = ModelCheckpoint(fname, monitor="val_loss", mode="min", save_best_only=True, verbose=1)
+    # fname = os.path.sep.join([args["weights"], "weights-{epoch:03d}-{val_loss:.4f}.hdf5"])
+    # checkpoint = ModelCheckpoint(fname, monitor="val_loss", mode="min", save_best_only=True, verbose=1)
+    checkpoint = ModelCheckpoint(args["weights"], monitor="val_loss", save_best_only=True, verbose=1)  # 最佳点保存
     callbacks = [checkpoint]
     model.fit(train_data, train_labels, batch_size=args["batch_size"], epochs=args["epochs"], callbacks=callbacks,
               verbose=args["verbose"])
