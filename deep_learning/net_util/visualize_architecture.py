@@ -16,6 +16,14 @@ CONSOLE.setLevel(logging.DEBUG)
 CONSOLE.info("模型可视化 %s", __version__)
 
 if "__main__" == __name__:
+    """
+        软件依赖 graphviz, 避免出现 pydot_ng.InvocationException: GraphViz's executables not found 的异常
+        Linux:
+            sudo apt-get install graphviz
+        
+        MacOS:
+            brew install graphviz
+    """
     kargs = {"dropout": False, "activation": "tanh"}
     model = CONVNetFactory.build("lenet", 1, 28, 28, 10, **kargs)
     plot_model(model, to_file="lenet.png", show_shapes=True, show_layer_names=True)
