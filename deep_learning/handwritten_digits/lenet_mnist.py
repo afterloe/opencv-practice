@@ -21,7 +21,7 @@ CONSOLE = logging.getLogger("dev")
 CONSOLE.setLevel(logging.DEBUG)
 CONSOLE.info("LeNet使用 %s", __version__)
 
-EPOCHS = 60
+EPOCHS = 40
 BS = 128
 
 if "__main__" == __name__:
