@@ -1,19 +1,32 @@
-# Python3 & OpenCV4 & TensorFlow
+Python3 & OpenCV4 & TensorFlow2
+===
 
-> create by [afterloe](lm6289511@gmail.com)  
-> version is 1.3  
+> create by [afterloe](605728727@qq.com)  
+> version is 1.5  
 > MIT License    
 
-## 目录
+## 目录结构说明
+```
+Project
+ -- computer_version          # OpenCV的一些应用示例
+ -- deep_learning             # 图像识别与Tensorflow的一些示示例
+ -- docs                      # 文档，图例等资源
+ -- equipment_engineering     # 项目工程化的示例及说明
+ -- gui                       # 桌面编程的例子，考虑切换为QT
+ -- tried_unknow              # 尝试的代码，没什么意义
+ -- workshops                 # OpenCV的基础知识点与笔记
+```
+
 <a href="#note">笔记</a>  
 <a href="#backup">备忘录</a>  
 <a href="#deeplearn">深度学习</a>
 
-## python3 & opencv4 的参考内容
+#### python3 & opencv4 的参考内容
 python3 开发规范，参考自[PEP8标准](https://www.cnblogs.com/rrh4869/p/11177785.html)  
 opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.1/)
 
-### <a id="note">笔记</a>
+#### <a id="note">笔记</a>
+
 [全十四节笔记](./workshops/SUMMARY.md)  
 [第一节 - OpenCV基础操作](./workshops/1-day/summary.md)  
 [第二节 - 图像处理相关操作](./workshops/2-day/summary.md)      
@@ -30,9 +43,24 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
 [第十三节 - OpenCV模型组合与TensorFlow](./workshops/13-section/summary.md)  
 
 
+## <a name="deeplearn">深度学习</a>
+
+
+#### Navida 相关内容
+
+* TensorRT - [Download](https://developer.nvidia.com/rdp/form/tensorrt-7-survey)  | [HomePage](https://developer.nvidia.com/tensorrt) | [Document](https://docs.nvidia.com/deeplearning/sdk/tensorrt-archived/index.html) | [Guide](https://docs.nvidia.com/deeplearning/sdk/tensorrt-install-guide/index.html#overview) | [Code](https://github.com/NVIDIA/TensorRT) | [For Python](https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html#importing_trt_python)
+* CUPTI - [Document](https://docs.nvidia.com/cupti/Cupti/index.html)
+* CUDA - [Download](https://developer.nvidia.com/cuda-10.1-download-archive-base?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exelocal)
+* cuDNN - [Download](https://developer.nvidia.com/rdp/cudnn-download)
+* Nvidia Driver - [Download](https://www.nvidia.com/download/index.aspx?lang=en-us)
+* Jetson-inferenc - [Code](https://github.com/dusty-nv/jetson-inference)
+* Jetson Zoo - [Guide](https://elinux.org/Jetson_Zoo)
+* Nvidia developer - [Blog](https://devblogs.nvidia.com/speed-up-inference-tensorrt/) | [HomePage](https://developer.nvidia.com/)
+
+
 ## <a name="backup">备忘录</a>
 
-### 关于git提交的type
+#### 关于git提交的type
 根据 Header的内容及描述，type共分为以下8类：
 ```
 feat：新功能（feature）
@@ -44,23 +72,3 @@ test：增加测试
 chore：构建过程或辅助工具的变动
 resources: 资源修改
 ```
-
-### 不错的开源框架
-#### 优秀的图像处理库 - imutils
-#### 直方图GUI绘制库 - matplotlib
-#### 数学库 - numpy
-#### go to - goto-statement
-#### yaml 读取 - pyyaml
-
-## <a name="deeplearn">深度学习</a>
-
-### Navida 相关内容
-
-* TensorRT - [Download](https://developer.nvidia.com/rdp/form/tensorrt-7-survey)  | [HomePage](https://developer.nvidia.com/tensorrt) | [Document](https://docs.nvidia.com/deeplearning/sdk/tensorrt-archived/index.html) | [Guide](https://docs.nvidia.com/deeplearning/sdk/tensorrt-install-guide/index.html#overview) | [Code](https://github.com/NVIDIA/TensorRT) | [For Python](https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html#importing_trt_python)
-* CUPTI - [Document](https://docs.nvidia.com/cupti/Cupti/index.html)
-* CUDA - [Download](https://developer.nvidia.com/cuda-10.1-download-archive-base?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exelocal)
-* cuDNN - [Download](https://developer.nvidia.com/rdp/cudnn-download)
-* Nvidia Driver - [Download](https://www.nvidia.com/download/index.aspx?lang=en-us)
-* Jetson-inferenc - [Code](https://github.com/dusty-nv/jetson-inference)
-* Jetson Zoo - [Guide](https://elinux.org/Jetson_Zoo)
-* Nvidia developer - [Blog](https://devblogs.nvidia.com/speed-up-inference-tensorrt/) | [HomePage](https://developer.nvidia.com/)
