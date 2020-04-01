@@ -77,7 +77,7 @@ class ScanRunner(object):
         # 自适应阈值， 后两个参数 - 卷积核 大小，越大越快； 均匀阀值，不必设置太大，一般10、15左右
         # thresh = cv.adaptiveThreshold(warped, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 45, 10)
         outs = (warped > value).astype("uint8") * 255
-        cv.imshow("outs", outs)
+        cv.imshow("outs", imutils.resize(outs, width=1440))
 
         cv.imshow("thresh", thresh)
 
