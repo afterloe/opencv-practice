@@ -7,6 +7,7 @@
 ### 常用的移动物体检测方式如下
 
 #### 基于帧差
+##### 常规操作
 帧差法是常用的移动物体检测的方法，他的原理使用前一张图像与当前图像的像素值差异作为标识。在实际场景中，有使用第一帧图像作为固定比对的，
 也有使用连续好几帧在计算均值的。基本套路如下:
 ```python
@@ -44,7 +45,19 @@ diff_1 = prev_2 - prev_1
 diff_2 = frame - prev_1
 diff = diff_1 & diff_2
 ```
+##### 加权平均数
+从外面看来的一个骚操作，通过将图像转换为浮点数并计算基数，每次循环的时候平均数进行0.5的权重加持。最后用当前的图像减去权重的扫描值实现移动对象检测
+```python
+if None is avg:
+    print("Starting background model")
+    avg = gray.copy().astype("float")
+    continue
+cv.accumulateWeighted(blurred, avg, 0.5)
 
+# 累积当前帧和之前的帧，然后计算当前帧之间的差帧数和移动平均值
+frame_delta = cv.absdiff(blurred, cv.convertScaleAbs(avg))
+_, binary = cv.threshold(frame_delta, 25, 255, cv.THRESH_BINARY)
+```
 #### 基于 KNN/高斯 背景分离 
 帧差法对对光照、噪声相当敏感，虽然有形态学处理进行辅助，但难免会有意外。opencv中对背景模型提取的算法有两种，一种是基于高斯模糊模型（GMM）实现背景提取，
 另外一种是使用最近相邻模型（KNN）实现的，api如下：
