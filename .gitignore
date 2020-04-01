@@ -3,10 +3,10 @@
 *.node
 node_modules/
 equipment_engineering/*.yml
-computer_version/feedforward_neural/resources
-computer_version/deep_learning/resources
-computer_version/cnns_nerual/resources
-computer_version/character_segmentation/resources
+deep_learning/feedforward_neural/resources
+deep_learning/deep_learning/resources
+deep_learning/cnns_nerual/resources
+deep_learning/character_segmentation/resources
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
