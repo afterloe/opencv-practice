@@ -4,6 +4,15 @@ Computer Version With deep learning
 > version is 1.0.3  
 > MIT License
 
+##### 参数对比
+
+| Epoch Learning | Rate
+| :----- | :---------
+| 1 - 50 | 1e - 2
+| 51 - 65 | 1e - 3
+| 66 - 80 | 1e - 4
+| 81 - 90 | 1e - 5
+
 ##### 检测CUDA及cuDNN模块环境准备
 ```shell script
 & D:\python3\python.exe
