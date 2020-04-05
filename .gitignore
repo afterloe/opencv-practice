@@ -5,7 +5,7 @@ node_modules/
 equipment_engineering/*.yml
 deep_learning/feedforward_neural/resources
 deep_learning/net_util/outs
-deep_learning/deep_learning/resources
+deep_learning/yes_or_no/resources
 deep_learning/cnns_nerual/resources
 deep_learning/character_segmentation/resources
 
