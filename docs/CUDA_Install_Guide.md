@@ -14,6 +14,18 @@ CUDA 是nividia推出的显卡计算扩展，支持linux、windows、macos等平
 <a href="#MacOS">MacOS平台</a>
 
 ### <a id="linux"> Linux </a>
+#### 卸载之前安装的CUDA
+```commandline
+sudo dpkg -r cuda
+sudo dpkg -r cudnn
+cd /var
+rm -rf cuda*
+cd /etc/apt/sources.list
+rm -rf cuda*
+sudo apt-key add /var/cuda-repo-<version>/7fa2af80.pub
+sudo apt update && sudo apt upgrade
+```
+
 #### Ubuntu 18.04
 1.确认显卡驱动
 ```commandline
