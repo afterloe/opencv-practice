@@ -14,8 +14,10 @@ CUDA 是nividia推出的显卡计算扩展，支持linux、windows、macos等平
 <a href="#MacOS">MacOS平台</a>
 
 ### <a id="linux"> Linux </a>
+
 #### 卸载之前安装的CUDA
 ```commandline
+sudo dpkg -l cuda-repo-ubuntu1804-10-0-local-10.0.130-410.48
 sudo dpkg -r cuda
 sudo dpkg -r cudnn
 cd /var
@@ -25,6 +27,7 @@ rm -rf cuda*
 sudo apt-key add /var/cuda-repo-<version>/7fa2af80.pub
 sudo apt update && sudo apt upgrade
 ```
+> 卸载还有bug，尝试需谨慎
 
 #### Ubuntu 18.04
 1.确认显卡驱动
@@ -177,6 +180,8 @@ Device 0: "GeForce GTX 1050 Ti"
 deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 10.1, CUDA Runtime Version = 10.1, NumDevs = 1
 Result = PASS
 ```
+> 在Ubuntu 18.04 版本，CUDA 10.0 安装后会出现一个神奇的bug，在GNOME下就是桌面卡死，鼠标、键盘不能动，折腾了一番之后又莫名其妙的恢复了，
+> 有执行过 `sudo apt install xserver-xorg-input-all` 和 `sudo apt-get install ubuntu-desktop` 两条命令。
 
 5.配置cuDNN模块  
 
