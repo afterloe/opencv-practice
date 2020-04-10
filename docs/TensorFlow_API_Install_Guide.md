@@ -3,7 +3,7 @@ TensorFlow Detector API
 
 > create by [afterloe](605728727@qq.com)  
 > version is 1.0.3  
-> MIT License
+> MIT License  
 
 TensorFlow的Detector API的安装经过折腾半个月，现在基本跑通，现在写下这篇博文。首先TensorFLow Detector API的版本还在迭代，现在TensorFLow 2.x出现有一段时间，
 然后该API迁移工作并没有完成，所有不能使用TensorFlow 2.x的代码，具体安装步骤如下：
