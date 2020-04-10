@@ -39,3 +39,10 @@ You should see output similar to the following:
 pip 18.0 from c:\users\administrator\appdata\local\programs\python\python37\lib\site-packages\pip (python 3.7)
 ```
 Now that Pip is installed and configured, you can begin using it to manage your Python packages. 
+
+## accelerate the pip
+```
+pip3 install pip --upgrade
+pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+```
+if pip network is down, please use this code: `pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple pip --upgrade`
