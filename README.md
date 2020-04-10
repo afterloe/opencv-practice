@@ -1,9 +1,11 @@
-Python3 & OpenCV4 & TensorFlow2
+Python3 & OpenCV4 & TensorFlow2 & TensorFlow API
 ===
 
 > create by [afterloe](605728727@qq.com)  
-> version is 1.5  
+> version is 1.7  
 > MIT License    
+
+机器视觉+深度学习的研究型项目
 
 ## 目录结构说明
 ```
@@ -17,15 +19,26 @@ Project
  -- workshops                 # OpenCV的基础知识点与笔记
 ```
 
-<a href="#note">笔记</a>  
+<a href="blog">博客</a>
+<a href="#note">机器视觉(Computer Vision)笔记</a>  
+<a href="#deeplearn">深度学习笔记</a>
 <a href="#backup">备忘录</a>  
-<a href="#deeplearn">深度学习</a>
+
+## 博客
+ - [CUDA安装手册](./docs/CUDA_Install_Guide.md)
+ - [OpenCV安装手册](./docs/CV_Install_Gudie.md)
+ - [Windows下pip3安装手册](./docs/PIP_On_Windows_Install_Guide.md)
+ - [Python3.6安装手册](./docs/Python36_Install_Guide.md)
+ - [Shadowsockes ssr安装手册](./docs/Shadowsocks_Install_Guide.md)
+ - [TensorFlow 安装手册](./docs/TensorFlow_Install_Gudie.md)
+ - [TensorFlow API 安装手册](./docs/TensorFlow_API_Install_Guide.md)
+ - [TensorFlow API 使用手册 - 本地训练模型](./docs/TensorFlow_API_Run_Local_Guide.md)
 
 #### python3 & opencv4 的参考内容
 python3 开发规范，参考自[PEP8标准](https://www.cnblogs.com/rrh4869/p/11177785.html)  
 opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.1/)
 
-#### <a id="note">笔记</a>
+## <a id="note">OpenCV 笔记</a>
 
 [全十四节笔记](./workshops/SUMMARY.md)  
 [第一节 - OpenCV基础操作](./workshops/1-day/summary.md)  
@@ -46,7 +59,7 @@ opencv4 使用版本为4.1.1，相关[开发文档](https://docs.opencv.org/4.1.
 ## <a name="deeplearn">深度学习</a>
 
 
-#### Navida 相关内容
+#### nvidia 相关内容
 
 * TensorRT - [Download](https://developer.nvidia.com/rdp/form/tensorrt-7-survey)  | [HomePage](https://developer.nvidia.com/tensorrt) | [Document](https://docs.nvidia.com/deeplearning/sdk/tensorrt-archived/index.html) | [Guide](https://docs.nvidia.com/deeplearning/sdk/tensorrt-install-guide/index.html#overview) | [Code](https://github.com/NVIDIA/TensorRT) | [For Python](https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html#importing_trt_python)
 * CUPTI - [Document](https://docs.nvidia.com/cupti/Cupti/index.html)
