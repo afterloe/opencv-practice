@@ -16,7 +16,7 @@ CUDA 是nividia推出的显卡计算扩展，支持linux、windows、macos等平
 ### <a id="linux"> Linux </a>
 
 #### 卸载之前安装的CUDA
-```commandline
+```shell script
 sudo dpkg -l cuda-repo-ubuntu1804-10-0-local-10.0.130-410.48
 sudo dpkg -r cuda
 sudo dpkg -r cudnn
@@ -31,7 +31,7 @@ sudo apt update && sudo apt upgrade
 
 #### Ubuntu 18.04
 1.确认显卡驱动
-```commandline
+```shell script
 dpkg -l | grep -i nvidia
 
 ii  nvidia-driver-430                  430.50-0ubuntu2  amd64   NVIDIA driver metapackage
@@ -47,7 +47,7 @@ apt remove --purge nvidia-*
 > 注: 若启动后无法进入桌面，执行`sudo apt-get install ubuntu-desktop`
 
 搜索合适当前显卡的驱动，并安装
-```commandline
+```shell script
 ubuntu-drivers devices
 
 == /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0 ==
@@ -63,8 +63,9 @@ su
 apt install nvidia-driver-435
 shutdown -r now
 ```
+
 重启后检查显卡驱动是否生效
-```commandline
+```
 sudo nvidia-smi
 Fri Apr  3 17:34:44 2020
 +-----------------------------------------------------------------------------+
@@ -109,7 +110,7 @@ CUDA 7.5 (7.5.16) | &gt;= 352.31 | &gt;= 353.66
 CUDA 7.0 (7.0.28) | &gt;= 346.46 | &gt;= 347.62
 
 所以`430.50`版本的可以安装CUDA 10.1的版本，安装命令主要参考[下载网站](https://developer.nvidia.com/cuda-toolkit-archive)的提示  
-```
+```shell script
 wget https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb
 sudo dpkg -i cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb
 
@@ -121,7 +122,7 @@ sudo apt-get install cuda
 ```
 
 3.配置CUDA环境变量
-```
+```shell script
 vim ~/.profile
 
 export CUDA_HOME=/usr/local/cuda 
@@ -132,7 +133,7 @@ source ~/.profile
 ```
 
 4.测试CUDA  
-```commandline
+```
 cd /usr/local/cuda/samples/1_Utilities/deviceQuery 
 sudo make
 ./deviceQuery
