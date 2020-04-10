@@ -103,8 +103,8 @@ eval_input_reader: {
 作业目录
 ```
 /mount/pet_detector_custom
-├── data
-└── faster_rcnn_resnet101_pets.config
+    ├── data
+    └── faster_rcnn_resnet101_pets.config
 ```
 
 数据目录
