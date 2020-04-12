@@ -8,7 +8,7 @@ import os
 import logging
 import xml.etree.ElementTree as ET
 
-__version__ = "1.0.0"
+__version__ = "1.0.2"
 
 logging.basicConfig(level=logging.INFO,
                     format='[%(asctime)8s][%(filename)s][%(levelname)s] - %(message)s',
