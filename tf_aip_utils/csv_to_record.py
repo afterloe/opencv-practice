@@ -31,10 +31,10 @@ FLAGS = flags.FLAGS
 
 
 def class_text_to_int(row_label):
-    if FLAGS.label == row_label:
+    if row_label == '1':
         return 1
     else:
-        return None
+        return -1
 
 
 def split(df, group):
@@ -57,7 +57,7 @@ def create_tf_example(group, path):
         xmaxs.append(row["xmax"] / width)
         ymins.append(row["ymin"] / height)
         ymaxs.append(row["ymax"] / height)
-        classes_text.append(row["class"].encode("utf8"))
+        classes_text.append(str(row["class"]).encode("utf8"))
         classes.append(class_text_to_int(row["class"]))
     return tf.train.Example(features=tf.train.Features(feature={
         "image/height": dataset_util.int64_feature(height),
