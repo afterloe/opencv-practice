@@ -40,14 +40,14 @@ def xml_to_csv(input_dir):
 
 if "__main__" == __name__:
     ap = argparse.ArgumentParser(description="TensorFlow XML to CSV converter")
-    ap.add_argument("-i", "--inputDir", help="path to the folder where the input .xml files are stored", type=str)
-    ap.add_argument("-o", "--outputDir", help="name of output .csv file (include path)", type=str)
+    ap.add_argument("-i", "--input-dir", help="path to the folder where the input .xml files are stored", type=str)
+    ap.add_argument("-o", "--output-dir", help="name of output .csv file (include path)", type=str)
     args = vars(ap.parse_args())
     if None is args.get("input_dir"):
         args["input_dir"] = os.getcwd()
     if None is args.get("output_dir"):
         args["output_dir"] = os.path.sep.join([args["input_dir"], "labels.csv"])
     assert os.path.isdir(args["input_dir"])
-    xml_df = xml_to_csv(**args)
+    xml_df = xml_to_csv(args["input_dir"])
     xml_df.to_csv(args["output_dir"], index=False)
     CONSOLE.info("Successfully converted xml to cvs.")
