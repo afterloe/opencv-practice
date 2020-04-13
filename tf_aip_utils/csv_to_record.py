@@ -5,7 +5,6 @@ import os
 import io
 import pandas as pd
 import tensorflow as tf
-import sys
 import logging
 
 from PIL import Image  # python3 install pillow
