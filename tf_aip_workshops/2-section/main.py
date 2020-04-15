@@ -34,7 +34,7 @@ def main():
                 CONSOLE.info("{} | x.shape: {} | x[: 3]: {}".format(epoch, np.shape(x_value), x_value[: 3]))
                 CONSOLE.info("{} | y.shape: {} | y[: 3]: {}".format(epoch, np.shape(y_value), y_value[: 3]))
     train_data = list(generate_data())[0]
-    plt.plot(train_data[0], train_data[1], "ro", labels="Original data")
+    plt.plot(train_data[0], train_data[1], "ro", label="Original data")
     plt.legend()
     plt.show()
 
