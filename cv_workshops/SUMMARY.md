@@ -85,4 +85,31 @@
 
 [第十节 - 对象检测与特征提取](10-section/summary.md)
    - HAAR级联对象检测器
+   - LBP特征检测器
+   - HOG特征提取与行人检测
+   - HOG + SVM 自定义对象检测
+   
+[第十一节 - 图像分割与最近相邻点](11-section/summary.md)
+   - KMeans数据分类与图像分割
+   - 基于KNN的手写数字识别
+   - 决策树与图像均值迁移分割
+   - Grabcut图像分割实现背景替换
+   - 二维码识别与解析
 
+[第十二节 - DNN模块的初步探索](12-section/summary.md)
+   - DNN加载预处理模型(Caff、tensorflow、torch、dldt、darknet等)
+   - GoogleNet的图像分类实践
+   - opencv DNN加速
+   - SSD、mobileNetSSD 模型的的对象检测
+   - 人脸检测
+   - Faster-RCNN对象检测模型
+   - openpose 手势推断
+   - yolo对象检测模型
+
+[第十三节 - DNN模块的二次探索](13-section/summary.md)
+   - 多张图像同时推断
+   - 模型实现灰度图像转彩色
+   - ENT的图像分割
+   - 图像风格迁移模型实践
+   - 多模型嵌套推断实践 - 实现性别与年龄预测
+   - OCR 数字识别推断

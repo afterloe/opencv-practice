@@ -2,7 +2,7 @@ Python3 & OpenCV4 & TensorFlow2 & TensorFlow API
 ===
 
 > create by [afterloe](605728727@qq.com)  
-> version is 1.7  
+> version is 2.1  
 > MIT License    
 
 机器视觉+深度学习的研究型项目
@@ -16,7 +16,8 @@ Project
  -- equipment_engineering     # 项目工程化的示例及说明
  -- gui                       # 桌面编程的例子，考虑切换为QT
  -- tried_unknow              # 尝试的代码，没什么意义
- -- workshops                 # OpenCV的基础知识点与笔记
+ -- cv_workshops              # OpenCV的基础知识点与笔记
+ -- tf_aip_workshops          # TensorFlow api 学习
 ```
 
 <a href="blog">博客</a>
