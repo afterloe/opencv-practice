@@ -38,10 +38,10 @@ class CustomizeNASNetModel(object):
         return init_fn, tuning_variables
 
     def build_acc_base(self, labels):
-        self.__prediction = tf.cast(tf.argmax(self.__logits, 1), tf.int32)
-        self.__correct_prediction = tf.equal(self.__prediction, labels)
-        self.accuracy = tf.reduce_mean(tf.cast(self.__correct_prediction), tf.loat32)
-        self.accuracy_top_5 = tf.reduce_mean(tf.cast(tf.nn.in_top_k(predictions=self.__logits,
+        self.__prediction = tf.cast(tf.argmax(self.logits, 1), tf.int32)
+        self.correct_prediction = tf.equal(self.__prediction, labels)
+        self.accuracy = tf.reduce_mean(tf.cast(self.correct_prediction), tf.loat32)
+        self.accuracy_top_5 = tf.reduce_mean(tf.cast(tf.nn.in_top_k(predictions=self.logits,
                                                                       targets=labels, k=5), tf.float32))
 
     def load_cpk(self, global_step, sess, begin=0, saver=None, save_path=None):
@@ -64,10 +64,10 @@ class CustomizeNASNetModel(object):
         return start_epo
 
     def build_model_train(self, images, labels, learning_rate_1, learning_rate_2, is_training):
-        self.__logits, self.__end_points, self.global_step = self.generator_NASNet(images, is_training=is_training)
+        self.logits, self.__end_points, self.global_step = self.generator_NASNet(images, is_training=is_training)
         self.step_init = self.global_step.initializer
         self.__init_fn, self.__tuning_variables = self.fine_true_NASNet(is_training=is_training)
-        tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=self.__logits)
+        tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=self.logits)
         loss = tf.losses.get_total_loss()
         learning_rate_1 = tf.train.exponential_decay(learning_rate=learning_rate_1, global_step=self.global_step,
                                                      decay_steps=100, decay_rate=0.5)
@@ -87,7 +87,7 @@ class CustomizeNASNetModel(object):
         self.__eval_writer = tf.summary.FileWriter("./log_dir/eval")
         self.saver, self.save_path = self.load_cpk(self.global_step, None)
 
-    def build_model(self, mode="train", train_data_dir="./data/train", test_data_dir="./data/val", batch_size=32,
+    def build_model(self, mode="train", train_data_dir="./data/train", test_data_dir="./data/eval", batch_size=32,
                     learning_rate_1=0.001, learning_rate_2=0.001):
         if "train" == mode:
             tf.reset_default_graph()
@@ -96,7 +96,7 @@ class CustomizeNASNetModel(object):
             iterator = tf.data.Iterator.from_structure(train_data_set.output_types, train_data_set.output_shapes)
             images, labels = iterator.get_next()
             self.train_init_op = iterator.make_initializer(train_data_set)
-            self.__test_init_op = iterator.make_initializer(test_data_set)
+            self.test_init_op = iterator.make_initializer(test_data_set)
             self.build_model_train(images, labels, learning_rate_1, learning_rate_2, is_training=True)
             self.global_init = tf.global_variables_initializer()
             tf.get_default_graph().finalize()
@@ -105,9 +105,9 @@ class CustomizeNASNetModel(object):
             test_data_set, self.__num_classes = data_set_util.create_dataset_fromdir(test_data_dir, batch_size,
                                                                                      is_train=False)
             iterator = tf.data.Iterator.from_structure(test_data_set.output_types, test_data_set.output_shapes)
-            self.__images, labels = iterator.get_next()
-            self.__test_init_op = iterator.make_initializer(test_data_set)
-            self.__logits, self.__end_points, self.global_step = self.generator_NASNet(self.__images,
+            self.images, labels = iterator.get_next()
+            self.test_init_op = iterator.make_initializer(test_data_set)
+            self.logits, self.__end_points, self.global_step = self.generator_NASNet(self.images,
                                                                                          is_training=False)
             self.saver, self.save_path = self.load_cpk(self.global_step, None)
             self.build_acc_base(labels)
@@ -117,8 +117,8 @@ class CustomizeNASNetModel(object):
             test_data_set, self.__num_classes = data_set_util.create_dataset_fromdir(test_data_dir, batch_size,
                                                                                      is_train=False)
             iterator = tf.data.Iterator.from_structure(test_data_set.output_types, test_data_set.output_shapes)
-            self.__images, labels = iterator.get_next()
-            self.__logits, self.__end_points, self.global_step = self.generator_NASNet(self.__images,
+            self.images, labels = iterator.get_next()
+            self.logits, self.__end_points, self.global_step = self.generator_NASNet(self.images,
                                                                                          is_training=False)
             self.saver, self.save_path = self.load_cpk(self.global_step, None)
             tf.get_default_graph().finalize()
