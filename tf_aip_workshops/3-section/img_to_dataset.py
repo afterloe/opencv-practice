@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-import argparse
 import tensorflow as tf
-import sys
 from nets.nasnet import nasnet
 from preprocessing import preprocessing_factory
 from imutils.paths import list_images
@@ -11,15 +9,14 @@ import os
 import logging
 
 slim = tf.contrib.slim
-__version__ = "1.0.0"
-image = nasnet.build_nasnet_mobile.default_image_size  # 224
 
-logging.basicConfig(level=logging.INFO,
-                    format='[%(asctime)8s][%(filename)s][%(levelname)s] - %(message)s',
-                    datefmt='%a, %d %b %Y %H:%M:%S')
+
+num_workers = 8
+image_size = nasnet.build_nasnet_mobile.default_image_size  # 224
+image_pre_processing_fn = preprocessing_factory.get_preprocessing("nasnet_mobile", is_training=True)
+image_eval_pre_processing_fn = preprocessing_factory.get_preprocessing("nasnet_mobile", is_training=False)
+
 CONSOLE = logging.getLogger("dev")
-CONSOLE.setLevel(logging.DEBUG)
-CONSOLE.info("将图像转换为dataset %s" % __version__)
 
 
 def get_images_list(directory):
@@ -41,8 +38,35 @@ def get_images_list(directory):
     return file_names, labels
 
 
-if "__main__" == __name__:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-d", "--dataset", required=True, help="图像目录", type=str)
-    args = vars(ap.parse_args())
-    fn, l = get_images_list(args["dataset"])
+def parse_function(filename, label):
+    image_string = tf.read_file(filename)
+    image = tf.image.decode_jpeg(image_string, channels=3)
+    return image, label
+
+
+def training_pre_process(image, label):
+    image = image_pre_processing_fn(image, image_size, image_size)
+    return image, label
+
+
+def val_pre_process(image, label):
+    image = image_eval_pre_processing_fn(image, image_size, image_size)
+    return image, label
+
+
+def create_batched_dataset(filenames, labels, batch_size, is_train=True):
+    data_set = tf.data.Dataset.from_tensor_slices((filenames, labels))
+    data_set = data_set.map(parse_function, num_parallel_calls=num_workers)
+    if True is is_train:
+        data_set = data_set.shuffle(buffer_size=len(filenames))
+        data_set = data_set.map(training_pre_process, num_parallel_calls=num_workers)
+    else:
+        data_set = data_set.map(val_pre_process, num_parallel_calls=num_workers)
+    return data_set.batch(batch_size)
+
+
+def create_dataset_fromdir(directory, batch_size, is_train=True):
+    filenames, labels = get_images_list(directory)
+    num_classes = len(labels)
+    data_set = create_batched_dataset(filenames, labels, batch_size, is_train)
+    return data_set, num_classes
