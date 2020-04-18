@@ -40,8 +40,8 @@ class CustomizeNASNetModel(object):
     def build_acc_base(self, labels):
         self.__prediction = tf.cast(tf.argmax(self.__logits, 1), tf.int32)
         self.__correct_prediction = tf.equal(self.__prediction, labels)
-        self.__accuracy = tf.reduce_mean(tf.cast(self.__correct_prediction), tf.loat32)
-        self.__accuracy_top_5 = tf.reduce_mean(tf.cast(tf.nn.in_top_k(predictions=self.__logits,
+        self.accuracy = tf.reduce_mean(tf.cast(self.__correct_prediction), tf.loat32)
+        self.accuracy_top_5 = tf.reduce_mean(tf.cast(tf.nn.in_top_k(predictions=self.__logits,
                                                                       targets=labels, k=5), tf.float32))
 
     def load_cpk(self, global_step, sess, begin=0, saver=None, save_path=None):
@@ -64,28 +64,28 @@ class CustomizeNASNetModel(object):
         return start_epo
 
     def build_model_train(self, images, labels, learning_rate_1, learning_rate_2, is_training):
-        self.__logits, self.__end_points, self.__global_step = self.generator_NASNet(images, is_training=is_training)
-        self.__step_init = self.__global_step.initializer
+        self.__logits, self.__end_points, self.global_step = self.generator_NASNet(images, is_training=is_training)
+        self.step_init = self.global_step.initializer
         self.__init_fn, self.__tuning_variables = self.fine_true_NASNet(is_training=is_training)
         tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=self.__logits)
         loss = tf.losses.get_total_loss()
-        learning_rate_1 = tf.train.exponential_decay(learning_rate=learning_rate_1, global_step=self.__global_step,
+        learning_rate_1 = tf.train.exponential_decay(learning_rate=learning_rate_1, global_step=self.global_step,
                                                      decay_steps=100, decay_rate=0.5)
-        learning_rate_2 = tf.train.exponential_decay(learning_rate=learning_rate_2, global_step=self.__global_step,
+        learning_rate_2 = tf.train.exponential_decay(learning_rate=learning_rate_2, global_step=self.global_step,
                                                      decay_steps=100, decay_rate=0.2)
         last_optimizer = tf.train.AdamOptimizer(learning_rate_1)
         full_optimizer = tf.train.AdamOptimizer(learning_rate_2)
         update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
         with tf.control_dependencies(update_ops):
-            self.__last_train_op = last_optimizer.minimize(loss, self.__global_step, var_list=self.__tuning_variables)
-            self.__full_train_op = full_optimizer.minimize(loss, self.__global_step)
+            self.last_train_op = last_optimizer.minimize(loss, self.global_step, var_list=self.__tuning_variables)
+            self.full_train_op = full_optimizer.minimize(loss, self.global_step)
         self.build_acc_base(labels)
-        tf.summary.scalar("accuracy", self.__accuracy)
-        tf.summary.scalar("accuracy_top_5", self.__accuracy_top_5)
-        self.__merged = tf.summary.merge_all()
-        self.__train_writer = tf.summary.FileWriter("./log_dir/train")
+        tf.summary.scalar("accuracy", self.accuracy)
+        tf.summary.scalar("accuracy_top_5", self.accuracy_top_5)
+        self.merged = tf.summary.merge_all()
+        self.train_writer = tf.summary.FileWriter("./log_dir/train")
         self.__eval_writer = tf.summary.FileWriter("./log_dir/eval")
-        self.__saver, self.__save_path = self.load_cpk(self.__global_step, None)
+        self.saver, self.save_path = self.load_cpk(self.global_step, None)
 
     def build_model(self, mode="train", train_data_dir="./data/train", test_data_dir="./data/val", batch_size=32,
                     learning_rate_1=0.001, learning_rate_2=0.001):
@@ -95,10 +95,10 @@ class CustomizeNASNetModel(object):
             test_data_set, _ = data_set_util.create_dataset_fromdir(test_data_dir, batch_size, is_train=False)
             iterator = tf.data.Iterator.from_structure(train_data_set.output_types, train_data_set.output_shapes)
             images, labels = iterator.get_next()
-            self.__train_init_op = iterator.make_initializer(train_data_set)
+            self.train_init_op = iterator.make_initializer(train_data_set)
             self.__test_init_op = iterator.make_initializer(test_data_set)
             self.build_model_train(images, labels, learning_rate_1, learning_rate_2, is_training=True)
-            self.__global_init = tf.global_variables_initializer()
+            self.global_init = tf.global_variables_initializer()
             tf.get_default_graph().finalize()
         elif "test" == mode:
             tf.reset_default_graph()
@@ -107,9 +107,9 @@ class CustomizeNASNetModel(object):
             iterator = tf.data.Iterator.from_structure(test_data_set.output_types, test_data_set.output_shapes)
             self.__images, labels = iterator.get_next()
             self.__test_init_op = iterator.make_initializer(test_data_set)
-            self.__logits, self.__end_points, self.__global_step = self.generator_NASNet(self.__images,
+            self.__logits, self.__end_points, self.global_step = self.generator_NASNet(self.__images,
                                                                                          is_training=False)
-            self.__saver, self.__save_path = self.load_cpk(self.__global_step, None)
+            self.saver, self.save_path = self.load_cpk(self.global_step, None)
             self.build_acc_base(labels)
             tf.get_default_graph().finalize()
         elif "eval" == mode:
@@ -118,7 +118,7 @@ class CustomizeNASNetModel(object):
                                                                                      is_train=False)
             iterator = tf.data.Iterator.from_structure(test_data_set.output_types, test_data_set.output_shapes)
             self.__images, labels = iterator.get_next()
-            self.__logits, self.__end_points, self.__global_step = self.generator_NASNet(self.__images,
+            self.__logits, self.__end_points, self.global_step = self.generator_NASNet(self.__images,
                                                                                          is_training=False)
-            self.__saver, self.__save_path = self.load_cpk(self.__global_step, None)
+            self.saver, self.save_path = self.load_cpk(self.global_step, None)
             tf.get_default_graph().finalize()
