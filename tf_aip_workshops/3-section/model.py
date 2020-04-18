@@ -7,7 +7,7 @@ from nets.nasnet import nasnet
 import logging
 
 slim = tf.contrib.slim
-data_set = __import__("img_to_dataset")
+data_set_util = __import__("img_to_dataset")
 CONSOLE = logging.getLogger("dev")
 
 
@@ -86,3 +86,39 @@ class CustomizeNASNetModel(object):
         self.__train_writer = tf.summary.FileWriter("./log_dir/train")
         self.__eval_writer = tf.summary.FileWriter("./log_dir/eval")
         self.__saver, self.__save_path = self.load_cpk(self.__global_step, None)
+
+    def build_model(self, mode="train", train_data_dir="./data/train", test_data_dir="./data/val", batch_size=32,
+                    learning_rate_1=0.001, learning_rate_2=0.001):
+        if "train" == mode:
+            tf.reset_default_graph()
+            train_data_set, self.__num_classes = data_set_util.create_dataset_fromdir(train_data_dir, batch_size)
+            test_data_set, _ = data_set_util.create_dataset_fromdir(test_data_dir, batch_size, is_train=False)
+            iterator = tf.data.Iterator.from_structure(train_data_set.output_types, train_data_set.output_shapes)
+            images, labels = iterator.get_next()
+            self.__train_init_op = iterator.make_initializer(train_data_set)
+            self.__test_init_op = iterator.make_initializer(test_data_set)
+            self.build_model_train(images, labels, learning_rate_1, learning_rate_2, is_training=True)
+            self.__global_init = tf.global_variables_initializer()
+            tf.get_default_graph().finalize()
+        elif "test" == mode:
+            tf.reset_default_graph()
+            test_data_set, self.__num_classes = data_set_util.create_dataset_fromdir(test_data_dir, batch_size,
+                                                                                     is_train=False)
+            iterator = tf.data.Iterator.from_structure(test_data_set.output_types, test_data_set.output_shapes)
+            self.__images, labels = iterator.get_next()
+            self.__test_init_op = iterator.make_initializer(test_data_set)
+            self.__logits, self.__end_points, self.__global_step = self.generator_NASNet(self.__images,
+                                                                                         is_training=False)
+            self.__saver, self.__save_path = self.load_cpk(self.__global_step, None)
+            self.build_acc_base(labels)
+            tf.get_default_graph().finalize()
+        elif "eval" == mode:
+            tf.reset_default_graph()
+            test_data_set, self.__num_classes = data_set_util.create_dataset_fromdir(test_data_dir, batch_size,
+                                                                                     is_train=False)
+            iterator = tf.data.Iterator.from_structure(test_data_set.output_types, test_data_set.output_shapes)
+            self.__images, labels = iterator.get_next()
+            self.__logits, self.__end_points, self.__global_step = self.generator_NASNet(self.__images,
+                                                                                         is_training=False)
+            self.__saver, self.__save_path = self.load_cpk(self.__global_step, None)
+            tf.get_default_graph().finalize()
