@@ -67,5 +67,5 @@ if "__main__" == __name__:
     ap.add_argument("-e", "--eval-dir", required=True, type=str, help="测试数据集")
     ap.add_argument("-s", "--batch-size", default=32, type=int, help="批处理次数")
     args = vars(ap.parse_args())
-    main(*args)
+    main(**args)
 
