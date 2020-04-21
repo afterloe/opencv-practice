@@ -13,6 +13,7 @@ def main(model, batch_size, train_dir, eval_dir):
     mode = model_clazz.CustomizeNASNetModel(model)
     learning_rate_1, learning_rate_2 = 1e-1, 1e-3
     mode.build_model("train", train_dir, eval_dir, batch_size, learning_rate_1, learning_rate_2)
+    # 训练次数
     num_epochs_1 = 20
     num_epochs_2 = 200
 
