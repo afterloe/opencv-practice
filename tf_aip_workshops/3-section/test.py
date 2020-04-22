@@ -59,14 +59,14 @@ def check_digital(image_dir, sess):
 
 
 if "__main__" == __name__:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-d", "--dir", required=True, help="测试图像路径", type=str)
-    ap.add_argument("-b", "--batch-size", default=32, type=int, help="批处理次数")
-    args = vars(ap.parse_args())
     logging.basicConfig(level=logging.INFO,
                         format='[%(asctime)8s][%(filename)s][%(levelname)s] - %(message)s',
                         datefmt='%a, %d %b %Y %H:%M:%S')
     CONSOLE = logging.getLogger("dev")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-d", "--dir", required=True, help="测试图像路径", type=str)
+    ap.add_argument("-b", "--batch-size", default=32, type=int, help="批处理次数")
+    args = vars(ap.parse_args())
     model = model_clazz.CustomizeNASNetModel()
     model.build_model("test", args["dir"])
     with tf.Session() as session:
