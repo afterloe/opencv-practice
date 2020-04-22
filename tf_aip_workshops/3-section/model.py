@@ -110,8 +110,7 @@ class CustomizeNASNetModel(object):
 
             self.images, labels = iterator.get_next()
             self.test_init_op = iterator.make_initializer(test_data_set)
-            self.logits, self.__end_points, self.global_step = self.generator_NASNet(self.images,
-                                                                                         is_training=False)
+            self.logits, self.__end_points, self.global_step = self.generator_NASNet(self.images, is_training=False)
             self.saver, self.save_path = self.load_cpk(self.global_step, None)
             self.build_acc_base(labels)
             tf.get_default_graph().finalize()
