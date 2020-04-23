@@ -42,15 +42,15 @@ def check_digital(image_dir, sess):
     image = np.asarray(image.resize((image_size, image_size)), dtype=np.float32).reshape(1, image_size, image_size, 3)
     image = 2 * (image / 255.0) - 1.0
     prediction = sess.run(model.logits, {model.images: image})
-    CONSOLE.info(prediction)
+    # CONSOLE.info(prediction)
     pre = prediction.argmax()
     CONSOLE.info(pre)
     content = ""
-    if 0 == pre:
+    if 1 == pre:
         content = "cat"
-    elif 1 == pre:
-        content = "dog"
     elif 2 == pre:
+        content = "dog"
+    elif 3 == pre:
         content = "panda"
     plt.imshow(np.asarray((image[0] + 1) * 255 / 2, np.uint8))
     plt.show()
@@ -69,14 +69,20 @@ if "__main__" == __name__:
     ap.add_argument("-s", "--batch-size", default=32, type=int, help="批处理次数")
     args = vars(ap.parse_args())
     model = model_clazz.CustomizeNASNetModel()
-    model.build_model("test", test_data_dir=args["eval-dir"], batch_size=args["batch-size"])
+    model.build_model("test", test_data_dir=args["eval_dir"], batch_size=args["batch_size"])
     with tf.Session() as session:
         model.load_cpk(model.global_step, session, 1, model.saver, model.save_path)
         val_acc = check_accuracy(session)
         CONSOLE.info("val accuracy: %f" % val_acc)
-        img_dir = "/home/afterloe resources/12485.jpg"
+        img_dir = "/mount/data/afterloe resources/12485.jpg"
         check_digital(img_dir, session)
+        CONSOLE.info("--------------------------------")
         img_dir = os.path.sep.join([args["dir"], "cat", "cat.27.jpg"])
         check_digital(img_dir, session)
+        CONSOLE.info("--------------------------------")
         img_dir = os.path.sep.join([args["dir"], "dog", "dog.93.jpg"])
         check_digital(img_dir, session)
+        CONSOLE.info("--------------------------------")
+        img_dir = os.path.sep.join([args["dir"], "panda", "00000005.jpg"])
+        check_digital(img_dir, session)
+        CONSOLE.info("--------------------------------")
