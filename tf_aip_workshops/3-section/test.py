@@ -86,3 +86,8 @@ if "__main__" == __name__:
         img_dir = os.path.sep.join([args["dir"], "panda", "00000005.jpg"])
         check_digital(img_dir, session)
         CONSOLE.info("--------------------------------")
+        img_dir = "/mount/data/afterloe resources/2934349b033b5bb5391070c437d3d539b700bcc1.jpg"
+        check_digital(img_dir, session)
+        CONSOLE.info("--------------------------------")
+        img_dir = "/mount/data/afterloe resources/6.png"
+        check_digital(img_dir, session)
