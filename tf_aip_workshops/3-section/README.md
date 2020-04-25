@@ -11,6 +11,16 @@
 
 源代码下载地址: `https://github.com/aianaconda/TensorFlow_Engineering_Implementation/blob/master/code/5-2%20%20model.py`
 
+##### 加载环境变量 (目录添加未安装的库)
+```python
+import sys
+nets_path = r"slim"
+if nets_path not in sys.path:
+    sys.path.insert(0, nets_path)
+else:
+    print("already add slim")
+```
+
 #### 训练模型
 
 ```shell script

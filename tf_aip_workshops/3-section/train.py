@@ -7,6 +7,10 @@ import logging
 import os
 model_clazz = __import__("model")
 
+"""
+    训练模型
+"""
+
 
 def main(model, batch_size, train_dir, eval_dir):
     # model = r"nasnet-a_mobile_04_10_2017/model.ckpt"

@@ -12,7 +12,9 @@ CONSOLE = logging.getLogger("dev")
 
 
 class CustomizeNASNetModel(object):
-
+    """
+        加载预训练模型并进行微调
+    """
     def __init__(self, model_path=""):
         self.__model_path = model_path
 

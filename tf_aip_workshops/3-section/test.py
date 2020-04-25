@@ -15,6 +15,10 @@ slim = tf.contrib.slim
 
 image_size = nasnet.build_nasnet_mobile.default_image_size  # 224
 
+"""
+    测试模型
+"""
+
 
 def check_accuracy(sess):
     sess.run(model.test_init_op)
