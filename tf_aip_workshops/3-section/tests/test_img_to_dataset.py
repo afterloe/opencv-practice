@@ -22,10 +22,18 @@ class TestImgToDataset(unittest.TestCase):
 
     # @patch.object()
     def test_get_images_list(self):
-        directory = "/home/afterloe/data/afterloe resources/animal/train"
+        directory = "/home/afterloe/data/afterloe resources/animal/val"
         file_names, labels = data_set_util.get_images_list(directory)
-        # CONSOLE.info(file_names)
+        num_classes = len(labels)
+        CONSOLE.info(num_classes)
         # CONSOLE.info(labels)
+        pass
+
+    def test_(self):
+        directory = "/home/afterloe/data/afterloe resources/animal/val"
+        data_set, num_classes = data_set_util.create_dataset_fromdir(directory, 32)
+        # CONSOLE.info(data_set)
+        CONSOLE.info(num_classes)
         pass
 
 

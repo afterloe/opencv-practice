@@ -92,6 +92,6 @@ def create_batched_dataset(filenames, labels, batch_size, is_train=True):
 
 def create_dataset_fromdir(directory, batch_size, is_train=True):
     filenames, labels = get_images_list(directory)
-    num_classes = len(labels)
+    num_classes = len(set(labels))
     data_set = create_batched_dataset(filenames, labels, batch_size, is_train)
     return data_set, num_classes
