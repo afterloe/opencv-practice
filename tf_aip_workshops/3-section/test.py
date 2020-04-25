@@ -26,7 +26,7 @@ def check_accuracy(sess):
     i = 0
     while True:
         i += 1
-        CONSOLE.info(i)
+        CONSOLE.info("i: %d" % i)
         try:
             correct_prediction, accuracy, logits = sess.run([model.correct_prediction, model.accuracy, model.logits])
             num_correct += correct_prediction.sum()
@@ -35,8 +35,8 @@ def check_accuracy(sess):
         except tf.errors.OutOfRangeError:
             CONSOLE.info("over")
             break
-        acc = float(num_correct) / num_samples
-        return acc
+    acc = float(num_correct) / num_samples
+    return acc
 
 
 def check_digital(image_dir, sess):
@@ -56,6 +56,8 @@ def check_digital(image_dir, sess):
         content = "dog"
     elif 3 == pre:
         content = "panda"
+    else:
+        content = "None"
     plt.imshow(np.asarray((image[0] + 1) * 255 / 2, np.uint8))
     plt.show()
     CONSOLE.info("%s -- %s" % (content, image_dir))
@@ -73,11 +75,12 @@ if "__main__" == __name__:
     ap.add_argument("-s", "--batch-size", default=32, type=int, help="批处理次数")
     args = vars(ap.parse_args())
     model = model_clazz.CustomizeNASNetModel()
-    model.build_model("test", test_data_dir=args["eval_dir"], batch_size=args["batch_size"])
+    model.build_model("test", test_data_dir=args["eval_dir"])
     with tf.Session() as session:
         model.load_cpk(model.global_step, session, 1, model.saver, model.save_path)
         val_acc = check_accuracy(session)
         CONSOLE.info("val accuracy: %f" % val_acc)
+        CONSOLE.info("--------------------------------")
         img_dir = "/mount/data/afterloe resources/12485.jpg"
         check_digital(img_dir, session)
         CONSOLE.info("--------------------------------")

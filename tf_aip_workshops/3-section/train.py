@@ -9,12 +9,16 @@ model_clazz = __import__("model")
 
 """
     训练模型
+
+第一次迭代：　微调模型，固定预训练模型载入的权重，只训练最后两层
+第二次迭代：　联调模型，用更小的学习率训练全部节点
 """
 
 
 def main(model, batch_size, train_dir, eval_dir):
     # model = r"nasnet-a_mobile_04_10_2017/model.ckpt"
-    mode = model_clazz.CustomizeNASNetModel(model)
+    mode = model_clazz.CustomizeNASNetModel(model)  # 初始化模型
+    # 两次迭代的学习率
     learning_rate_1, learning_rate_2 = 1e-1, 1e-3
     mode.build_model("train", train_dir, eval_dir, batch_size, learning_rate_1, learning_rate_2)
     # 训练次数
@@ -42,7 +46,7 @@ def main(model, batch_size, train_dir, eval_dir):
                         mode.saver.save(sess, os.path.sep.join([mode.save_path, "digital_nasnet.cpkt"]),
                                         global_step=mode.global_step.eval())
                         break
-                sess.run(mode.step_init)
+            sess.run(mode.step_init)
 
             for epoch in range(num_epochs_2):
                 CONSOLE.info("Staring_2 epoch %d / %d" % (epoch + 1, num_epochs_2))

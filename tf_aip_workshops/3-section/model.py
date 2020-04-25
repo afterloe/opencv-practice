@@ -131,17 +131,22 @@ class CustomizeNASNetModel(object):
     def build_model(self, mode="train", train_data_dir="./data/train", test_data_dir="./data/eval", batch_size=32,
                     learning_rate_1=0.001, learning_rate_2=0.001):
         if "train" == mode:
+            # 清空张量图
             tf.compat.v1.reset_default_graph()
+            # 创建训练数据集　和　测试数据集
             train_data_set, self.__num_classes = data_set_util.create_dataset_fromdir(train_data_dir, batch_size)
             test_data_set, _ = data_set_util.create_dataset_fromdir(test_data_dir, batch_size, is_train=False)
+            # 创建一个可初始化的迭代器
             iterator = tf.compat.v1.data.Iterator.from_structure(tf.compat.v1.data.get_output_types(train_data_set),
                                                                  tf.compat.v1.data.get_output_shapes(train_data_set))
+            # 读取数据
             images, labels = iterator.get_next()
             self.train_init_op = iterator.make_initializer(train_data_set)
             self.test_init_op = iterator.make_initializer(test_data_set)
+            # 定义网络结构
             self.build_model_train(images, labels, learning_rate_1, learning_rate_2, is_training=True)
             self.global_init = tf.global_variables_initializer()
-            tf.get_default_graph().finalize()
+            tf.get_default_graph().finalize()  # 锁图
         elif "test" == mode:
             tf.reset_default_graph()
             test_data_set, self.__num_classes = data_set_util.create_dataset_fromdir(test_data_dir, batch_size,
