@@ -12,19 +12,33 @@ CONSOLE = logging.getLogger("dev")
 
 
 class CustomizeNASNetModel(object):
-
+    """
+        加载预训练模型并进行微调
+    """
     def __init__(self, model_path=""):
         self.__model_path = model_path
 
     def generator_NASNet(self, images, is_training):
+        """
+        构建模型
+        :param images:
+        :param is_training:
+        :return:
+        """
         arg_scope = nasnet.nasnet_mobile_arg_scope()
         with slim.arg_scope(arg_scope):
+            # 构建ＮＡＳＮｅｔ　Ｍｏｂｉｌｅ模型
             logits, end_points = nasnet.build_nasnet_mobile(images, num_classes=self.__num_classes + 1,
                                                             is_training=is_training)
         global_step = tf.compat.v1.train.get_or_create_global_step()
         return logits, end_points, global_step
 
     def fine_true_NASNet(self, is_training):
+        """
+        微调模型
+        :param is_training:
+        :return:
+        """
         model_path = self.__model_path
         exclude = ["final_layer", "aux_7"]
         variables_to_restore = slim.get_variables_to_restore(exclude=exclude)
@@ -38,15 +52,33 @@ class CustomizeNASNetModel(object):
         return init_fn, tuning_variables
 
     def build_acc_base(self, labels):
+        """
+        构建评估模型的相关节点
+        :param labels:
+        :return:
+        """
+        # 返回张量中最大值的索引
         self.__prediction = tf.cast(tf.argmax(self.logits, 1), tf.int32)
+        # 计算prediction、labels是否相同
         self.correct_prediction = tf.equal(self.__prediction, labels)
+        # 计算平均值
         self.accuracy = tf.reduce_mean(tf.cast(self.correct_prediction, tf.float32))
-        self.accuracy_top_5 = tf.reduce_mean(tf.cast(tf.nn.in_top_k(predictions=self.logits,
-                                                                      targets=labels, k=5), tf.float32))
+        # 将正确率最高的５个值取出来，并计算平均值
+        self.accuracy_top_5 = tf.reduce_mean(
+            tf.cast(tf.nn.in_top_k(predictions=self.logits, targets=labels, k=5), tf.float32))
 
     def load_cpk(self, global_step, sess, begin=0, saver=None, save_path=None):
+        """
+        载入及生成模型的检查点文件
+        :param global_step:
+        :param sess:
+        :param begin:
+        :param saver:
+        :param save_path:
+        :return:
+        """
         if 0 == begin:
-            save_path = r"./train_nasnet"
+            save_path = r"./train_nasnet"  # 检查点文件的路径
             if not os.path.exists(save_path):
                 CONSOLE.info("there is not a model path: %s" % save_path)
             saver = tf.train.Saver(max_to_keep=1)
@@ -54,9 +86,9 @@ class CustomizeNASNetModel(object):
         else:
             kpt = tf.train.latest_checkpoint(save_path)
             CONSOLE.info("load model: %s" % kpt)
-            start_epo = 0
+            start_epo = 0  # 计步器
             if None is not kpt:
-                saver.restore(sess, kpt)
+                saver.restore(sess, kpt)  # 还原模型
                 ind = kpt.find("-")
                 start_epo = int(kpt[ind + 1:])
                 CONSOLE.info("global_step = {}".format(global_step.eval()))
@@ -64,6 +96,15 @@ class CustomizeNASNetModel(object):
         return start_epo
 
     def build_model_train(self, images, labels, learning_rate_1, learning_rate_2, is_training):
+        """
+        构建训练模型中的损失函数及优化器等操作节点
+        :param images:
+        :param labels:
+        :param learning_rate_1:
+        :param learning_rate_2:
+        :param is_training:
+        :return:
+        """
         self.logits, self.__end_points, self.global_step = self.generator_NASNet(images, is_training=is_training)
         self.step_init = self.global_step.initializer
         self.init_fn, self.__tuning_variables = self.fine_true_NASNet(is_training=is_training)
@@ -90,17 +131,22 @@ class CustomizeNASNetModel(object):
     def build_model(self, mode="train", train_data_dir="./data/train", test_data_dir="./data/eval", batch_size=32,
                     learning_rate_1=0.001, learning_rate_2=0.001):
         if "train" == mode:
+            # 清空张量图
             tf.compat.v1.reset_default_graph()
+            # 创建训练数据集　和　测试数据集
             train_data_set, self.__num_classes = data_set_util.create_dataset_fromdir(train_data_dir, batch_size)
             test_data_set, _ = data_set_util.create_dataset_fromdir(test_data_dir, batch_size, is_train=False)
+            # 创建一个可初始化的迭代器
             iterator = tf.compat.v1.data.Iterator.from_structure(tf.compat.v1.data.get_output_types(train_data_set),
                                                                  tf.compat.v1.data.get_output_shapes(train_data_set))
+            # 读取数据
             images, labels = iterator.get_next()
             self.train_init_op = iterator.make_initializer(train_data_set)
             self.test_init_op = iterator.make_initializer(test_data_set)
+            # 定义网络结构
             self.build_model_train(images, labels, learning_rate_1, learning_rate_2, is_training=True)
             self.global_init = tf.global_variables_initializer()
-            tf.get_default_graph().finalize()
+            tf.get_default_graph().finalize()  # 锁图
         elif "test" == mode:
             tf.reset_default_graph()
             test_data_set, self.__num_classes = data_set_util.create_dataset_fromdir(test_data_dir, batch_size,
@@ -110,8 +156,7 @@ class CustomizeNASNetModel(object):
 
             self.images, labels = iterator.get_next()
             self.test_init_op = iterator.make_initializer(test_data_set)
-            self.logits, self.__end_points, self.global_step = self.generator_NASNet(self.images,
-                                                                                         is_training=False)
+            self.logits, self.__end_points, self.global_step = self.generator_NASNet(self.images, is_training=False)
             self.saver, self.save_path = self.load_cpk(self.global_step, None)
             self.build_acc_base(labels)
             tf.get_default_graph().finalize()

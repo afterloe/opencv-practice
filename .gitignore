@@ -8,6 +8,8 @@ deep_learning/net_util/outs
 deep_learning/yes_or_no/resources
 deep_learning/cnns_nerual/resources
 deep_learning/character_segmentation/resources
+tf_aip_workshops/3-section/log_dir
+tf_aip_workshops/3-section/train_nasnet
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
