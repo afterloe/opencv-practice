@@ -31,3 +31,5 @@ python3 train.py -m ~/data/afterloe\ resources/models/nasnet-a_mobile_04_10_2017
 ```shell script
 python3 test.py -d /mount/data/afterloe\ resources/animal/train -e /mount/data/afterloe\ resources/animal/train
 ```
+
+#### 备注
