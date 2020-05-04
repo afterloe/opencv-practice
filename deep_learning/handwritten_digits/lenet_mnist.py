@@ -6,7 +6,7 @@ from src.lenet import LeNet
 from tensorflow.keras.optimizers import SGD
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import classification_report
-from keras.datasets import mnist
+from tensorflow.keras.datasets import mnist
 from tensorflow.keras import backend as K
 import matplotlib
 import matplotlib.pyplot as plt
