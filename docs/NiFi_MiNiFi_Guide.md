@@ -18,7 +18,7 @@ MiNiFi与NiFi的尝试指南
 
 > PS: 软件版本一定要一致， 尤其是 MiNiFi 与 MiNiFi C2, 最新版不建议用；另外，由于终端使用的是raspberry，为ARM架构，所以使用Java版本
 
-#### 指南
+#### 调试指南
 
 #### 材料准备
 x86服务器（Ubuntu 18.04）、ARM开发版(raspberrypi 4.19.97) ， IP列表如下
